@@ -3,7 +3,7 @@
 namespace Alphonse\CleanArch\Domain;
 
 /**
- * A business object
+ * @see EntityInterface
  */
 abstract class Entity implements EntityInterface
 {
