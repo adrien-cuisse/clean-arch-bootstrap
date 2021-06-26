@@ -1,0 +1,29 @@
+{
+    "name": "alphonse/clean-arch-bootstrap",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "infection/infection": "^0.23.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --configuration=tests/phpunit.xml",
+        "coverage": "vendor/bin/phpunit --coverage-html tests/coverage --testdox-html tests/coverage/dox.html",
+        "mutate": "vendor/bin/infection --threads=4 --show-mutations --configuration=tests/infection.json.dist --test-framework-options=--no-configuration"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alphonse\\CleanArch\\Domain\\": "Domain/",
+            "Alphonse\\CleanArch\\Infrastructure\\": "Infrastructure/",
+            "Alphonse\\CleanArch\\Application\\": "Application/",
+            "Alphonse\\CleanArch\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Adrien Cuisse",
+            "email": "adrien.cuisse@epitech.eu"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
