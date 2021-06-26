@@ -12,11 +12,17 @@ final class Role extends Entity implements RoleInterface
         private int $level,
     ) { }
 
+    /**
+     * @see RoleInterface
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @see RoleInterface
+     */
     public function getLevel(): int
     {
         return $this->level;
