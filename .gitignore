@@ -1,2 +1,7 @@
 vendor/
+
+# PHPUnit personal config
 tests/phpunit.xml
+
+# Cache files
+tests/.phpunit.cache
