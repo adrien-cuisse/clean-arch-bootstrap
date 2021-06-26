@@ -2,6 +2,9 @@
 
 namespace Alphonse\CleanArch\Domain;
 
+/**
+ * @see RoleInterface
+ */
 final class Role extends Entity implements RoleInterface
 {
     public function __construct(
