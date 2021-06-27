@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain;
+namespace Alphonse\CleanArch\Domain\Fields\Identity;
 
 /**
  * A RFC 4122 compliant UUID

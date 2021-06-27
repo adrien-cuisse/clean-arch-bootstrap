@@ -1,14 +1,14 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain;
+namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
 use InvalidArgumentException;
-use Alphonse\CleanArch\Domain\UuidInterface;
-use Alphonse\CleanArch\Domain\UuidV4;
+use Alphonse\CleanArch\Domain\Fields\Identity\UuidInterface;
+use Alphonse\CleanArch\Domain\Fields\Identity\UuidV4;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Uuid
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid
  */
 final class UuidTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain;
+namespace Alphonse\CleanArch\Tests\Domain\Entities;
 
-use Alphonse\CleanArch\Domain\RoleInterface;
-use Alphonse\CleanArch\Domain\Role;
-use Alphonse\CleanArch\Domain\UserInterface;
-use Alphonse\CleanArch\Domain\User;
+use Alphonse\CleanArch\Domain\Entities\RoleInterface;
+use Alphonse\CleanArch\Domain\Entities\Role;
+use Alphonse\CleanArch\Domain\Entities\UserInterface;
+use Alphonse\CleanArch\Domain\Entities\User;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain;
+namespace Alphonse\CleanArch\Domain\Entities;
 
 /**
  * An user of the application

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain;
+namespace Alphonse\CleanArch\Domain\Fields\Identity;
 
 use InvalidArgumentException;
 use ReflectionClass;
@@ -97,9 +97,9 @@ abstract class Uuid implements UuidInterface
 
     /**
      * Creates an UUID from a RFC representation string
-     * 
+     *
      * @param string $rfcUuidString - the RFC representation to build the Uuid from
-     * 
+     *
      * @return static
      */
     protected static function fromString(string $rfcUuidString): static
@@ -110,7 +110,7 @@ abstract class Uuid implements UuidInterface
 
         $hexaString = str_replace(search: '-', replace: '', subject: $rfcUuidString);
         $binaryString = hex2bin(string: $hexaString);
-        
+
         $bytes = str_split(string: $binaryString);
         $bytes = array_map(
             callback: fn (string $byte) => ord(character: $byte),

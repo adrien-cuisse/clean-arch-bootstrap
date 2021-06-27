@@ -1,9 +1,9 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain;
+namespace Alphonse\CleanArch\Domain\Fields\Identity;
 
 /**
- * A RFC 4122 compliant UUID version 4
+ * @see UuidV4Interface
  */
 final class UuidV4 extends Uuid implements UuidV4Interface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain;
+namespace Alphonse\CleanArch\Domain\Entities;
 
 /**
  * A role users of the application may own

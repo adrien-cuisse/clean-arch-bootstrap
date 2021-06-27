@@ -1,13 +1,13 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain;
+namespace Alphonse\CleanArch\Tests\Domain\Entities;
 
-use Alphonse\CleanArch\Domain\RoleInterface;
-use Alphonse\CleanArch\Domain\Role;
+use Alphonse\CleanArch\Domain\Entities\RoleInterface;
+use Alphonse\CleanArch\Domain\Entities\Role;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Role
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Entities\Role
  */
 final class RoleTest extends TestCase
 {
