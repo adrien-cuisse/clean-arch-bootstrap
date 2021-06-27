@@ -2,6 +2,7 @@
     "name": "alphonse/clean-arch-bootstrap",
     "type": "project",
     "require-dev": {
+        "php": ">= 8.0",
         "phpunit/phpunit": "^9.5",
         "infection/infection": "^0.23.0"
     },
