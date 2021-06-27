@@ -3,7 +3,7 @@
         "directories": [
             "Domain/",
             "Application/",
-            "Infrastructure/"
+            "Persistence/"
         ]
     },
     "timeout": 10,

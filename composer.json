@@ -13,7 +13,7 @@
     "autoload": {
         "psr-4": {
             "Alphonse\\CleanArch\\Domain\\": "Domain/",
-            "Alphonse\\CleanArch\\Infrastructure\\": "Infrastructure/",
+            "Alphonse\\CleanArch\\Persistence\\": "Persistence/",
             "Alphonse\\CleanArch\\Application\\": "Application/",
             "Alphonse\\CleanArch\\Tests\\": "tests/"
         }
