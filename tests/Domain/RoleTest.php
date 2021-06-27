@@ -14,7 +14,7 @@ final class RoleTest extends TestCase
     /**
      * @return RoleInterface - an instance to test
      */
-    public function createInstance(string $name = '', int $level = 0): RoleInterface
+    private function createInstance(string $name = '', int $level = 0): RoleInterface
     {
         return new Role(name: $name, level: $level);
     }
@@ -32,7 +32,7 @@ final class RoleTest extends TestCase
         $name = $role->getName();
 
         // then it should the one used at creation
-        $this->assertEquals(
+        $this->assertSame(
             expected: 'some role',
             actual: $name,
             message: "Role didn't return the name used at creation, expected 'some role', got {$name}",
@@ -52,7 +52,7 @@ final class RoleTest extends TestCase
         $level = $role->getLevel();
 
         // then it should the one used at creation
-        $this->assertEquals(
+        $this->assertSame(
             expected: 42,
             actual: $level,
             message: "Role didn't return the level used at creation, expected '42', got {$level}",
