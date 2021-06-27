@@ -14,7 +14,7 @@ final class UuidTest extends TestCase
     /**
      * @return UuidInterface - an instance to test
      */
-    public function createInstance(): UuidInterface
+    private function createInstance(): UuidInterface
     {
         return new UuidV4;
     }
@@ -54,7 +54,7 @@ final class UuidTest extends TestCase
         $secondRepresentation = $secondUuid->toRfcUuidString();
 
         // then they should be different
-        $this->assertNotEquals(
+        $this->assertNotSame(
             expected: $firstRepresentation,
             actual: $secondRepresentation,
             message: "Different UUIDs should have different RFC representation",
@@ -97,7 +97,7 @@ final class UuidTest extends TestCase
         sscanf($ninthByteHexaString, '%x', $ninthByte);
 
         // then it should have its two most significant bytes set to 10
-        $this->assertEquals(
+        $this->assertSame(
             actual: $ninthByte & 0b1100_0000,
             expected: 0b1000_0000,
             message: "UUID should have the 2 most significant bits of its 9th byte set to 0b10",
