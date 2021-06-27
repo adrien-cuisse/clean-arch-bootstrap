@@ -2,6 +2,9 @@
 
 namespace Alphonse\CleanArch\Domain;
 
+use InvalidArgumentException;
+use ReflectionClass;
+
 /**
  * @see UuidInterface
  */
@@ -90,6 +93,53 @@ abstract class Uuid implements UuidInterface
             $this->hexaStringFrom(bytes: [$this->clockSeqLowByte]),
             $this->hexaStringFrom(bytes: $this->nodeBytes)
         );
+    }
+
+    /**
+     * Creates an UUID from a RFC representation string
+     * 
+     * @param string $rfcUuidString - the RFC representation to build the Uuid from
+     * 
+     * @return static
+     */
+    protected static function fromString(string $rfcUuidString): static
+    {
+        if (preg_match(pattern: '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/', subject: $rfcUuidString) !== 1) {
+            throw new InvalidArgumentException("The string {$rfcUuidString} is not a valid RFC Uuid string");
+        }
+
+        $hexaString = str_replace(search: '-', replace: '', subject: $rfcUuidString);
+        $binaryString = hex2bin(string: $hexaString);
+        
+        $bytes = str_split(string: $binaryString);
+        $bytes = array_map(
+            callback: fn (string $byte) => ord(character: $byte),
+            array: $bytes
+        );
+
+        $instance = (new ReflectionClass(static::class))->newInstanceWithoutConstructor();
+
+        if ($instance->getVersion() != $rfcUuidString[14]) {
+            throw new InvalidArgumentException("The string {$rfcUuidString} is not an UuidV{$instance->getVersion()} string");
+        }
+
+        $instance->timeLowBytes = array_slice(array: $bytes, offset: 0, length: 4);
+        $instance->timeMidBytes = array_slice(array: $bytes, offset: 4, length: 2);
+
+        $instance->versionBits = $bytes[6] & 0b1111_0000;
+        $bytes[6] = $bytes[6] & 0b0000_1111;
+
+        $instance->timeHighBytes = array_slice(array: $bytes, offset: 6, length: 2);
+
+        $instance->variantBits = $bytes[8] & 0b1100_0000;
+        $bytes[8] = $bytes[8] & 0b0011_1111;
+
+        $instance->clockSeqHighBits = $bytes[8];
+        $instance->clockSeqLowByte = $bytes[9];
+
+        $instance->nodeBytes = array_slice(array: $bytes, offset: 10, length: 6);
+
+        return $instance;
     }
 
     /**

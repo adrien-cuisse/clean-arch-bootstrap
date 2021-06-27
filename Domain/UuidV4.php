@@ -5,7 +5,7 @@ namespace Alphonse\CleanArch\Domain;
 /**
  * A RFC 4122 compliant UUID version 4
  */
-final class UuidV4 extends Uuid
+final class UuidV4 extends Uuid implements UuidV4Interface
 {
      /**
      * @inheritDoc
@@ -61,5 +61,13 @@ final class UuidV4 extends Uuid
     public function getVersion(): int
     {
         return 4;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    static public function fromString(string $rfcUuidString): static
+    {
+        return parent::fromString(rfcUuidString: $rfcUuidString);
     }
 }

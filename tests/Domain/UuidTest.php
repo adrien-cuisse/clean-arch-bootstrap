@@ -2,6 +2,7 @@
 
 namespace Alphonse\CleanArch\Tests\Domain;
 
+use InvalidArgumentException;
 use Alphonse\CleanArch\Domain\UuidInterface;
 use Alphonse\CleanArch\Domain\UuidV4;
 use PHPUnit\Framework\TestCase;
@@ -101,6 +102,61 @@ final class UuidTest extends TestCase
             actual: $ninthByte & 0b1100_0000,
             expected: 0b1000_0000,
             message: "UUID should have the 2 most significant bits of its 9th byte set to 0b10",
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     */
+    public function expects_rfc_format_representation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        // given a invalid Uuid string
+        $rfcUuidString = 'invalid string';
+
+        // when creating an Uuid object from it
+        $uuid = UuidV4::fromString(rfcUuidString: $rfcUuidString);
+
+        // then it should not be accepted
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     */
+    public function expects_versioned_string(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        // given a valid Uuid string but with wrong version
+        $rfcUuidString = '1d20df21-395f-2c1d-8594-7f03d8cead29';
+
+        // when creating an Uuid object from it
+        $uuid = UuidV4::fromString(rfcUuidString: $rfcUuidString);
+
+        // then it should not be accepted
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     */
+    public function creates_instance_from_string(): void
+    {
+        // given a valid RFC Uuid string
+        $rfcUuidString = '1d20df21-395f-4c1d-8594-7f03d8cead29';
+
+        // when creating an Uuid object from it and checking its RFC representation
+        $uuid = UuidV4::fromString(rfcUuidString: $rfcUuidString);
+        $storedRfcUuidString = $uuid->toRfcUuidString();
+
+        // then it should contain the given string
+        $this->assertSame(
+            actual: $storedRfcUuidString,
+            expected: $rfcUuidString,
+            message: "Uuid failed to rebuild its state from the string {$rfcUuidString}, built {$storedRfcUuidString}",
         );
     }
 }
