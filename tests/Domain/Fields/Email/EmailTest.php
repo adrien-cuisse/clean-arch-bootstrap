@@ -9,7 +9,7 @@ use Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException;
 
 /**
  * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Email\Email
- * @uses Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException::__construct
+ * @uses Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException
  */
 final class EmailTest extends TestCase
 {
