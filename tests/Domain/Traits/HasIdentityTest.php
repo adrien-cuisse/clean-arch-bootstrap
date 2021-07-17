@@ -9,7 +9,6 @@ use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 
 /**
  * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\HasIdentity
- * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidV4<extended>
  */
 final class HasIdentityTest extends TestCase
 {

@@ -9,7 +9,6 @@ use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
 
 /**
  * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\HasEmail
- * @uses Alphonse\CleanArch\Domain\Fields\Email\Email
  */
 final class HasEmailTest extends TestCase
 {
