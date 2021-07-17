@@ -7,7 +7,7 @@ tests/phpunit.xml
 tests/.phpunit.cache
 
 # Coverage reports
-tests/coverage/**/*.html
+tests/coverage/**/*.*
 
 # Mutation reports
 tests/.mutations/*
