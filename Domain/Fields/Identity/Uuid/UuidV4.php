@@ -11,11 +11,11 @@ final class UuidV4 extends Uuid implements UuidV4Interface
     {
         parent::__construct(
             version: 4,
-            timeLowBytes: $this->randomBytes(4),
-            timeMidBytes: $this->randomBytes(2),
-            timeHighBytes: $this->randomBytes(2),
-            clockSeqHighByte: $this->randomByte(),
-            clockSeqLowByte: $this->randomByte(),
+            timestampLowBytes: $this->randomBytes(4),
+            timestampMidBytes: $this->randomBytes(2),
+            timestampHighBytes: $this->randomBytes(2),
+            clockSequenceHighByte: $this->randomByte(),
+            clockSequenceLowByte: $this->randomByte(),
             nodeBytes: $this->randomBytes(6),
         );
     }

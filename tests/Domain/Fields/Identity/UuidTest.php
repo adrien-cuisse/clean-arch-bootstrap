@@ -24,38 +24,38 @@ final class UuidTest extends TestCase
      */
     private function createInstance(
         int $version = 0,
-        array $timeLowBytes = [0, 0, 0, 0],
-        array $timeMidBytes = [0, 0],
-        array $timeHighBytes = [0, 0],
-        int $clockSeqHighByte = 0,
-        int $clockSeqLowByte = 0,
+        array $timestampLowBytes = [0, 0, 0, 0],
+        array $timestampMidBytes = [0, 0],
+        array $timestampHighBytes = [0, 0],
+        int $clockSequenceHighByte = 0,
+        int $clockSequenceLowByte = 0,
         array $nodeBytes = [0, 0, 0, 0, 0, 0],
     ): UuidInterface {
         return new class(
             $version,
-            $timeLowBytes,
-            $timeMidBytes,
-            $timeHighBytes,
-            $clockSeqHighByte,
-            $clockSeqLowByte,
+            $timestampLowBytes,
+            $timestampMidBytes,
+            $timestampHighBytes,
+            $clockSequenceHighByte,
+            $clockSequenceLowByte,
             $nodeBytes,
         ) extends Uuid {
             public function __construct(
                 int $version,
-                array $timeLowBytes,
-                array $timeMidBytes,
-                array $timeHighBytes,
-                int $clockSeqHighByte,
-                int $clockSeqLowByte,
+                array $timestampLowBytes,
+                array $timestampMidBytes,
+                array $timestampHighBytes,
+                int $clockSequenceHighByte,
+                int $clockSequenceLowByte,
                 array $nodeBytes,
             ) {
                 parent::__construct(
                     version: $version,
-                    timeLowBytes: $timeLowBytes,
-                    timeMidBytes: $timeMidBytes,
-                    timeHighBytes: $timeHighBytes,
-                    clockSeqHighByte: $clockSeqHighByte,
-                    clockSeqLowByte: $clockSeqLowByte,
+                    timestampLowBytes: $timestampLowBytes,
+                    timestampMidBytes: $timestampMidBytes,
+                    timestampHighBytes: $timestampHighBytes,
+                    clockSequenceHighByte: $clockSequenceHighByte,
+                    clockSequenceLowByte: $clockSequenceLowByte,
                     nodeBytes: $nodeBytes,
                 );
             }
@@ -70,19 +70,19 @@ final class UuidTest extends TestCase
     public function invalidBytesCountProvider(): Generator
     {
         yield [
-            ['timeLowBytes' => []],
+            ['timestampLowBytes' => []],
             InvalidUuidTimeLowBytesCountException::class,
-            'time-low bytes',
+            'timestamp-low bytes',
         ];
         yield [
-            ['timeMidBytes' => []],
+            ['timestampMidBytes' => []],
             InvalidUuidTimeMidBytesCountException::class,
-            'time-mid bytes',
+            'timestamp-mid bytes',
         ];
         yield [
-            ['timeHighBytes' => []],
+            ['timestampHighBytes' => []],
             InvalidUuidTimeHighBytesCountException::class,
-            'time-high bytes',
+            'timestamp-high bytes',
         ];
         yield [
             ['nodeBytes' => []],
@@ -128,7 +128,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
-     * @testdox Interlops version in time-high MSB
+     * @testdox Interlops version in timestamp-high MSB
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
@@ -136,23 +136,23 @@ final class UuidTest extends TestCase
     public function interlops_version_in_time_high_MSB(): void
     {
         // given some Uuid
-        $uuid = $this->createInstance(version: 0b0000_0101, timeHighBytes: [0b0000_1010, 0x0000_0110]);
+        $uuid = $this->createInstance(version: 0b0000_0101, timestampHighBytes: [0b0000_1010, 0x0000_0110]);
 
         // when extracting its byte 6
         $seventhByteHexaString = substr(string: (string) $uuid, offset: 14, length: 2);
         sscanf($seventhByteHexaString, '%2x', $seventhByte);
 
-        // then version should be interloped with time-high MSB
+        // then version should be interloped with timestamp-high MSB
         $this->assertSame(
             expected: 0b0101_1010,
             actual: $seventhByte,
-            message: "Uuid should interlop version in time-high MSB"
+            message: "Uuid should interlop version in timestamp-high MSB"
         );
     }
 
     /**
      * @test
-     * @testdox Interlops variant in clock-seq-high byte
+     * @testdox Interlops variant in clock-sequence-high byte
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
@@ -160,17 +160,17 @@ final class UuidTest extends TestCase
     public function interlops_variant_in_clock_seq_high(): void
     {
         // given some Uuid
-        $uuid = $this->createInstance(clockSeqHighByte: 0b0011_1111);
+        $uuid = $this->createInstance(clockSequenceHighByte: 0b0011_1111);
 
         // when extracting its byte 8
         $ninthByteHexaString = substr(string: (string) $uuid, offset: 19, length: 2);
         sscanf($ninthByteHexaString, '%2x', $ninthByte);
 
-        // then variant should be interloped with clock-seq-high
+        // then variant should be interloped with clock-sequence-high
         $this->assertSame(
             expected: 0b1011_1111,
             actual: $ninthByte,
-            message: "Uuid should interlop variant in clock-seq-high"
+            message: "Uuid should interlop variant in clock-sequence-high"
         );
     }
 
@@ -204,72 +204,72 @@ final class UuidTest extends TestCase
     {
         $bytes = [
             'version' => 0b1111,
-            'timeLowBytes' => [0x00, 0x01, 0x02, 0x03],
-            'timeMidBytes' => [0x04, 0x05],
-            'timeHighBytes' => [0x06, 0x07],
-            'clockSeqHighByte' => 0x08,
-            'clockSeqLowByte' => 0x09,
+            'timestampLowBytes' => [0x00, 0x01, 0x02, 0x03],
+            'timestampMidBytes' => [0x04, 0x05],
+            'timestampHighBytes' => [0x06, 0x07],
+            'clockSequenceHighByte' => 0x08,
+            'clockSequenceLowByte' => 0x09,
             'nodeBytes' => [0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f],
         ];
 
-        yield 'time-low byte 0' => [
+        yield 'timestamp-low byte 0' => [
             $bytes,
-            'time-low byte 0',
-            $bytes['timeLowBytes'][0],
+            'timestamp-low byte 0',
+            $bytes['timestampLowBytes'][0],
             0
         ];
-        yield 'time-low byte 1' => [
+        yield 'timestamp-low byte 1' => [
             $bytes,
-            'time-low byte 1',
-            $bytes['timeLowBytes'][1],
+            'timestamp-low byte 1',
+            $bytes['timestampLowBytes'][1],
             2
         ];
-        yield 'time-low byte 2' => [
+        yield 'timestamp-low byte 2' => [
             $bytes,
-            'time-low byte 2',
-            $bytes['timeLowBytes'][2],
+            'timestamp-low byte 2',
+            $bytes['timestampLowBytes'][2],
             4
         ];
-        yield 'time-low byte 3' => [
+        yield 'timestamp-low byte 3' => [
             $bytes,
-            'time-low byte 3',
-            $bytes['timeLowBytes'][3],
+            'timestamp-low byte 3',
+            $bytes['timestampLowBytes'][3],
             6
         ];
-        yield 'time-mid byte 0' => [
+        yield 'timestamp-mid byte 0' => [
             $bytes,
-            'time-mid byte 0',
-            $bytes['timeMidBytes'][0],
+            'timestamp-mid byte 0',
+            $bytes['timestampMidBytes'][0],
             9
         ];
-        yield 'time-mid byte 1' => [
+        yield 'timestamp-mid byte 1' => [
             $bytes,
-            'time-mid byte 1',
-            $bytes['timeMidBytes'][1],
+            'timestamp-mid byte 1',
+            $bytes['timestampMidBytes'][1],
             11
         ];
-        yield 'time-high byte 0 and version' => [
+        yield 'timestamp-high byte 0 and version' => [
             $bytes,
-            'time-high byte 0 and version',
-            $bytes['timeHighBytes'][0],
+            'timestamp-high byte 0 and version',
+            $bytes['timestampHighBytes'][0],
             14
         ];
-        yield 'time-high byte 1' => [
+        yield 'timestamp-high byte 1' => [
             $bytes,
-            'time-high byte 1',
-            $bytes['timeHighBytes'][1],
+            'timestamp-high byte 1',
+            $bytes['timestampHighBytes'][1],
             16
         ];
-        yield 'clock-seq-high and variant' => [
+        yield 'clock-sequence-high and variant' => [
             $bytes,
-            'clock-seq-high and variant',
-            $bytes['clockSeqHighByte'],
+            'clock-sequence-high and variant',
+            $bytes['clockSequenceHighByte'],
             19
         ];
-        yield 'clock-seq-low' => [
+        yield 'clock-sequence-low' => [
             $bytes,
-            'clock-seq-low',
-            $bytes['clockSeqLowByte'],
+            'clock-sequence-low',
+            $bytes['clockSequenceLowByte'],
             21
         ];
         yield 'node byte 0' => [

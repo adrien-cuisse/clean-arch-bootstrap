@@ -26,12 +26,12 @@ abstract class Uuid implements UuidInterface
     private const HIGHEST_4_BITS_MASK = 0b1111_0000;
 
     /**
-     * Bit-mask to apply on time-high-and-version to extract time-high bits
+     * Bit-mask to apply on timestamp-high-and-version to extract timestamp-high bits
      */
-    private const TIME_HIGH_BITS_MASK = self::LOWEST_4_BITS_MASK;
+    private const TIMESTAMP_HIGH_BITS_MASK = self::LOWEST_4_BITS_MASK;
 
     /**
-     * Bit-mask to apply on time-high-and-version to extract version bits
+     * Bit-mask to apply on timestamp-high-and-version to extract version bits
      */
     private const VERSION_BITS_MASK = self::HIGHEST_4_BITS_MASK;
 
@@ -43,24 +43,24 @@ abstract class Uuid implements UuidInterface
     private const VARIANT = 0b10;
 
     /**
-     * Variant bits used by default when using constructor, will be multiplexed with the clock-seq-high bits
+     * Variant bits used by default when using constructor, will be multiplexed with the clock-sequence-high bits
      */
     private const VARIANT_BITS = self::VARIANT << 6;
 
     /**
-     * Bit-mask to remove the 2 most significant bits from the clock-seq-high byte
+     * Bit-mask to remove the 2 most significant bits from the clock-sequence-high byte
      */
-    private const CLOCK_SEQ_HIGH_MASK = 0b0011_1111;
+    private const CLOCK_SEQUENCE_HIGH_MASK = 0b0011_1111;
 
     /**
      * @var int[] - bytes 0 to 3
      */
-    private array $timeLowBytes;
+    private array $timestampLowBytes;
 
     /**
      * @var int[] - bytes 4 to 5
      */
-    private array $timeMidBytes;
+    private array $timestampMidBytes;
 
     /**
      * @var int - the version of the Uuid
@@ -75,17 +75,17 @@ abstract class Uuid implements UuidInterface
     /**
      * @var int[] - 4 least significant bits of byte 6, byte 7
      */
-    private array $timeHighBytes;
+    private array $timestampHighBytes;
 
     /**
      * @var int - 6 least significants bits of byte 8
      */
-    private int $clockSeqHighBits;
+    private int $clockSequenceHighBits;
 
     /**
      * @var int - byte 9
      */
-    private int $clockSeqLowByte;
+    private int $clockSequenceLowByte;
 
     /**
      * @var int[] - bytes 10 to 15
@@ -93,36 +93,36 @@ abstract class Uuid implements UuidInterface
     private array $nodeBytes;
 
     /**
-     * @throws InvalidUuidTimeLowBytesCountException - if the number of time-low bytes is invalid
-     * @throws InvalidUuidTimeMidBytesCountException - if the number of time-mid bytes is invalid
-     * @throws InvalidUuidTimeHighBytesCountException - if the number of time-high bytes is invalid
+     * @throws InvalidUuidTimeLowBytesCountException - if the number of timestamp-low bytes is invalid
+     * @throws InvalidUuidTimeMidBytesCountException - if the number of timestamp-mid bytes is invalid
+     * @throws InvalidUuidTimeHighBytesCountException - if the number of timestamp-high bytes is invalid
      * @throws InvalidUuidVersionException - if the version exceeds 15
      * @throws InvalidUuidNodeBytesCountException - if the number of node bytes is invalid
      */
     protected function __construct(
         int $version,
-        array $timeLowBytes,
-        array $timeMidBytes,
-        array $timeHighBytes,
-        int $clockSeqHighByte,
-        int $clockSeqLowByte,
+        array $timestampLowBytes,
+        array $timestampMidBytes,
+        array $timestampHighBytes,
+        int $clockSequenceHighByte,
+        int $clockSequenceLowByte,
         array $nodeBytes,
     ) {
-        if (count(value: $timeLowBytes) !== 4) {
-            throw new InvalidUuidTimeLowBytesCountException(bytes: $timeLowBytes);
+        if (count(value: $timestampLowBytes) !== 4) {
+            throw new InvalidUuidTimeLowBytesCountException(bytes: $timestampLowBytes);
         }
-        $this->timeLowBytes = $this->clampToBytes(integers: $timeLowBytes);
+        $this->timestampLowBytes = $this->clampToBytes(integers: $timestampLowBytes);
 
-        if (count(value: $timeMidBytes) !== 2) {
-            throw new InvalidUuidTimeMidBytesCountException(bytes: $timeMidBytes);
+        if (count(value: $timestampMidBytes) !== 2) {
+            throw new InvalidUuidTimeMidBytesCountException(bytes: $timestampMidBytes);
         }
-        $this->timeMidBytes = $this->clampToBytes(integers: $timeMidBytes);
+        $this->timestampMidBytes = $this->clampToBytes(integers: $timestampMidBytes);
 
-        if (count(value: $timeHighBytes) !== 2) {
-            throw new InvalidUuidTimeHighBytesCountException(bytes: $timeHighBytes);
+        if (count(value: $timestampHighBytes) !== 2) {
+            throw new InvalidUuidTimeHighBytesCountException(bytes: $timestampHighBytes);
         }
-        $this->timeHighBytes = $this->clampToBytes(integers: $timeHighBytes);
-        $this->timeHighBytes[0] &= self::TIME_HIGH_BITS_MASK;
+        $this->timestampHighBytes = $this->clampToBytes(integers: $timestampHighBytes);
+        $this->timestampHighBytes[0] &= self::TIMESTAMP_HIGH_BITS_MASK;
 
         if ($version > 0b0000_1111) {
             throw new InvalidUuidVersionException(version: $version);
@@ -130,8 +130,8 @@ abstract class Uuid implements UuidInterface
         $this->version = $version;
         $this->versionBits = $this->version << 4;
 
-        $this->clockSeqHighBits = $clockSeqHighByte & self::CLOCK_SEQ_HIGH_MASK;
-        $this->clockSeqLowByte = $this->clampToByte(value: $clockSeqLowByte);
+        $this->clockSequenceHighBits = $clockSequenceHighByte & self::CLOCK_SEQUENCE_HIGH_MASK;
+        $this->clockSequenceLowByte = $this->clampToByte(value: $clockSequenceLowByte);
 
         if (count(value: $nodeBytes) !== 6) {
             throw new InvalidUuidNodeBytesCountException(bytes: $nodeBytes);
@@ -155,19 +155,19 @@ abstract class Uuid implements UuidInterface
     final public function toRfcUuidString(): string
     {
         $versionAndTimeHighBytes = [
-            $this->versionBits | $this->timeHighBytes[0],
-            $this->timeHighBytes[1]
+            $this->versionBits | $this->timestampHighBytes[0],
+            $this->timestampHighBytes[1]
         ];
 
-        $variantAndclockSeqHighByte = self::VARIANT_BITS | $this->clockSeqHighBits;
+        $variantAndclockSequenceHighByte = self::VARIANT_BITS | $this->clockSequenceHighBits;
 
         return sprintf(
             "%s-%s-%s-%s%s-%s",
-            $this->hexaStringFrom(bytes: $this->timeLowBytes),
-            $this->hexaStringFrom(bytes: $this->timeMidBytes),
+            $this->hexaStringFrom(bytes: $this->timestampLowBytes),
+            $this->hexaStringFrom(bytes: $this->timestampMidBytes),
             $this->hexaStringFrom(bytes: $versionAndTimeHighBytes),
-            $this->hexaStringFrom(bytes: [$variantAndclockSeqHighByte]),
-            $this->hexaStringFrom(bytes: [$this->clockSeqLowByte]),
+            $this->hexaStringFrom(bytes: [$variantAndclockSequenceHighByte]),
+            $this->hexaStringFrom(bytes: [$this->clockSequenceLowByte]),
             $this->hexaStringFrom(bytes: $this->nodeBytes)
         );
     }
@@ -196,18 +196,18 @@ abstract class Uuid implements UuidInterface
 
         $instance = (new ReflectionClass(static::class))->newInstanceWithoutConstructor();
 
-        [$timeLow, $timeMid, $timeHighAndVersion, $clockSeqAndVariant, $node] = explode(separator: '-', string: $rfcUuidString);
+        [$timestampLow, $timestampMid, $timestampHighAndVersion, $clockSequenceAndVariant, $node] = explode(separator: '-', string: $rfcUuidString);
 
-        $instance->timeLowBytes = sscanf(string: $timeLow, format: '%2x%2x%2x%2x');
-        $instance->timeMidBytes = sscanf(string: $timeMid, format: '%2x%2x');
-        $instance->timeHighBytes = sscanf(string: $timeHighAndVersion, format: '%2x%2x');
-        $instance->timeHighBytes[0] &= self::TIME_HIGH_BITS_MASK;
+        $instance->timestampLowBytes = sscanf(string: $timestampLow, format: '%2x%2x%2x%2x');
+        $instance->timestampMidBytes = sscanf(string: $timestampMid, format: '%2x%2x');
+        $instance->timestampHighBytes = sscanf(string: $timestampHighAndVersion, format: '%2x%2x');
+        $instance->timestampHighBytes[0] &= self::TIMESTAMP_HIGH_BITS_MASK;
 
-        $instance->versionBits = sscanf(string: $timeHighAndVersion, format: '%2x')[0] & self::VERSION_BITS_MASK;
+        $instance->versionBits = sscanf(string: $timestampHighAndVersion, format: '%2x')[0] & self::VERSION_BITS_MASK;
         $instance->version = $instance->versionBits >> 4;
 
-        $instance->clockSeqHighBits = sscanf(string: $clockSeqAndVariant, format: '%2x')[0] & self::CLOCK_SEQ_HIGH_MASK;
-        $instance->clockSeqLowByte = sscanf(string: $clockSeqAndVariant, format: '%2x%2x')[1];
+        $instance->clockSequenceHighBits = sscanf(string: $clockSequenceAndVariant, format: '%2x')[0] & self::CLOCK_SEQUENCE_HIGH_MASK;
+        $instance->clockSequenceLowByte = sscanf(string: $clockSequenceAndVariant, format: '%2x%2x')[1];
         $instance->nodeBytes = sscanf(string: $node, format: '%2x%2x%2x%2x%2x%2x');
 
         return $instance;
