@@ -1,0 +1,288 @@
+<?php
+
+namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
+
+use InvalidArgumentException;
+use Alphonse\CleanArch\Domain\Fields\Identity\UuidInterface;
+use Alphonse\CleanArch\Domain\Fields\Identity\UuidV4;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\UuidV4
+ * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid
+ * @uses Alphonse\CleanArch\Domain\Fields\Identity\UuidV4
+ */
+final class UuidV4Test extends TestCase
+{
+    public function createInstance(): UuidInterface
+    {
+        return new UuidV4;
+    }
+
+    /**
+     * @test
+     * @covers ::getVersion
+     */
+    public function is_version_4(): void
+    {
+        // given an UuidV4
+        $uuid = $this->createInstance();
+
+        // when checking its version
+        $version = $uuid->getVersion();
+
+        // then it should be 4
+        $this->assertEquals(
+            expected: 4,
+            actual: $version,
+            message: 'UuidV4 version should be 4'
+        );
+    }
+
+    private function binaryStringToBytes(string $binaryString, int $digitsOffset, int $digitsCount): array
+    {
+        $bytesString = substr(
+            string: $binaryString,
+            offset: $digitsOffset,
+            length: $digitsCount
+        );
+
+        $bytes = str_split(string: hex2bin(string: $bytesString));
+
+        return array_map(
+            fn (string $byte) => ord($byte),
+            $bytes
+        );
+    }
+
+    private function getTimeLowBytes(UuidInterface $uuid): array
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 0,
+            digitsCount: 8
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::getTimeLowBytes
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_time_low_bytes(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their time-low bytes
+        $firstTimeLowBytes = $this->getTimeLowBytes(uuid: $firstUuid);
+        $secondTimeLowBytes = $this->getTimeLowBytes(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstTimeLowBytes,
+            $secondTimeLowBytes,
+            message: 'Different Uuids should have different time-low bytes'
+        );
+    }
+
+    private function getTimeMidBytes(UuidInterface $uuid): array
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 9,
+            digitsCount: 4
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::getTimeMidBytes
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_time_mid_bytes(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their time-mid bytes
+        $firstTimeMidBytes = $this->getTimeMidBytes(uuid: $firstUuid);
+        $secondTimeMidBytes = $this->getTimeMidBytes(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstTimeMidBytes,
+            $secondTimeMidBytes,
+            message: 'Different Uuids should have different time-mid bytes'
+        );
+    }
+
+    private function getTimeHighBytes(UuidInterface $uuid): array
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 14,
+            digitsCount: 4
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::getTimeHighBytes
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_time_high_bytes(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their time-high bytes
+        $firstTimeHighBytes = $this->getTimeHighBytes(uuid: $firstUuid);
+        $secondTimeHighBytes = $this->getTimeHighBytes(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstTimeHighBytes,
+            $secondTimeHighBytes,
+            message: 'Different Uuids should have different time-high bytes'
+        );
+    }
+
+
+    private function getClockSeqHighByte(UuidInterface $uuid): int
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 19,
+            digitsCount: 2
+        )[0] & 0b0011_1111;
+    }
+
+    /**
+     * @test
+     * @covers ::getClockSeqHighByte
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_clock_seq_high_byte(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their clock-seq-high bytes
+        $firstClockSeqHighByte = $this->getClockSeqHighByte(uuid: $firstUuid);
+        $secondClockSeqHighByte = $this->getClockSeqHighByte(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstClockSeqHighByte,
+            $secondClockSeqHighByte,
+            message: 'Different Uuids should have different clock-seq-high byte'
+        );
+    }
+
+    private function getClockSeqLowByte(UuidInterface $uuid): int
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 21,
+            digitsCount: 2
+        )[0];
+    }
+
+    /**
+     * @test
+     * @covers ::getClockSeqLowByte
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_clock_seq_low_byte(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their clock-seq-low bytes
+        $firstClockSeqLowByte = $this->getClockSeqLowByte(uuid: $firstUuid);
+        $secondClockSeqLowByte = $this->getClockSeqLowByte(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstClockSeqLowByte,
+            $secondClockSeqLowByte,
+            message: 'Different Uuids should have different clock-seq-low byte'
+        );
+    }
+
+    private function getNodeBytes(UuidInterface $uuid): array
+    {
+        return $this->binaryStringToBytes(
+            binaryString: (string) $uuid,
+            digitsOffset: 24,
+            digitsCount: 12
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::getNodeBytes
+     * @covers Alphonse\CleanArch\Domain\Fields\Identity\Uuid::randombytes
+     */
+    public function has_random_node_bytes(): void
+    {
+        // given 2 differents Uuids
+        $firstUuid = $this->createInstance();
+        $secondUuid = $this->createInstance();
+
+        // when checking their node bytes
+        $firstNodeBytes = $this->getNodeBytes(uuid: $firstUuid);
+        $secondNodeBytes = $this->getNodeBytes(uuid: $secondUuid);
+
+        // then they should be different
+        $this->assertNotEquals(
+            $firstNodeBytes,
+            $secondNodeBytes,
+            message: 'Different Uuids should have different node bytes'
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     */
+    public function expects_versioned_string(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        // given a valid Uuid string but with wrong version
+        $rfcUuidString = '1d20df21-395f-2c1d-8594-7f03d8cead29';
+
+        // when creating an Uuid object from it
+        UuidV4::fromString(rfcUuidString: $rfcUuidString);
+
+        // then it should not be accepted
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     */
+    public function creates_instance_from_string(): void
+    {
+        // given a valid RFC Uuid string
+        $rfcUuidString = '1d20df21-395f-4c1d-8594-7f03d8cead29';
+
+        // when creating an Uuid object from it and checking its RFC representation
+        $uuid = UuidV4::fromString(rfcUuidString: $rfcUuidString);
+        $storedRfcUuidString = (string) $uuid;
+
+        // then it should contain the given string
+        $this->assertSame(
+            actual: $storedRfcUuidString,
+            expected: $rfcUuidString,
+            message: "Uuid failed to rebuild its state from the string {$rfcUuidString}, built {$storedRfcUuidString}",
+        );
+    }
+}

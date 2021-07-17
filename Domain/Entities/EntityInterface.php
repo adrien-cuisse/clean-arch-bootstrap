@@ -3,14 +3,12 @@
 namespace Alphonse\CleanArch\Domain\Entities;
 
 use Alphonse\CleanArch\Domain\Fields\Identity\UuidInterface;
+use Alphonse\CleanArch\Domain\Traits\HasIdentityInterface;
 
 /**
  * A business object
  */
-interface EntityInterface
+interface EntityInterface // extends HasIdentityInterface
 {
-    /**
-     * @return - a unique identity
-     */
-    public function getUuid(): UuidInterface;
+
 }

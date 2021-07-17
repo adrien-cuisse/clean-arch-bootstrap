@@ -1,9 +1,10 @@
 {
     "source": {
         "directories": [
-            "Domain/",
-            "Application/",
-            "Persistence/"
+            "Domain/Fields/Email",
+            "Domain/Fields/Identity",
+            "Domain/Traits",
+            "Domain/Entities"
         ]
     },
     "timeout": 10,

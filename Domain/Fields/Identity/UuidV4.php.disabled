@@ -7,7 +7,7 @@ namespace Alphonse\CleanArch\Domain\Fields\Identity;
  */
 final class UuidV4 extends Uuid implements UuidV4Interface
 {
-     /**
+    /**
      * @inheritDoc
      */
     protected function getTimeLowBytes(): array

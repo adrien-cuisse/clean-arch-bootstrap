@@ -7,7 +7,7 @@ namespace Alphonse\CleanArch\Domain\Fields\Identity;
  *
  * @see {@link https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.5}
  */
-interface UuidInterface
+interface UuidInterface extends IdentityInterface
 {
     /**
      * @return int - the version of the UUID, must be from 1 to 5

@@ -2,14 +2,50 @@
 
 namespace Alphonse\CleanArch\Domain\Fields\Identity;
 
-use InvalidArgumentException;
 use ReflectionClass;
+use InvalidArgumentException;
 
 /**
  * @see UuidInterface
  */
 abstract class Uuid implements UuidInterface
 {
+    /**
+     * The variant used
+     * @link https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.1
+     */
+    private const VARIANT = 0b10;
+
+    /**
+     * Variant bits, will be multiplexed with the clock-seq-high bits
+     */
+    private const VARIANT_BITS = self::VARIANT << 6;
+
+    /**
+     * Bit-mask to clamp an integer to byte-range
+     */
+    private const BYTE_MASK = 0b1111_1111;
+
+    /**
+     * Bit-mask to extract the 4 least significant bits from a byte
+     */
+    private const LOWEST_4_BITS_MASK = 0b0000_1111;
+
+    /**
+     * Bit-mask to extract the 4 most significant bits from a byte
+     */
+    private const HIGHEST_4_BITS_MASK = 0b1111_0000;
+
+    /**
+     * Bit-maks to apply on the most significant byte of the time-high-bytes, removes its 4 highest bits
+     */
+    private const TIME_HIGH_MSB_MASK = self::LOWEST_4_BITS_MASK;
+
+    /**
+     * Bit-mask to remove the 2 most significant bits from the clock-seq-high byte
+     */
+    private const CLOCK_SEQ_HIGH_MASK = 0b0011_1111;
+
     /**
      * @var int[] - bytes 0 to 3
      */
@@ -21,6 +57,11 @@ abstract class Uuid implements UuidInterface
     private array $timeMidBytes;
 
     /**
+     * @var int - the version of the Uuid
+     */
+    private int $version;
+
+    /**
      * @var int - 4 most significant bits of the byte 6
      */
     private int $versionBits;
@@ -29,11 +70,6 @@ abstract class Uuid implements UuidInterface
      * @var int[] - 4 least significant bits of byte 6, byte 7
      */
     private array $timeHighBytes;
-
-    /**
-     * @var int - 2 most significant bits of byte 8
-     */
-    private int $variantBits = 0b10 << 6;
 
     /**
      * @var int - 6 least significants bits of byte 8
@@ -50,25 +86,60 @@ abstract class Uuid implements UuidInterface
      */
     private array $nodeBytes;
 
-    public function __construct()
-    {
-        $this->timeLowBytes = $this->clampToBytes(integers: $this->getTimeLowBytes());
-        $this->timeMidBytes = $this->clampToBytes(integers: $this->getTimeMidBytes());
-        $this->timeHighBytes = $this->clampToBytes(integers: $this->getTimeHighBytes());
+    /**
+     * @throws InvalidUuidTimeLowBytesCountException - if the number of time-low bytes is invalid
+     * @throws InvalidUuidTimeMidBytesCountException - if the number of time-mid bytes is invalid
+     * @throws InvalidUuidTimeHighBytesCountException - if the number of time-high bytes is invalid
+     * @throws InvalidUuidVersionException - if the version exceeds 15
+     * @throws InvalidUuidNodeBytesCountException - if the number of node bytes is invalid
+     */
+    protected function __construct(
+        int $version,
+        array $timeLowBytes,
+        array $timeMidBytes,
+        array $timeHighBytes,
+        int $clockSeqHighByte,
+        int $clockSeqLowByte,
+        array $nodeBytes,
+    ) {
+        if (count(value: $timeLowBytes) !== 4) {
+            throw new InvalidUuidTimeLowBytesCountException(bytes: $timeLowBytes);
+        }
+        $this->timeLowBytes = $this->clampToBytes(integers: $timeLowBytes);
 
-        // only keep needed bits
-        $this->timeHighBytes[0] &= 0b1111;
-        $this->versionBits = ($this->getVersion() & 0b1111) << 4;
-        $this->clockSeqHighBits = $this->getClockSeqHighByte() & 0b0011_1111;
-        $this->clockSeqLowByte = $this->getClockSeqLowByte() & 0xff;
+        if (count(value: $timeMidBytes) !== 2) {
+            throw new InvalidUuidTimeMidBytesCountException(bytes: $timeMidBytes);
+        }
+        $this->timeMidBytes = $this->clampToBytes(integers: $timeMidBytes);
 
-        $this->nodeBytes = $this->clampToBytes(integers: $this->getNodeBytes());
+        if (count(value: $timeHighBytes) !== 2) {
+            throw new InvalidUuidTimeHighBytesCountException(bytes: $timeHighBytes);
+        }
+        $this->timeHighBytes = $this->clampToBytes(integers: $timeHighBytes);
+        $this->timeHighBytes[0] &= self::TIME_HIGH_MSB_MASK;
+
+        if ($version > 0b0000_1111) {
+            throw new InvalidUuidVersionException(version: $version);
+        }
+        $this->version = $version;
+        $this->versionBits = $this->version << 4;
+
+        $this->clockSeqHighBits = $clockSeqHighByte & self::CLOCK_SEQ_HIGH_MASK;
+        $this->clockSeqLowByte = $this->clampToByte(value: $clockSeqLowByte);
+
+        if (count(value: $nodeBytes) !== 6) {
+            throw new InvalidUuidNodeBytesCountException(bytes: $nodeBytes);
+        }
+        $this->nodeBytes = $this->clampToBytes(integers: $nodeBytes);
     }
 
     /**
      * @see UuidInterface
      */
-    abstract public function getVersion(): int;
+    final public function getVersion(): int
+    {
+        return $this->version;
+    }
 
     /**
      * Puts all bits in the right place and generates the string representation
@@ -82,7 +153,7 @@ abstract class Uuid implements UuidInterface
             $this->timeHighBytes[1]
         ];
 
-        $variantAndclockSeqHighByte = $this->variantBits | $this->clockSeqHighBits;
+        $variantAndclockSeqHighByte = self::VARIANT_BITS | $this->clockSeqHighBits;
 
         return sprintf(
             "%s-%s-%s-%s%s-%s",
@@ -93,6 +164,14 @@ abstract class Uuid implements UuidInterface
             $this->hexaStringFrom(bytes: [$this->clockSeqLowByte]),
             $this->hexaStringFrom(bytes: $this->nodeBytes)
         );
+    }
+
+    /**
+     * @see Stringable
+     */
+    final public function __toString(): string
+    {
+        return $this->toRfcUuidString();
     }
 
     /**
@@ -126,13 +205,12 @@ abstract class Uuid implements UuidInterface
         $instance->timeLowBytes = array_slice(array: $bytes, offset: 0, length: 4);
         $instance->timeMidBytes = array_slice(array: $bytes, offset: 4, length: 2);
 
-        $instance->versionBits = $bytes[6] & 0b1111_0000;
-        $bytes[6] = $bytes[6] & 0b0000_1111;
+        $instance->versionBits = ($bytes[6] & self::HIGHEST_4_BITS_MASK) >> 4;
+        $bytes[6] = $bytes[6] & self::LOWEST_4_BITS_MASK;
 
         $instance->timeHighBytes = array_slice(array: $bytes, offset: 6, length: 2);
 
-        $instance->variantBits = $bytes[8] & 0b1100_0000;
-        $bytes[8] = $bytes[8] & 0b0011_1111;
+        $bytes[8] = $bytes[8] & self::CLOCK_SEQ_HIGH_MASK;
 
         $instance->clockSeqHighBits = $bytes[8];
         $instance->clockSeqLowByte = $bytes[9];
@@ -146,57 +224,42 @@ abstract class Uuid implements UuidInterface
      * Generates random bytes, with bytes being unsigned integers between 0 and 255
      *
      * @param int $numberOfBytes - how many bytes to generate
+     *
+     * @return int[] - array of integers in [0;255] of specified size
      */
     final protected function randomBytes(int $numberOfBytes): array
     {
         $binaryString = random_bytes(length: $numberOfBytes);
 
         return array_map(
-            callback: fn (string $ascii) => ord(character: $ascii) & 0xff,
+            callback: fn (string $ascii) => ord(character: $ascii) & self::BYTE_MASK,
             array: str_split($binaryString),
         );
     }
-    /**
-     * @return int[] - 4 unsigned chars
-     */
-    abstract protected function getTimeLowBytes(): array;
 
     /**
-     * @return int[] - 2 unsigned chars
+     * Removes overflowing bits from the given value
+     *
+     * @param int $value - the integer to clamp
+     *
+     * @return int - 8 lowest bits of the given value
      */
-    abstract protected function getTimeMidBytes(): array;
-
-    /**
-     * @return int[] - 2 unsigned chars, 4 most significants bits of byte at index 0 don't need to be removed
-     */
-    abstract protected function getTimeHighBytes(): array;
-
-    /**
-     * @return int - unsigned char, the most most significant bits don't need to be removed
-     */
-    abstract protected function getClockSeqHighByte(): int;
-
-    /**
-     * @return int - unsigned char
-     */
-    abstract protected function getClockSeqLowByte(): int;
-
-    /**
-     * @return int[] - 6 unsigned chars
-     */
-    abstract protected function getNodeBytes(): array;
+    private function clampToByte(int $value): int
+    {
+        return $value & self::BYTE_MASK;
+    }
 
     /**
      * Clamps the given integers to bytes, ensuring no invalid value is send from extending classes
      *
      * @param int[] $integers - the integers to turn to bytes
      *
-     * @return - an array of bytes
+     * @return array - 8 lowest bits of each given integer
      */
     private function clampToBytes(array $integers): array
     {
         return array_map(
-            callback: fn (int $value) => $value & 0xff,
+            callback: fn (int $value) => $this->clampToByte($value),
             array: $integers
         );
     }

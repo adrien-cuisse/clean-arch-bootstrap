@@ -2,20 +2,17 @@
     "name": "alphonse/clean-arch-bootstrap",
     "type": "project",
     "require-dev": {
-        "php": ">= 8.0",
+        "php": ">=8.0.0",
         "phpunit/phpunit": "^9.5",
         "infection/infection": "^0.23.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --configuration=tests/phpunit.xml",
-        "coverage": "vendor/bin/phpunit --coverage-html tests/coverage --testdox-html tests/coverage/dox.html",
+        "test": "vendor/bin/phpunit --coverage-html tests/coverage --testdox-html tests/coverage/dox.html --strict-coverage --colors=always --configuration=tests/phpunit.xml tests/",
         "mutate": "vendor/bin/infection --threads=4 --show-mutations --configuration=tests/infection.json.dist --test-framework-options=--no-configuration"
     },
     "autoload": {
         "psr-4": {
             "Alphonse\\CleanArch\\Domain\\": "Domain/",
-            "Alphonse\\CleanArch\\Persistence\\": "Persistence/",
-            "Alphonse\\CleanArch\\Application\\": "Application/",
             "Alphonse\\CleanArch\\Tests\\": "tests/"
         }
     },

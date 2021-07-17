@@ -2,22 +2,18 @@
 
 namespace Alphonse\CleanArch\Domain\Entities;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\UuidInterface;
-use Alphonse\CleanArch\Domain\Fields\Identity\UuidV4;
+use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArch\Domain\Traits\HasIdentity;
 
 /**
  * @see EntityInterface
  */
-abstract class Entity implements EntityInterface
+final class Entity implements EntityInterface
 {
-    private UuidInterface $uuid;
+    // use HasIdentity;
 
-    final public function getUuid(): UuidInterface
+    public function __construct(private IdentityInterface $interface)
     {
-        if (isset($this->uuid) === false) {
-            $this->uuid = new UuidV4;
-        }
 
-        return $this->uuid;
     }
 }

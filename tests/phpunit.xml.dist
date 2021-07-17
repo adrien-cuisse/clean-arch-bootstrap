@@ -22,8 +22,6 @@
               processUncoveredFiles="true">
         <include>
             <directory suffix=".php">../Domain</directory>
-            <directory suffix=".php">../Application</directory>
-            <directory suffix=".php">../Persistence</directory>
         </include>
     </coverage>
 </phpunit>
