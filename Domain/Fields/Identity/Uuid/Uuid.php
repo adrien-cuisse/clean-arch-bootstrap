@@ -11,17 +11,6 @@ use InvalidArgumentException;
 abstract class Uuid implements UuidInterface
 {
     /**
-     * The variant used
-     * @link https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.1
-     */
-    private const VARIANT = 0b10;
-
-    /**
-     * Variant bits, will be multiplexed with the clock-seq-high bits
-     */
-    private const VARIANT_BITS = self::VARIANT << 6;
-
-    /**
      * Bit-mask to clamp an integer to byte-range
      */
     private const BYTE_MASK = 0b1111_1111;
@@ -45,6 +34,19 @@ abstract class Uuid implements UuidInterface
      * Bit-mask to apply on time-high-and-version to extract version bits
      */
     private const VERSION_BITS_MASK = self::HIGHEST_4_BITS_MASK;
+
+    /**
+     * The variant used by default when using constructor
+     *
+     * @link https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.1
+     */
+    private const VARIANT = 0b10;
+
+    /**
+     * Variant bits used by default when using constructor, will be multiplexed with the clock-seq-high bits
+     */
+    private const VARIANT_BITS = self::VARIANT << 6;
+
     /**
      * Bit-mask to remove the 2 most significant bits from the clock-seq-high byte
      */
@@ -194,16 +196,18 @@ abstract class Uuid implements UuidInterface
 
         $instance = (new ReflectionClass(static::class))->newInstanceWithoutConstructor();
 
-        [$timeLow, $timeMid, $timeHighAndVersion, $clockSeq, $node] = explode(separator: '-', string: $rfcUuidString);
+        [$timeLow, $timeMid, $timeHighAndVersion, $clockSeqAndVariant, $node] = explode(separator: '-', string: $rfcUuidString);
 
         $instance->timeLowBytes = sscanf(string: $timeLow, format: '%2x%2x%2x%2x');
         $instance->timeMidBytes = sscanf(string: $timeMid, format: '%2x%2x');
         $instance->timeHighBytes = sscanf(string: $timeHighAndVersion, format: '%2x%2x');
         $instance->timeHighBytes[0] &= self::TIME_HIGH_BITS_MASK;
+
         $instance->versionBits = sscanf(string: $timeHighAndVersion, format: '%2x')[0] & self::VERSION_BITS_MASK;
         $instance->version = $instance->versionBits >> 4;
-        $instance->clockSeqHighBits = sscanf(string: $clockSeq, format: '%2x')[0] & self::CLOCK_SEQ_HIGH_MASK;
-        $instance->clockSeqLowByte = sscanf(string: $clockSeq, format: '%2x%2x')[1];
+
+        $instance->clockSeqHighBits = sscanf(string: $clockSeqAndVariant, format: '%2x')[0] & self::CLOCK_SEQ_HIGH_MASK;
+        $instance->clockSeqLowByte = sscanf(string: $clockSeqAndVariant, format: '%2x%2x')[1];
         $instance->nodeBytes = sscanf(string: $node, format: '%2x%2x%2x%2x%2x%2x');
 
         return $instance;

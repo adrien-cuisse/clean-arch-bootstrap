@@ -12,7 +12,7 @@ use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 interface UuidInterface extends IdentityInterface
 {
     /**
-     * @return int - the version of the UUID, must be from 1 to 5
+     * @return int - the version of the UUID
      */
     public function getVersion(): int;
 
