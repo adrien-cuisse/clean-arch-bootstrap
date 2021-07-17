@@ -3,7 +3,6 @@
 namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity\Uuid;
 
 use Generator;
-use ReflectionClass;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidInterface;
