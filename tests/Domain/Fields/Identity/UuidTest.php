@@ -9,6 +9,7 @@ use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidInterface;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeMidBytesCountException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException;
@@ -72,6 +73,11 @@ final class UuidTest extends TestCase
                     clockSeqLowByte: $clockSeqLowByte,
                     nodeBytes: $nodeBytes,
                 );
+            }
+
+            public static function fromString(string $uuidString): static
+            {
+                return parent::fromString(rfcUuidString: $uuidString);
             }
         };
     }
@@ -477,62 +483,117 @@ final class UuidTest extends TestCase
         );
     }
 
-    /*
+    /**
      * @test
      * @covers ::fromString
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException
      */
-    public function expects_rfc_format_representation(): void
+    public function expects_rfc_compliant_uuid_string(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidUuidStringException::class);
 
-        // given an invalid Uuid string
-        $rfcUuidString = 'invalid string';
+        // given an invalid Uuid-string
+        $invalidUuidString = 'invalid string';
 
-        // when creating an Uuid object from it
-        $fromStringMethod = [$this->createInstance(), 'fromString'];
-        call_user_func($fromStringMethod, $rfcUuidString);
+        // when trying to create an Uuid form it
+        call_user_func_array(
+            callback: $this->createInstance()::class . '::fromString',
+            args: [$invalidUuidString],
+        );
 
-        // then it should not be accepted
+        // then instantiation should be rejected
     }
 
-    /*
-     * @test
-     * @covers ::fromString
-     */
-    public function rejects_invalid_versioned_string(): void
+    public function uuidStringToBytesProvider(): Generator
     {
-        $this->expectException(InvalidArgumentException::class);
-
-        // given a valid Uuid string but with wrong version
-        $rfcUuidString = '5a0af6c1-f16a-5d2d-ae7d-5ea97a0a1c7b';
-
-        // when creating an Uuid object from it
-        $fromStringMethod = [$this->createInstance(), 'fromString'];
-        call_user_func($fromStringMethod, $rfcUuidString);
-
-        // then it should not be accepted
+        yield 'time-low' => [
+            '12345678-0000-0000-0000-000000000000',
+            'timeLowBytes',
+            [0x12, 0x34, 0x56, 0x78],
+        ];
+        yield 'time-mid' => [
+            '00000000-9abc-0000-0000-000000000000',
+            'timeMidBytes',
+            [0x9a, 0xbc],
+        ];
+        yield 'version' => [
+            '00000000-0000-b000-0000-000000000000',
+            'version',
+            0xb,
+        ];
+        yield 'version bits' => [
+            '00000000-0000-4000-0000-000000000000',
+            'versionBits',
+            0b0100_0000,
+        ];
+        yield 'time-high' => [
+            '00000000-0000-0ef0-0000-000000000000',
+            'timeHighBytes',
+            [0x0e, 0xf0],
+        ];
+        yield 'clock-seq-high' => [
+            '00000000-0000-0000-2d00-000000000000',
+            'clockSeqHighBits',
+            0x2d,
+        ];
+        yield 'clock-seq-low' => [
+            '00000000-0000-0000-00ef-000000000000',
+            'clockSeqLowByte',
+            0xef,
+        ];
+        yield 'node' => [
+            '00000000-0000-0000-0000-456789abcdef',
+            'nodeBytes',
+            [0x45, 0x67, 0x89, 0xab, 0xcd, 0xef],
+        ];
     }
 
-    /*
+    /**
      * @test
+     * @dataProvider uuidStringToBytesProvider
      * @covers ::fromString
      */
-    public function creates_correct_uuid_from_string(): void
+    public function parses_uuid_string_and_store_bytes_correctly(string $uuidString, string $propertyName, int|array $expectedValue): void
     {
-        // given a valid RFC UUID-string representation
-        $inputUuidString = 'b25fcb2e-576d-3b87-b5b2-cb2cd57eddd8';
+        // given an Uuid made from a string
+        $uuid = call_user_func_array(
+            callback: $this->createInstance()::class . '::fromString',
+            args: [$uuidString],
+        );
 
-        // when creating an Uuid from it and checking its string representation
-        $fromStringMethod = [$this->createInstance(), 'fromString'];
-        $uuid = call_user_func($fromStringMethod, $inputUuidString);
-        $outputUuidString = (string) $uuid;
+        // when accessing its stored bytes
+        $bytes = $this->getProperty($uuid, $propertyName);
 
-        // then it should match the one used to create the Uuid
-        $this->assertEquals(
-            expected: $inputUuidString,
-            actual: $outputUuidString,
-            message: "Uuid created from string doesn't match the string ($inputUuidString), got {$outputUuidString}"
+        // then it should match the expectation
+        $this->assertSame(
+            expected: $expectedValue,
+            actual: $bytes,
+            message: "Expected {$propertyName} to be correctly assigned",
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::fromString
+     * @covers ::__toString
+     * @covers ::toRfcUuidString
+     */
+    public function creates_uuid_matching_base_string(): void
+    {
+        // given an rfc-compliant uuid-string
+        $uuidString = '6b9b83fb-916b-471d-837f-1980f0bf78bd';
+
+        // when creating an uuid instance from it
+        $uuid = call_user_func_array(
+            callback: $this->createInstance()::class . '::fromString',
+            args: [$uuidString],
+        );
+
+        // then it should match back the uuid-string when turned back to string
+        $this->assertSame(
+            expected: $uuidString,
+            actual: (string) $uuid,
+            message: "Expected to find back uuid-string {$uuidString} when make an Uuid from it, got {$uuid}",
         );
     }
 }

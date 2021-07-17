@@ -37,10 +37,14 @@ abstract class Uuid implements UuidInterface
     private const HIGHEST_4_BITS_MASK = 0b1111_0000;
 
     /**
-     * Bit-maks to apply on the most significant byte of the time-high-bytes, removes its 4 highest bits
+     * Bit-mask to apply on time-high-and-version to extract time-high bits
      */
-    private const TIME_HIGH_MSB_MASK = self::LOWEST_4_BITS_MASK;
+    private const TIME_HIGH_BITS_MASK = self::LOWEST_4_BITS_MASK;
 
+    /**
+     * Bit-mask to apply on time-high-and-version to extract version bits
+     */
+    private const VERSION_BITS_MASK = self::HIGHEST_4_BITS_MASK;
     /**
      * Bit-mask to remove the 2 most significant bits from the clock-seq-high byte
      */
@@ -116,7 +120,7 @@ abstract class Uuid implements UuidInterface
             throw new InvalidUuidTimeHighBytesCountException(bytes: $timeHighBytes);
         }
         $this->timeHighBytes = $this->clampToBytes(integers: $timeHighBytes);
-        $this->timeHighBytes[0] &= self::TIME_HIGH_MSB_MASK;
+        $this->timeHighBytes[0] &= self::TIME_HIGH_BITS_MASK;
 
         if ($version > 0b0000_1111) {
             throw new InvalidUuidVersionException(version: $version);
@@ -183,39 +187,24 @@ abstract class Uuid implements UuidInterface
      */
     protected static function fromString(string $rfcUuidString): static
     {
-        if (preg_match(pattern: '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/', subject: $rfcUuidString) !== 1) {
-            throw new InvalidArgumentException("The string {$rfcUuidString} is not a valid RFC Uuid string");
+        $rfcValidationRegex = '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/';
+        if (preg_match(pattern: $rfcValidationRegex, subject: $rfcUuidString) !== 1) {
+            throw new InvalidUuidStringException(uuidString: $rfcUuidString);
         }
-
-        $hexaString = str_replace(search: '-', replace: '', subject: $rfcUuidString);
-        $binaryString = hex2bin(string: $hexaString);
-
-        $bytes = str_split(string: $binaryString);
-        $bytes = array_map(
-            callback: fn (string $byte) => ord(character: $byte),
-            array: $bytes
-        );
 
         $instance = (new ReflectionClass(static::class))->newInstanceWithoutConstructor();
 
-        if ($instance->getVersion() != $rfcUuidString[14]) {
-            throw new InvalidArgumentException("The string {$rfcUuidString} is not an UuidV{$instance->getVersion()} string");
-        }
+        [$timeLow, $timeMid, $timeHighAndVersion, $clockSeq, $node] = explode(separator: '-', string: $rfcUuidString);
 
-        $instance->timeLowBytes = array_slice(array: $bytes, offset: 0, length: 4);
-        $instance->timeMidBytes = array_slice(array: $bytes, offset: 4, length: 2);
-
-        $instance->versionBits = ($bytes[6] & self::HIGHEST_4_BITS_MASK) >> 4;
-        $bytes[6] = $bytes[6] & self::LOWEST_4_BITS_MASK;
-
-        $instance->timeHighBytes = array_slice(array: $bytes, offset: 6, length: 2);
-
-        $bytes[8] = $bytes[8] & self::CLOCK_SEQ_HIGH_MASK;
-
-        $instance->clockSeqHighBits = $bytes[8];
-        $instance->clockSeqLowByte = $bytes[9];
-
-        $instance->nodeBytes = array_slice(array: $bytes, offset: 10, length: 6);
+        $instance->timeLowBytes = sscanf(string: $timeLow, format: '%2x%2x%2x%2x');
+        $instance->timeMidBytes = sscanf(string: $timeMid, format: '%2x%2x');
+        $instance->timeHighBytes = sscanf(string: $timeHighAndVersion, format: '%2x%2x');
+        $instance->timeHighBytes[0] &= self::TIME_HIGH_BITS_MASK;
+        $instance->versionBits = sscanf(string: $timeHighAndVersion, format: '%2x')[0] & self::VERSION_BITS_MASK;
+        $instance->version = $instance->versionBits >> 4;
+        $instance->clockSeqHighBits = sscanf(string: $clockSeq, format: '%2x')[0] & self::CLOCK_SEQ_HIGH_MASK;
+        $instance->clockSeqLowByte = sscanf(string: $clockSeq, format: '%2x%2x')[1];
+        $instance->nodeBytes = sscanf(string: $node, format: '%2x%2x%2x%2x%2x%2x');
 
         return $instance;
     }
@@ -275,6 +264,8 @@ abstract class Uuid implements UuidInterface
             array: $integers
         );
     }
+
+    // public function bytesFromBinaryString(string $binaryString)
 
     /**
      * Writes the given bytes in an hexadecimal string
