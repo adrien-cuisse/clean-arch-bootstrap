@@ -93,9 +93,9 @@ abstract class Uuid implements UuidInterface
     private array $nodeBytes;
 
     /**
-     * @throws InvalidUuidTimeLowBytesCountException - if the number of timestamp-low bytes is invalid
-     * @throws InvalidUuidTimeMidBytesCountException - if the number of timestamp-mid bytes is invalid
-     * @throws InvalidUuidTimeHighBytesCountException - if the number of timestamp-high bytes is invalid
+     * @throws InvalidUuidTimestampLowBytesCountException - if the number of timestamp-low bytes is invalid
+     * @throws InvalidUuidTimestampMidBytesCountException - if the number of timestamp-mid bytes is invalid
+     * @throws InvalidUuidTimestampHighBytesCountException - if the number of timestamp-high bytes is invalid
      * @throws InvalidUuidVersionException - if the version exceeds 15
      * @throws InvalidUuidNodeBytesCountException - if the number of node bytes is invalid
      */
@@ -109,17 +109,17 @@ abstract class Uuid implements UuidInterface
         array $nodeBytes,
     ) {
         if (count(value: $timestampLowBytes) !== 4) {
-            throw new InvalidUuidTimeLowBytesCountException(bytes: $timestampLowBytes);
+            throw new InvalidUuidTimestampLowBytesCountException(bytes: $timestampLowBytes);
         }
         $this->timestampLowBytes = $this->clampToBytes(integers: $timestampLowBytes);
 
         if (count(value: $timestampMidBytes) !== 2) {
-            throw new InvalidUuidTimeMidBytesCountException(bytes: $timestampMidBytes);
+            throw new InvalidUuidTimestampMidBytesCountException(bytes: $timestampMidBytes);
         }
         $this->timestampMidBytes = $this->clampToBytes(integers: $timestampMidBytes);
 
         if (count(value: $timestampHighBytes) !== 2) {
-            throw new InvalidUuidTimeHighBytesCountException(bytes: $timestampHighBytes);
+            throw new InvalidUuidTimestampHighBytesCountException(bytes: $timestampHighBytes);
         }
         $this->timestampHighBytes = $this->clampToBytes(integers: $timestampHighBytes);
         $this->timestampHighBytes[0] &= self::TIMESTAMP_HIGH_BITS_MASK;

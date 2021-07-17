@@ -9,9 +9,9 @@ use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidInterface;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
 use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeMidBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
 
 /**
  * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
@@ -71,17 +71,17 @@ final class UuidTest extends TestCase
     {
         yield [
             ['timestampLowBytes' => []],
-            InvalidUuidTimeLowBytesCountException::class,
+            InvalidUuidTimestampLowBytesCountException::class,
             'timestamp-low bytes',
         ];
         yield [
             ['timestampMidBytes' => []],
-            InvalidUuidTimeMidBytesCountException::class,
+            InvalidUuidTimestampMidBytesCountException::class,
             'timestamp-mid bytes',
         ];
         yield [
             ['timestampHighBytes' => []],
-            InvalidUuidTimeHighBytesCountException::class,
+            InvalidUuidTimestampHighBytesCountException::class,
             'timestamp-high bytes',
         ];
         yield [
@@ -96,9 +96,9 @@ final class UuidTest extends TestCase
      * @testdox Rejects invalid $bytesName count
      * @dataProvider invalidBytesCountProvider
      * @covers ::__construct
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeMidBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
      * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
      */
     public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass, string $bytesName): void
