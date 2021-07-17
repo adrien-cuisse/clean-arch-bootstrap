@@ -2,15 +2,15 @@
 
 namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
-use Alphonse\CleanArch\Domain\Fields\Identity\UuidV4;
-use Alphonse\CleanArch\Domain\Traits\HasIdentity;
 use PHPUnit\Framework\TestCase;
+use Alphonse\CleanArch\Domain\Traits\HasIdentity;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidV4;
 use Alphonse\CleanArch\Domain\Traits\HasIdentityInterface;
+use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 
 /**
  * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\HasIdentity
- * @uses Alphonse\CleanArch\Domain\Fields\Identity\UuidV4<extended>
+ * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidV4<extended>
  */
 final class HasIdentityTest extends TestCase
 {
