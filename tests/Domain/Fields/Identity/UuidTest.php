@@ -84,26 +84,31 @@ final class UuidTest extends TestCase
 
     public function invalidBytesCountProvider(): Generator
     {
-        yield 'time-low' => [
+        yield [
             ['timeLowBytes' => []],
-            InvalidUuidTimeLowBytesCountException::class
+            InvalidUuidTimeLowBytesCountException::class,
+            'time-low bytes',
         ];
-        yield 'time-mid' => [
+        yield [
             ['timeMidBytes' => []],
-            InvalidUuidTimeMidBytesCountException::class
+            InvalidUuidTimeMidBytesCountException::class,
+            'time-mid bytes',
         ];
-        yield 'time-high' => [
+        yield [
             ['timeHighBytes' => []],
-            InvalidUuidTimeHighBytesCountException::class
+            InvalidUuidTimeHighBytesCountException::class,
+            'time-high bytes',
         ];
-        yield 'node' => [
+        yield [
             ['nodeBytes' => []],
-            InvalidUuidNodeBytesCountException::class
+            InvalidUuidNodeBytesCountException::class,
+            'node bytes',
         ];
     }
 
     /**
      * @test
+     * @testdox Rejects invalid $bytesName count
      * @dataProvider invalidBytesCountProvider
      * @covers ::__construct
      * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException
@@ -111,7 +116,7 @@ final class UuidTest extends TestCase
      * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException
      * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
      */
-    public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass): void
+    public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass, string $bytesName): void
     {
         $this->expectException(exception: $expectedExceptionClass);
 
@@ -209,6 +214,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Interlops version in time-high MSB
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
@@ -252,6 +258,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Interlops variant in clock-seq-high byte
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
@@ -275,6 +282,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Has RFC-compliant string-representation
      * @covers ::__construct
      * @covers ::__toString
      * @covers ::clampToByte
@@ -361,57 +369,57 @@ final class UuidTest extends TestCase
             'nodeBytes' => [0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f],
         ];
 
-        yield 'time-low-0' => [
+        yield 'time-low byte 0' => [
             $bytes,
-            'time-low-0',
+            'time-low byte 0',
             $bytes['timeLowBytes'][0],
             0
         ];
-        yield 'time-low-1' => [
+        yield 'time-low byte 1' => [
             $bytes,
-            'time-low-1',
+            'time-low byte 1',
             $bytes['timeLowBytes'][1],
             2
         ];
-        yield 'time-low-2' => [
+        yield 'time-low byte 2' => [
             $bytes,
-            'time-low-2',
+            'time-low byte 2',
             $bytes['timeLowBytes'][2],
             4
         ];
-        yield 'time-low-3' => [
+        yield 'time-low byte 3' => [
             $bytes,
-            'time-low-3',
+            'time-low byte 3',
             $bytes['timeLowBytes'][3],
             6
         ];
-        yield 'time-mid-0' => [
+        yield 'time-mid byte 0' => [
             $bytes,
-            'time-mid-0',
+            'time-mid byte 0',
             $bytes['timeMidBytes'][0],
             9
         ];
-        yield 'time-mid-1' => [
+        yield 'time-mid byte 1' => [
             $bytes,
-            'time-mid-1',
+            'time-mid byte 1',
             $bytes['timeMidBytes'][1],
             11
         ];
-        yield 'time-high-0-and-version' => [
+        yield 'time-high byte 0 and version' => [
             $bytes,
-            'time-high-0-and-version',
+            'time-high byte 0 and version',
             $bytes['timeHighBytes'][0],
             14
         ];
-        yield 'time-high-1' => [
+        yield 'time-high byte 1' => [
             $bytes,
-            'time-high-1',
+            'time-high byte 1',
             $bytes['timeHighBytes'][1],
             16
         ];
-        yield 'clock-seq-high-and-variant' => [
+        yield 'clock-seq-high and variant' => [
             $bytes,
-            'clock-seq-high-and-variant',
+            'clock-seq-high and variant',
             $bytes['clockSeqHighByte'],
             19
         ];
@@ -421,39 +429,39 @@ final class UuidTest extends TestCase
             $bytes['clockSeqLowByte'],
             21
         ];
-        yield 'node-0' => [
+        yield 'node byte 0' => [
             $bytes,
-            'node-0',
+            'node byte 0',
             $bytes['nodeBytes'][0],
             24
         ];
-        yield 'node-1' => [
+        yield 'node byte 1' => [
             $bytes,
-            'node-1',
+            'node byte 1',
             $bytes['nodeBytes'][1],
             26
         ];
-        yield 'node-2' => [
+        yield 'node byte 2' => [
             $bytes,
-            'node-2',
+            'node byte 2',
             $bytes['nodeBytes'][2],
             28
         ];
-        yield 'node-3' => [
+        yield 'node byte 3' => [
             $bytes,
-            'node-3',
+            'node byte 3',
             $bytes['nodeBytes'][3],
             30
         ];
-        yield 'node-4' => [
+        yield 'node byte 4' => [
             $bytes,
-            'node-4',
+            'node byte 4',
             $bytes['nodeBytes'][4],
             32
         ];
-        yield 'node-5' => [
+        yield 'node byte 5' => [
             $bytes,
-            'node-5',
+            'node byte 5',
             $bytes['nodeBytes'][5],
             34
         ];
@@ -461,13 +469,14 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Puts $byteName at correct position in string
      * @dataProvider byteProvider
      * @covers ::__construct
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
      */
-    public function puts_byte_at_correct_position(array $uuidBytes, string $byteName, int $expectedByteValue, int $positionInString): void
+    public function puts_byte_at_correct_position_in_string(array $uuidBytes, string $byteName, int $expectedByteValue, int $positionInString): void
     {
         // given an Uuid as a string
         $uuid = $this->createInstance(...$uuidBytes);
@@ -487,6 +496,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Creating an instance requires RFC-compliant Uuid-string
      * @covers ::fromString
      * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException
      */
@@ -576,6 +586,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Uuid made from string gives correct string back
      * @covers ::fromString
      * @covers ::__toString
      * @covers ::toRfcUuidString
@@ -601,6 +612,7 @@ final class UuidTest extends TestCase
 
     /**
      * @test
+     * @testdox Creates versioned Uuid from string
      * @covers ::fromString
      * @covers ::getVersion
      */
