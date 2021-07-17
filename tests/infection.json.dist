@@ -19,6 +19,9 @@
         }
     },
     "mutators": {
+        "global-ignore": [
+            "Alphonse\\CleanArch\\Domain\\Fields\\Identity\\Uuid::randomByte"
+        ],
         "@default": true,
         "@function_signature": false,
         "TrueValue": {

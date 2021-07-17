@@ -5,3 +5,9 @@ tests/phpunit.xml
 
 # Cache files
 tests/.phpunit.cache
+
+# Coverage reports
+tests/coverage/**/*.html
+
+# Mutation reports
+tests/.mutations/*

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Identity;
+namespace Alphonse\CleanArch\Domain\Fields\Identity\Uuid;
 
 use LengthException;
 

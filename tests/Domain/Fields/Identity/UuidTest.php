@@ -1,21 +1,21 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
+namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity\Uuid;
 
 use Generator;
 use ReflectionClass;
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid;
-use Alphonse\CleanArch\Domain\Fields\Identity\UuidInterface;
-use Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidVersionException;
-use Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidNodeBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeLowBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeMidBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeHighBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidInterface;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeMidBytesCountException;
+use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid
- * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
+ * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
  */
 final class UuidTest extends TestCase
 {
@@ -100,10 +100,10 @@ final class UuidTest extends TestCase
      * @test
      * @dataProvider invalidBytesCountProvider
      * @covers ::__construct
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeLowBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeMidBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeHighBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidNodeBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeLowBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeMidBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimeHighBytesCountException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
      */
     public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass): void
     {
@@ -115,70 +115,10 @@ final class UuidTest extends TestCase
         // then instantiation should be rejected
     }
 
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeLowBytesCountException
-    //  */
-    // public function time_low_expects_4_bytes(): void
-    // {
-    //     $this->expectException(InvalidUuidTimeLowBytesCountException::class);
-
-    //     // given an uuid implementation giving invalid time-low bytes count
-    //     $this->createInstance(timeLowBytes: []);
-
-    //     // then instantation should be rejected
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeMidBytesCountException
-    //  */
-    // public function time_mid_expects_2_bytes(): void
-    // {
-    //     $this->expectException(InvalidUuidTimeMidBytesCountException::class);
-
-    //     // given an uuid implementation giving invalid time-mid bytes count
-    //     $this->createInstance(timeMidBytes: []);
-
-    //     // then instantation should be rejected
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidTimeHighBytesCountException
-    //  */
-    // public function time_high_expects_2_bytes(): void
-    // {
-    //     $this->expectException(InvalidUuidTimeHighBytesCountException::class);
-
-    //     // given an uuid implementation giving invalid time-high bytes count
-    //     $this->createInstance(timeHighBytes: []);
-
-    //     // then instantation should be rejected
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidNodeBytesCountException
-    //  */
-    // public function node_expects_6_bytes(): void
-    // {
-    //     $this->expectException(InvalidUuidNodeBytesCountException::class);
-
-    //     // given an uuid implementation giving invalid node bytes count
-    //     $this->createInstance(nodeBytes: []);
-
-    //     // then instantation should be rejected
-    // }
-
     /**
      * @test
      * @covers ::__construct
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\InvalidUuidVersionException
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException
      */
     public function expects_4_bits_version(): void
     {
@@ -240,115 +180,6 @@ final class UuidTest extends TestCase
             ),
         );
     }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @covers ::clampToBytes
-    //  * @covers ::clampToByte
-    //  */
-    // public function clamps_time_low_to_bytes(): void
-    // {
-    //     // given some uuid with with overflowing time-low bytes
-    //     $uuid = $this->createInstance(timeLowBytes: [0x4201, 0x4202, 0x4203, 0x4204]);
-
-    //     // when accessing its time-low bytes
-    //     $timeLowBytes = $this->getProperty($uuid, 'timeLowBytes');
-
-    //     // then bytes stored should be clamped
-    //     $this->assertSame(
-    //         expected: [0x01, 0x02, 0x03, 0x04],
-    //         actual: $timeLowBytes,
-    //         message: "Expected time-low to get clamped to bytes"
-    //     );
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @covers ::clampToBytes
-    //  * @covers ::clampToByte
-    //  */
-    // public function clamps_time_mid_to_bytes(): void
-    // {
-    //     // given some uuid with with overflowing time-mid bytes
-    //     $uuid = $this->createInstance(timeMidBytes: [0x4205, 0x4206]);
-
-    //     // when accessing its time-mid bytes
-    //     $timeMidBytes = $this->getProperty($uuid, 'timeMidBytes');
-
-    //     // then bytes stored should be clamped
-    //     $this->assertSame(
-    //         expected: [0x05, 0x06],
-    //         actual: $timeMidBytes,
-    //         message: "Expected time-mid to get clamped to bytes"
-    //     );
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @covers ::clampToBytes
-    //  * @covers ::clampToByte
-    //  */
-    // public function clamps_time_high_to_bytes(): void
-    // {
-    //     // given some uuid with with overflowing time-high bytes
-    //     $uuid = $this->createInstance(timeHighBytes: [0x4207, 0x4208]);
-
-    //     // when accessing its time-high bytes
-    //     $timeHighBytes = $this->getProperty($uuid, 'timeHighBytes');
-
-    //     // then bytes stored should be clamped
-    //     $this->assertSame(
-    //         expected: [0x07, 0x08],
-    //         actual: $timeHighBytes,
-    //         message: "Expected time-high to get clamped to bytes"
-    //     );
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @covers ::clampToByte
-    //  */
-    // public function clamps_clock_seq_low_to_8_bits(): void
-    // {
-    //     // given some uuid with clock-seq-low byte takine more than 8 bits
-    //     $uuid = $this->createInstance(clockSeqLowByte: 0b1111_1111_1111_1111);
-
-    //     // when accessing its clock-seq-low byte
-    //     $clockSeqLowByte = $this->getProperty($uuid, 'clockSeqLowByte');
-
-    //     // then it shouldn't overflow
-    //     $this->assertSame(
-    //         expected: 0b1111_1111,
-    //         actual: $clockSeqLowByte,
-    //         message: "Expected clock-seq-low to get clamped to 8 bits"
-    //     );
-    // }
-
-    // /**
-    //  * @test
-    //  * @covers ::__construct
-    //  * @covers ::clampToBytes
-    //  * @covers ::clampToByte
-    //  */
-    // public function clamps_node_to_bytes(): void
-    // {
-    //     // given some uuid with with overflowing node bytes
-    //     $uuid = $this->createInstance(nodeBytes: [0x4209, 0x420a, 0x420b, 0x420c, 0x420d, 0x420e]);
-
-    //     // when accessing its node bytes
-    //     $timeHighBytes = $this->getProperty($uuid, 'nodeBytes');
-
-    //     // then bytes stored should be clamped
-    //     $this->assertSame(
-    //         expected: [0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e],
-    //         actual: $timeHighBytes,
-    //         message: "Expected node to get clamped to bytes"
-    //     );
-    // }
 
     /**
      * @test
@@ -646,82 +477,10 @@ final class UuidTest extends TestCase
         );
     }
 
-    // /**
-    //  * @test
-    //  * @covers ::__toString
-    //  * @covers ::toRfcUuidString
-    //  * @covers ::hexaStringFrom
-    //  */
-    // public function puts_all_bytes_in_order(): void
-    // {
-    //     // given some Uuid with all bytes specified
-    //     $uuid = $this->createInstance(
-    //         version: 0b1111,
-    //         timeLowBytes: [0x00, 0x01, 0x02, 0x03],
-    //         timeMidBytes: [0x04, 0x05],
-    //         timeHighBytes: [0x06, 0x07],
-    //         clockSeqHighByte: 0x08,
-    //         clockSeqLowByte: 0x09,
-    //         nodeBytes: [0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f],
-    //     );
-
-    //     // when parsing its string-representation
-    //     $bytes = array_pad([], 16, null);
-    //     [$b0, $b1, $b2, $b3, $b4, $b5, $b6, $b7, $b8, $b9, $b10, $b11, $b12, $b13, $b14, $b15] = $bytes;
-    //     sscanf((string) $uuid, '%2x%2x%2x%2x-%2x%2x-%2x%2x-%2x%2x-%2x%2x%2x%2x%2x%2x', ...$bytes);
-
-    //     // then bytes layout should meet expectation
-    //     $expectedBytes = [
-    //         0x00,
-    //         0x01,
-    //         0x02,
-    //         0x03,
-    //         0x04,
-    //         0x05,
-    //         $this->getProperty($uuid, 'versionBits') | 0x06,
-    //         0x07,
-    //         $this->getConstant('VARIANT_BITS') | 0x08,
-    //         0x09,
-    //         0x0a,
-    //         0x0b,
-    //         0x0c,
-    //         0x0d,
-    //         0x0e,
-    //         0x0f
-    //     ];
-    //     $this->assertSame(
-    //         expected: $expectedBytes,
-    //         actual: $bytes,
-    //         message: sprintf(
-    //             "Expected bytes layout to be [%s], got [%s]",
-    //             implode(', ', $expectedBytes),
-    //             implode(', ', $bytes),
-    //         ),
-    //     );
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*
      * @test
      * @covers ::fromString
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid
+     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
      */
     public function expects_rfc_format_representation(): void
     {
@@ -777,28 +536,3 @@ final class UuidTest extends TestCase
         );
     }
 }
-
-
-
-
-// implementation dependant
-// /**
-//  * @test
-//  */
-// public function has_different_representation_for_each_instance(): void
-// {
-//     // given 2 different Uuid
-//     $firstUuid = $this->createInstance();
-//     $secondUuid = $this->createInstance();
-
-//     // when using their RFC representation
-//     $firstRepresentation = (string) $firstUuid;
-//     $secondRepresentation = (string) $secondUuid;
-
-//     // then they should be different
-//     $this->assertNotSame(
-//         expected: $firstRepresentation,
-//         actual: $secondRepresentation,
-//         message: "Different UUIDs should have different RFC representation",
-//     );
-// }

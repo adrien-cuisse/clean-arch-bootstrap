@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Identity;
+namespace Alphonse\CleanArch\Domain\Fields\Identity\Uuid;
 
 use ReflectionClass;
 use InvalidArgumentException;
@@ -221,18 +221,30 @@ abstract class Uuid implements UuidInterface
     }
 
     /**
+     * Generates a random byte, an unsigned integers between 0 and 255
+     *
+     * @return int - an integers in between 0 and 255
+     */
+    final protected function randomByte(): int
+    {
+        $ascii = openssl_random_pseudo_bytes(length: 1);
+
+        return ord(character: $ascii);
+    }
+
+    /**
      * Generates random bytes, with bytes being unsigned integers between 0 and 255
      *
      * @param int $numberOfBytes - how many bytes to generate
      *
-     * @return int[] - array of integers in [0;255] of specified size
+     * @return int[] - array of integers between 0 and 255 of specified size
      */
     final protected function randomBytes(int $numberOfBytes): array
     {
-        $binaryString = random_bytes(length: $numberOfBytes);
+        $binaryString = openssl_random_pseudo_bytes(length: $numberOfBytes);
 
         return array_map(
-            callback: fn (string $ascii) => ord(character: $ascii) & self::BYTE_MASK,
+            callback: fn (string $ascii) => ord(character: $ascii),
             array: str_split($binaryString),
         );
     }
