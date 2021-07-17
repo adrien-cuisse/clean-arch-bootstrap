@@ -4,7 +4,6 @@ namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArch\Domain\Traits\HasIdentity;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidV4;
 use Alphonse\CleanArch\Domain\Traits\HasIdentityInterface;
 use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 
@@ -28,7 +27,12 @@ final class HasIdentityTest extends TestCase
 
     private function createIdentity(): IdentityInterface
     {
-        return new UuidV4;
+        return new class implements IdentityInterface {
+            public function __toString()
+            {
+                return 'identity';
+            }
+        };
     }
 
     /**
