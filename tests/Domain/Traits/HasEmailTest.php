@@ -4,7 +4,6 @@ namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArch\Domain\Traits\HasEmail;
-use Alphonse\CleanArch\Domain\Fields\Email\Email;
 use Alphonse\CleanArch\Domain\Traits\HasEmailInterface;
 use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
 
@@ -28,7 +27,12 @@ final class HasEmailTest extends TestCase
 
     private function createEmail(): EmailInterface
     {
-        return new Email(email: 'foo@bar.org');
+        return new class implements EmailInterface {
+            public function __toString()
+            {
+                return 'email';
+            }
+        };
     }
 
     /**
