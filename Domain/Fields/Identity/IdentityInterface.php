@@ -9,5 +9,4 @@ use Stringable;
  */
 interface IdentityInterface extends Stringable
 {
-
 }

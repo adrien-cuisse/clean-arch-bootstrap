@@ -23,7 +23,7 @@ final class UuidV4 extends Uuid implements UuidV4Interface
     /**
      * @inheritDoc
      */
-    static public function fromString(string $rfcUuidString): static
+    public static function fromString(string $rfcUuidString): static
     {
         return parent::fromString(rfcUuidString: $rfcUuidString);
     }

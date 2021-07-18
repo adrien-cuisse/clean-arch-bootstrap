@@ -20,7 +20,9 @@ final class HasEmailTest extends TestCase
         return new class($email) implements HasEmailInterface {
             use HasEmail;
 
-            public function __construct(private EmailInterface $email) { }
+            public function __construct(private EmailInterface $email)
+            {
+            }
         };
     }
 

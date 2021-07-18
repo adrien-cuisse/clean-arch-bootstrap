@@ -20,7 +20,9 @@ final class HasIdentityTest extends TestCase
         return new class($identity) implements HasIdentityInterface {
             use HasIdentity;
 
-            public function __construct(private IdentityInterface $identity) { }
+            public function __construct(private IdentityInterface $identity)
+            {
+            }
         };
     }
 

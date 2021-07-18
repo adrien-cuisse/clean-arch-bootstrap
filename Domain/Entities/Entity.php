@@ -14,6 +14,5 @@ final class Entity implements EntityInterface
 
     public function __construct(private IdentityInterface $interface)
     {
-
     }
 }

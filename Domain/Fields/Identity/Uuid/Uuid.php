@@ -175,7 +175,7 @@ abstract class Uuid implements UuidInterface
      */
     final public function getVariant(): string
     {
-        return match($this->variant) {
+        return match ($this->variant) {
             self::APOLLO_NCS_VARIANT => 'Apollo NCS (backward compatibility)',
             self::RFC_VARIANT => 'RFC',
             self::MICROSOFT_VARIANT => 'Microsoft (backward compatibility)',
@@ -245,7 +245,7 @@ abstract class Uuid implements UuidInterface
         $instance->version = $instance->versionBits >> 4;
 
         $variantDigit = sscanf(string: $clockSequenceAndVariant, format: '%1c')[0];
-        $instance->variant = match($variantDigit) {
+        $instance->variant = match ($variantDigit) {
             '0', '1', '2', '3', '4', '5', '6', '7' => self::APOLLO_NCS_VARIANT,
             '8', '9', 'a', 'b' => self::RFC_VARIANT,
             'c', 'd' => self::MICROSOFT_VARIANT,

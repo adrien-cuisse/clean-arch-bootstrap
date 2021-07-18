@@ -10,5 +10,4 @@ use Alphonse\CleanArch\Domain\Traits\HasIdentityInterface;
  */
 interface EntityInterface // extends HasIdentityInterface
 {
-
 }

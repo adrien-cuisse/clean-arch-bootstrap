@@ -9,5 +9,4 @@ use Alphonse\CleanArch\Domain\Traits\HasEmailInterface;
  */
 interface UserInterface extends EntityInterface, HasEmailInterface
 {
-
 }
