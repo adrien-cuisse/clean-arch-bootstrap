@@ -152,12 +152,12 @@ final class UuidTest extends TestCase
 
     /**
      * @test
-     * @testdox Interlops variant in clock-sequence-high byte
+     * @testdox Interlops RFC variant in clock-sequence-high byte
      * @covers ::__toString
      * @covers ::toRfcUuidString
      * @covers ::hexaStringFrom
      */
-    public function interlops_variant_in_clock_seq_high(): void
+    public function interlops_RFC_variant_in_clock_seq_high(): void
     {
         // given some Uuid
         $uuid = $this->createInstance(clockSequenceHighByte: 0b0011_1111);
