@@ -50,36 +50,26 @@ abstract class Uuid implements UuidInterface
     private const VARIANT_3_BITS_CLOCK_SEQUENCE_MASK = 0b0001_1111;
 
     /**
-     * Bit-mask to apply on clock-sequence-high byte for backward compatiblity variant
+     * Bit-mask to apply on clock-sequence-high byte for Apollo NCS variant
      */
-    private const BACKWARD_COMPATIBILITY_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_1_BIT_CLOCK_SEQUENCE_MASK;
-
-    /**
-     * Bit-mask to apply on clock-sequence-high byte for RFC variant
-     */
-    private const RFC_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_2_BITS_CLOCK_SEQUENCE_MASK;
-
-    /**
-     * Bit-mask to apply on clock-sequence-high byte for Microsoft variant
-     */
-    private const MICROSOFT_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_3_BITS_CLOCK_SEQUENCE_MASK;
-
-    /**
-     * Bit-mask to apply on clock-sequence-high byte for reserved variant
-     */
-    private const FUTURE_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_3_BITS_CLOCK_SEQUENCE_MASK;
+    private const APOLLO_NCS_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_1_BIT_CLOCK_SEQUENCE_MASK;
 
     /**
      * The variant used by the Apollo Network Computing System
      *
      * @link https://en.wikipedia.org/wiki/Universally_unique_identifier#Variants
      */
-    private const BACKWARD_COMPATIBILITY_VARIANT = 0b0;
+    private const APOLLO_NCS_VARIANT = 0b0;
 
     /**
-     * Bit-mask to apply on clock-sequence-high byte for Microsoft variant, will be multiplexed with the clock-sequence-high bits
+     * Bit-mask to apply on clock-sequence-high byte for Apollo NCS variant, will be multiplexed with the clock-sequence-high bits
      */
-    private const BACKWARD_COMPATIBILITY_VARIANT_BITS = self::BACKWARD_COMPATIBILITY_VARIANT << 7;
+    private const APOLLO_NCS_VARIANT_BITS = self::APOLLO_NCS_VARIANT << 7;
+
+    /**
+     * Bit-mask to apply on clock-sequence-high byte for RFC variant
+     */
+    private const RFC_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_2_BITS_CLOCK_SEQUENCE_MASK;
 
     /**
      * The variant used by default when using constructor, as defined in RFC4122
@@ -94,6 +84,11 @@ abstract class Uuid implements UuidInterface
     private const RFC_VARIANT_BITS = self::RFC_VARIANT << 6;
 
     /**
+     * Bit-mask to apply on clock-sequence-high byte for Microsoft variant
+     */
+    private const MICROSOFT_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_3_BITS_CLOCK_SEQUENCE_MASK;
+
+    /**
      * The variant used by old Windows platforms
      *
      * @link https://en.wikipedia.org/wiki/Universally_unique_identifier#Variants
@@ -104,6 +99,11 @@ abstract class Uuid implements UuidInterface
      * Bit-mask to apply on clock-sequence-high byte for Microsoft variant, will be multiplexed with the clock-sequence-high bits
      */
     private const MICROSOFT_VARIANT_BITS = self::MICROSOFT_VARIANT << 5;
+
+    /**
+     * Bit-mask to apply on clock-sequence-high byte for reserved variant
+     */
+    private const FUTURE_VARIANT_CLOCK_SEQUENCE_MASK = self::VARIANT_3_BITS_CLOCK_SEQUENCE_MASK;
 
     /**
      * The variant reserved for future specification
@@ -230,7 +230,7 @@ abstract class Uuid implements UuidInterface
     final public function getVariant(): string
     {
         return match($this->variant) {
-            self::BACKWARD_COMPATIBILITY_VARIANT => 'Reserved (NCS backward compatibility)',
+            self::APOLLO_NCS_VARIANT => 'Reserved (NCS backward compatibility)',
             self::RFC_VARIANT => 'RFC',
             self::MICROSOFT_VARIANT => 'Microsoft (backward compatibility)',
             self::FUTURE_VARIANT => 'Reserved (future definition)',
@@ -302,9 +302,9 @@ abstract class Uuid implements UuidInterface
 
         [$instance->variant, $instance->variantBits, $instance->clockSequenceHighBits] = match($variantDigit) {
             '0', '1', '2', '3', '4', '5', '6', '7' => [
-                self::BACKWARD_COMPATIBILITY_VARIANT,
-                self::BACKWARD_COMPATIBILITY_VARIANT_BITS,
-                $instance->clockSequenceHighBits & self::BACKWARD_COMPATIBILITY_VARIANT_CLOCK_SEQUENCE_MASK
+                self::APOLLO_NCS_VARIANT,
+                self::APOLLO_NCS_VARIANT_BITS,
+                $instance->clockSequenceHighBits & self::APOLLO_NCS_VARIANT_CLOCK_SEQUENCE_MASK
             ],
             '8', '9', 'a', 'b' => [
                 self::RFC_VARIANT,
