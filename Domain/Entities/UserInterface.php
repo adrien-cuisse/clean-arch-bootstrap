@@ -2,11 +2,11 @@
 
 namespace Alphonse\CleanArch\Domain\Entities;
 
-use Alphonse\CleanArch\Domain\Traits\HasEmailInterface;
+use Alphonse\CleanArch\Domain\Traits\MailableInterface;
 
 /**
  * An user of the application
  */
-interface UserInterface extends EntityInterface, HasEmailInterface
+interface UserInterface extends EntityInterface, MailableInterface
 {
 }

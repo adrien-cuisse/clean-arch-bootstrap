@@ -3,22 +3,22 @@
 namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Traits\HasEmail;
-use Alphonse\CleanArch\Domain\Traits\HasEmailInterface;
+use Alphonse\CleanArch\Domain\Traits\Mailable;
+use Alphonse\CleanArch\Domain\Traits\MailableInterface;
 use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\HasEmail
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\Mailable
  */
-final class HasEmailTest extends TestCase
+final class MailableTest extends TestCase
 {
     /**
-     * @return HasEmailInterface - an object with an email
+     * @return MailableInterface - an object with an email
      */
-    private function createInstance(EmailInterface $email): HasEmailInterface
+    private function createInstance(EmailInterface $email): MailableInterface
     {
-        return new class($email) implements HasEmailInterface {
-            use HasEmail;
+        return new class($email) implements MailableInterface {
+            use Mailable;
 
             public function __construct(private EmailInterface $email)
             {

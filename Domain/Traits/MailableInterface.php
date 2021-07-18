@@ -4,7 +4,7 @@ namespace Alphonse\CleanArch\Domain\Traits;
 
 use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
 
-interface HasEmailInterface
+interface MailableInterface
 {
     public function getEmail(): EmailInterface;
 }

@@ -4,12 +4,12 @@ namespace Alphonse\CleanArch\Domain\Traits;
 
 use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
 
-trait HasEmail
+trait Mailable
 {
     private EmailInterface $email;
 
     /**
-     * @see HasEmailInterface
+     * @see MailableInterface
      */
     public function getEmail(): EmailInterface
     {

@@ -3,14 +3,14 @@
 namespace Alphonse\CleanArch\Domain\Entities;
 
 use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
-use Alphonse\CleanArch\Domain\Traits\HasEmail;
+use Alphonse\CleanArch\Domain\Traits\Mailable;
 
 /**
  * @see UserInterface
  */
 final class User implements UserInterface
 {
-    use HasEmail;
+    use Mailable;
 
     public function __construct(/*private EntityInterface $entity*/)
     {
