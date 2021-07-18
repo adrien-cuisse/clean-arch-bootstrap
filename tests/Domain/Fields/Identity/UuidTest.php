@@ -204,12 +204,12 @@ final class UuidTest extends TestCase
     {
         $bytes = [
             'version' => 0b1111,
-            'timestampLowBytes' => [0x00, 0x01, 0x02, 0x03],
-            'timestampMidBytes' => [0x04, 0x05],
-            'timestampHighBytes' => [0x06, 0x07],
-            'clockSequenceHighByte' => 0x08,
-            'clockSequenceLowByte' => 0x09,
-            'nodeBytes' => [0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f],
+            'timestampLowBytes' => [0xde, 0xaf, 0xba, 0xbe],
+            'timestampMidBytes' => [0xde, 0xad],
+            'timestampHighBytes' => [0xbe, 0xef],
+            'clockSequenceHighByte' => 0x80,
+            'clockSequenceLowByte' => 0x00,
+            'nodeBytes' => [0xc0, 0xff, 0xee, 0xba, 0x0b, 0xab],
         ];
 
         yield 'timestamp-low byte 0' => [
@@ -369,7 +369,7 @@ final class UuidTest extends TestCase
     public function creates_uuid_matching_base_string(): void
     {
         // given an rfc-compliant uuid-string
-        $uuidString = '6b9b83fb-916b-471d-837f-1980f0bf78bd';
+        $uuidString = '6b9b83fb-916b-471d-c37f-1980f0bf78bd';
 
         // when creating an uuid instance from it
         $uuid = call_user_func_array(
@@ -408,5 +408,53 @@ final class UuidTest extends TestCase
             actual: $uuid->getVersion(),
             message: "Expected version 7 to be parsed from string, got {$uuid->getVersion()}",
         );
+    }
+
+    public function variantProvider(): Generator
+    {
+        yield [
+            ['0', '1', '2', '3', '4', '5', '6', '7'],
+            'Reserved (NCS backward compatibility)'
+        ];
+        yield [
+            ['8', '9', 'a', 'b'],
+            'RFC'
+        ];
+        yield [
+            ['c', 'd'],
+            'Microsoft (backward compatibility)'
+        ];
+        yield [
+            ['e', 'f'],
+            'Reserved (future definition)'
+        ];
+    }
+
+    /**
+     * @test
+     * @testdox Creates Uuid from string with variant $expectedVariant
+     * @dataProvider variantProvider
+     * @covers ::fromString
+     * @covers ::getVariant
+     */
+    public function creates_variant_uuid_from_string(array $variantDigits, string $expectedVariant): void
+    {
+        foreach ($variantDigits as $variantDigit) {
+            // given an Uuid made from string with variant
+            $uuid = $uuid = call_user_func_array(
+                callback: $this->createInstance()::class . '::fromString',
+                args: ["00000000-0000-0000-{$variantDigit}000-000000000000"],
+            );
+
+            // when checking the variant it's made from
+            $variant = $uuid->getVariant();
+
+            // then it should match the expectation
+            $this->assertSame(
+                expected: $expectedVariant,
+                actual: $variant,
+                message: "Failed to detect that digit {$variantDigit} belongs to {$expectedVariant}",
+            );
+        }
     }
 }
