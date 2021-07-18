@@ -8,7 +8,7 @@
     },
     "scripts": {
         "test": "php -d memory_limit=-1 vendor/bin/phpunit --coverage-html tests/coverage --testdox-html tests/coverage/dox.html --strict-coverage --colors=always --configuration=tests/phpunit.xml tests/",
-        "mutate": "php -d memory_limit=-1 vendor/bin/infection --threads=12 --show-mutations --configuration=tests/infection.json.dist --test-framework-options=--no-configuration"
+        "mutate": "php -d memory_limit=-1 vendor/bin/infection --min-msi=100 --min-covered-msi=100 --threads=12 --show-mutations --configuration=tests/infection.json.dist --test-framework-options=--no-configuration"
     },
     "autoload": {
         "psr-4": {
