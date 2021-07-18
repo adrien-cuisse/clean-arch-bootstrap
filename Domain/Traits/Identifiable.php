@@ -4,12 +4,12 @@ namespace Alphonse\CleanArch\Domain\Traits;
 
 use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 
-trait HasIdentity
+trait Identifiable
 {
     private IdentityInterface $identity;
 
     /**
-     * @see HasIdentityInterface
+     * @see IdentifiableInterface
      */
     final public function getIdentity(): IdentityInterface
     {

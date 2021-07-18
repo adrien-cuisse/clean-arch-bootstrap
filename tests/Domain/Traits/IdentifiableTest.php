@@ -3,22 +3,22 @@
 namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Traits\HasIdentity;
-use Alphonse\CleanArch\Domain\Traits\HasIdentityInterface;
+use Alphonse\CleanArch\Domain\Traits\Identifiable;
+use Alphonse\CleanArch\Domain\Traits\IdentifiableInterface;
 use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\HasIdentity
+ * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\Identifiable
  */
-final class HasIdentityTest extends TestCase
+final class IdentifiableTest extends TestCase
 {
     /**
-     * @return HasIdentityInterface - an object with an identity
+     * @return IdentifiableInterface - an object with an identity
      */
-    private function createInstance(IdentityInterface $identity): HasIdentityInterface
+    private function createInstance(IdentityInterface $identity): IdentifiableInterface
     {
-        return new class($identity) implements HasIdentityInterface {
-            use HasIdentity;
+        return new class($identity) implements IdentifiableInterface {
+            use Identifiable;
 
             public function __construct(private IdentityInterface $identity)
             {
