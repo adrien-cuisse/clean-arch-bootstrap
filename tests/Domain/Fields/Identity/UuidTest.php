@@ -414,7 +414,7 @@ final class UuidTest extends TestCase
     {
         yield [
             ['0', '1', '2', '3', '4', '5', '6', '7'],
-            'Reserved (NCS backward compatibility)'
+            'Apollo NCS (backward compatibility)'
         ];
         yield [
             ['8', '9', 'a', 'b'],

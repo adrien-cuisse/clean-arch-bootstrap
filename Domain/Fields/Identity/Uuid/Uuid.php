@@ -230,7 +230,7 @@ abstract class Uuid implements UuidInterface
     final public function getVariant(): string
     {
         return match($this->variant) {
-            self::APOLLO_NCS_VARIANT => 'Reserved (NCS backward compatibility)',
+            self::APOLLO_NCS_VARIANT => 'Apollo NCS (backward compatibility)',
             self::RFC_VARIANT => 'RFC',
             self::MICROSOFT_VARIANT => 'Microsoft (backward compatibility)',
             self::FUTURE_VARIANT => 'Reserved (future definition)',
