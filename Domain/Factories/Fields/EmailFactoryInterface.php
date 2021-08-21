@@ -4,7 +4,7 @@ namespace Alphonse\CleanArchBootstrap\Domain\Factories\Fields;
 
 use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
 
-interface EmailFactoryInterface
+interface EmailFactoryInterface extends FactoryInterface
 {
     public function withEmail(string $address): self;
 
