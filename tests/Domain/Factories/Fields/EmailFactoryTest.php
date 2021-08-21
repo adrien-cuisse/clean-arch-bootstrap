@@ -2,8 +2,6 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
 
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\EmailFactory;
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\EmailFactoryInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesEmailFactory;
 use PHPUnit\Framework\TestCase;
 

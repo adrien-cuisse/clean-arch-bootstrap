@@ -2,8 +2,6 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
 
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\PhoneNumberFactory;
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\PhoneNumberFactoryInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesPhoneNumberFactory;
 use PHPUnit\Framework\TestCase;
 

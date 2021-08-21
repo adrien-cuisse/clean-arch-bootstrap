@@ -2,8 +2,6 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
 
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactory;
-use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactoryInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesIdentityFactory;
 use PHPUnit\Framework\TestCase;
 
