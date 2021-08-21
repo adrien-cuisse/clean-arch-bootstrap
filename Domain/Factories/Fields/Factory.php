@@ -14,7 +14,7 @@ abstract class Factory implements FactoryInterface
      *      the argument of the target class' constructor
      * @param mixed $value - the value to assign
      */
-    protected function assignProperty(string $propertyName, mixed $value): static
+    protected function assignProperty(string $propertyName, mixed $value): FactoryInterface
     {
         $factory = clone $this;
         $factory->propertiesNameToValueMapping[$propertyName] = $value;

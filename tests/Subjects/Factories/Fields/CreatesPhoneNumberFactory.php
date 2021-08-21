@@ -21,7 +21,8 @@ trait CreatesPhoneNumberFactory
             ->disableOriginalConstructor()
             ->getMock();
 
-        // $factory->method('withEmail')->willReturn($factory);
+        $factory->method('withCountryIdentifier')->willReturn($factory);
+        $factory->method('withLocalNumber')->willReturn($factory);
         $factory->method('build')->willReturn($this->createFakePhoneNumber());
 
         return $factory;

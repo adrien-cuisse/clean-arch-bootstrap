@@ -55,24 +55,4 @@ final class IdentityFactoryTest extends TestCase
             message: "Identity factory didn't create an Identity from the identity-string"
         );
     }
-
-    /**
-     * @test
-     * @covers ::withIdentity
-     */
-    public function returns_new_instance_on_added_property(): void
-    {
-        // given a new factory
-        $factory = $this->createRealIdentityFactory();
-
-        // when adding a new property to the target object
-        $otherFactory = $factory->withIdentity(identity: '_');
-
-        // then both instances should be different
-        $this->assertNotSame(
-            expected: $factory,
-            actual: $otherFactory,
-            message: "Factory should return a new instance when a property is added to the target object"
-        );
-    }
 }
