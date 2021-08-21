@@ -1,12 +1,12 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity\Uuid;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity\Uuid;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
  */
 final class InvalidUuidNodeBytesCountExceptionTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Traits;
+namespace Alphonse\CleanArchBootstrap\Domain\Traits;
 
-use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
 
 interface MailableInterface
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity\Uuid;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity\Uuid;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
  */
 final class InvalidUuidTimestampHighBytesCountExceptionTest extends TestCase
 {

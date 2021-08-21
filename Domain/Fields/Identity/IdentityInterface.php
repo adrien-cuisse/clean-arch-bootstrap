@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Identity;
+namespace Alphonse\CleanArchBootstrap\Domain\Fields\Identity;
 
 use Stringable;
 

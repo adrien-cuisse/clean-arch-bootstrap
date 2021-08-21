@@ -1,25 +1,20 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Email;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Email;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Fields\Email\Email;
-use Alphonse\CleanArch\Domain\Fields\Email\EmailInterface;
-use Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Email\Email;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Email\InvalidMailException;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesEmail;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Email\Email
- * @uses Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Email\Email
+ * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Email\InvalidMailException
  */
 final class EmailTest extends TestCase
 {
-    /**
-     * @return UuidInterface - an instance to test
-     */
-    private function createInstance(string $email): EmailInterface
-    {
-        return new Email(email: $email);
-    }
+    use CreatesEmail;
 
     /**
      * @test
@@ -33,7 +28,7 @@ final class EmailTest extends TestCase
         $invalidMailAddress = 'not a valid mail address';
 
         // when
-        $this->createInstance(email: $invalidMailAddress);
+        $this->createRealEmail(email: $invalidMailAddress);
 
         // then it should throw an exception
     }
@@ -47,7 +42,7 @@ final class EmailTest extends TestCase
     {
         // given a valid mail-string and an Email object made from it
         $emailString = 'some@email.org';
-        $emailObject = $this->createInstance(email: $emailString);
+        $emailObject = $this->createRealEmail   (email: $emailString);
 
         // when checking the stored string
         $storedEmailString = (string) $emailObject;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Email;
+namespace Alphonse\CleanArchBootstrap\Domain\Fields\Email;
 
 use UnexpectedValueException;
 

@@ -1,21 +1,21 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity\Uuid;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity\Uuid;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\UuidInterface;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException;
-use Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidVersionException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
- * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\Uuid
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
+ * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
  */
 final class UuidTest extends TestCase
 {
@@ -96,10 +96,10 @@ final class UuidTest extends TestCase
      * @testdox Rejects invalid $bytesName count
      * @dataProvider invalidBytesCountProvider
      * @covers ::__construct
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
      */
     public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass, string $bytesName): void
     {
@@ -114,7 +114,7 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @covers ::__construct
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidVersionException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidVersionException
      */
     public function expects_4_bits_version(): void
     {
@@ -341,7 +341,7 @@ final class UuidTest extends TestCase
      * @test
      * @testdox Creating an instance requires RFC-compliant Uuid-string
      * @covers ::fromString
-     * @uses Alphonse\CleanArch\Domain\Fields\Identity\Uuid\InvalidUuidStringException
+     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringException
      */
     public function expects_rfc_compliant_uuid_string(): void
     {

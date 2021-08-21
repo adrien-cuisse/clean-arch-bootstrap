@@ -1,8 +1,8 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Traits;
+namespace Alphonse\CleanArchBootstrap\Domain\Traits;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 
 interface IdentifiableInterface
 {

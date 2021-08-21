@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Identity\Uuid;
+namespace Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid;
 
 /**
  * A RFC 4122 compliant UUIDV4

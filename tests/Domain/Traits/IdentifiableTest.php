@@ -1,14 +1,14 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Identity;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Traits\Identifiable;
-use Alphonse\CleanArch\Domain\Traits\IdentifiableInterface;
-use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable;
+use Alphonse\CleanArchBootstrap\Domain\Traits\IdentifiableInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Traits\Identifiable
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable
  */
 final class IdentifiableTest extends TestCase
 {

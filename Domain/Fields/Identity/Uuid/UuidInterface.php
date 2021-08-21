@@ -1,8 +1,8 @@
 <?php
 
-namespace Alphonse\CleanArch\Domain\Fields\Identity\Uuid;
+namespace Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid;
 
-use Alphonse\CleanArch\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 
 /**
  * A RFC 4122 compliant UUID

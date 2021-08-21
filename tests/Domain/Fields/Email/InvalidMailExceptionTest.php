@@ -1,12 +1,12 @@
 <?php
 
-namespace Alphonse\CleanArch\Tests\Domain\Fields\Email;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Email;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException;
+use Alphonse\CleanArchBootstrap\Domain\Fields\Email\InvalidMailException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArch\Domain\Fields\Email\InvalidMailException
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Email\InvalidMailException
  */
 final class InvalidMailExceptionTest extends TestCase
 {
@@ -25,10 +25,11 @@ final class InvalidMailExceptionTest extends TestCase
             haystack: $exception->getMessage(),
             needle: $invalidEmail
         );
+        $errorMessageContainsMailAddress = ($emailPositionInMessage !== false);
 
         // then it shouldn't be false
-        $this->assertNotFalse(
-            condition: $emailPositionInMessage,
+        $this->assertTrue(
+            condition: $errorMessageContainsMailAddress,
             message: 'The exception should store the given mail address in the error message'
         );
     }
