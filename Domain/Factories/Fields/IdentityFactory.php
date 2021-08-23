@@ -5,24 +5,29 @@ namespace Alphonse\CleanArchBootstrap\Domain\Factories\Fields;
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4;
 
-final class IdentityFactory extends Factory implements IdentityFactoryInterface
+final class IdentityFactory implements IdentityFactoryInterface
 {
+    public function __construct(private InstantiatorInterface $instantiator)
+    {
+    }
+
     public function withIdentity(string $identity): self
     {
-        return $this->assignProperty(
-            propertyName: 'rfcUuidString',
+        $this->instantiator = $this->instantiator->assignConstructorArgument(
+            name: 'rfcUuidString',
             value: $identity
         );
+
+        return $this;
     }
 
     public function build(): IdentityInterface
     {
-        if ($this->hasAssignedProperty('rfcUuidString')) {
-            $identity = UuidV4::fromString(...$this->getAssignedProperties());
-        } else {
-            $identity = new UuidV4;
+        if ($this->instantiator->hasAssignedConstructorArgument('rfcUuidString'))
+        {
+            return UuidV4::fromString(...$this->instantiator->getAssignedConstructorArguments());
         }
 
-        return $identity;
+        return new UuidV4;
     }
 }

@@ -8,11 +8,12 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesEmail;
 
 trait CreatesEmailFactory
 {
+    use CreatesInstantiator;
     use CreatesEmail;
 
     private function createRealEmailFactory(): EmailFactoryInterface
     {
-        return new EmailFactory;
+        return new EmailFactory(instantiator: $this->createRealInstantiator());
     }
 
     private function createFakeEmailFactory(): EmailFactoryInterface

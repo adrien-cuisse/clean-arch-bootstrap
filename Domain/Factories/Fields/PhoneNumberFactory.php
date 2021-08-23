@@ -5,26 +5,34 @@ namespace Alphonse\CleanArchBootstrap\Domain\Factories\Fields;
 use Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumber;
 use Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumberInterface;
 
-final class PhoneNumberFactory extends Factory implements PhoneNumberFactoryInterface
+final class PhoneNumberFactory implements PhoneNumberFactoryInterface
 {
-    public function withCountryIdentifier(string $countryIdentifier): self
+    public function __construct(private InstantiatorInterface $instantiator)
     {
-        return $this->assignProperty(
-            propertyName: 'countryIdentifier',
-            value: $countryIdentifier
-        );
     }
 
-    public function withLocalNumber(string $localNumber): PhoneNumberFactoryInterface
+    public function withCountryIdentifier(string $countryIdentifier): self
     {
-        return $this->assignProperty(
-            propertyName: 'localNumber',
-            value: $localNumber
+        $this->instantiator =  $this->instantiator->assignConstructorArgument(
+            name: 'countryIdentifier',
+            value: $countryIdentifier,
         );
+
+        return $this;
+    }
+
+    public function withLocalNumber(string $localNumber): self
+    {
+        $this->instantiator = $this->instantiator->assignConstructorArgument(
+            name: 'localNumber',
+            value: $localNumber,
+        );
+
+        return $this;
     }
 
     public function build(): PhoneNumberInterface
     {
-        return $this->genericBuild(class: PhoneNumber::class);
+        return $this->instantiator->createInstance(PhoneNumber::class);
     }
 }

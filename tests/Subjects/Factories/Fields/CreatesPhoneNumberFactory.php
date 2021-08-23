@@ -8,11 +8,12 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesPhoneNumber;
 
 trait CreatesPhoneNumberFactory
 {
+    use CreatesInstantiator;
     use CreatesPhoneNumber;
 
     private function createRealPhoneNumberFactory(): PhoneNumberFactoryInterface
     {
-        return new PhoneNumberFactory;
+        return new PhoneNumberFactory(instantiator: $this->createRealInstantiator());
     }
 
     private function createFakePhoneNumberFactory(): PhoneNumberFactoryInterface

@@ -27,11 +27,11 @@ final class PhoneNumberFactoryTest extends TestCase
             ->withCountryIdentifier(countryIdentifier: 'country code')
             ->withLocalNumber(localNumber: '')
             ->build();
+            
+        // then the created phone number should contain the assigned country identifier
         $internationalFormat = $phoneNumber->toInternationalFormat();
         $countryIdentifierPositionInInternationalFormat = strpos(haystack: $internationalFormat, needle: 'country code');
         $internationalFormatContainsCountryIdentifier = ($countryIdentifierPositionInInternationalFormat !== false);
-
-        // then the created phone number should contain the assigned country identifier
         $this->assertTrue(
             condition: $internationalFormatContainsCountryIdentifier,
             message: "Created phone number should have the given country identifier"
@@ -48,16 +48,16 @@ final class PhoneNumberFactoryTest extends TestCase
         // given a new factory
         $factory = $this->createRealPhoneNumberFactory();
 
-        // when assigning a country identifier to the phone number
+        // when assigning a local number to the phone number
         $phoneNumber = $factory
             ->withCountryIdentifier(countryIdentifier: '')
             ->withLocalNumber(localNumber: 'local number')
             ->build();
+            
+        // then the created phone number should contain the assigned country identifier
         $internationalFormat = (string) $phoneNumber;
         $localNumberPositionInInternationalFormat = strpos(haystack: $internationalFormat, needle: 'local number');
         $internationalFormatContainsLocalNumber = ($localNumberPositionInInternationalFormat !== false);
-
-        // then the created phone number should contain the assigned country identifier
         $this->assertTrue(
             condition: $internationalFormatContainsLocalNumber,
             message: "Created phone number should have the given local number"

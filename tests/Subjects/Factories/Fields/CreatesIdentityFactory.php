@@ -8,11 +8,12 @@ use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactoryInterface
 
 trait CreatesIdentityFactory
 {
+    use CreatesInstantiator;
     use CreatesIdentity;
 
     private function createRealIdentityFactory(): IdentityFactoryInterface
     {
-        return new IdentityFactory;
+        return new IdentityFactory(instantiator: $this->createRealInstantiator());
     }
 
     private function createFakeIdentityFactory(): IdentityFactoryInterface

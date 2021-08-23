@@ -26,6 +26,7 @@ final class IdentityFactoryTest extends TestCase
         $identity = $factory->build();
 
         // then identity shouldn't be empty
+        
         $this->assertSame(
             expected: 36,
             actual: strlen(string: (string) $identity),
