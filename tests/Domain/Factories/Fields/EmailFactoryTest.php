@@ -20,17 +20,18 @@ final class EmailFactoryTest extends TestCase
      */
     public function created_email_has_given_address(): void
     {
-        // given a new factory
+        // given a mail address
         $factory = $this->createRealEmailFactory();
+        $emailString = 'foo@bar.org';
 
-        // when adding a new property to the target object
-        $email = $factory->withEmail(address: 'foo@bar.org')->build();
+        // when creating an Email object from it
+        $emailObject = $factory->withEmail(address: $emailString)->build();
 
-        // then both instances should be different
-        $this->assertSame(
-            expected: 'foo@bar.org',
-            actual: (string) $email,
-            message: "Created email should have the given address"
+        // then the created Email object should match the given mail address
+        $mailAddressIsCorrect = ((string) $emailObject === $emailString);
+        $this->assertTrue(
+            condition: $mailAddressIsCorrect,
+            message: "Created email should have the given address '{$emailString}', got '{$emailObject}'",
         );
     }
 }

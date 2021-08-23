@@ -19,17 +19,17 @@ final class IdentityFactoryTest extends TestCase
      */
     public function creates_new_identity_if_not_provided(): void
     {
-        // given a factory
+        // given no identity-string
         $factory = $this->createRealIdentityFactory();
 
-        // when asked to build without giving an identity-string
+        // when asked to build an Identity object
         $identity = $factory->build();
 
-        // then identity shouldn't be empty
-        
-        $this->assertSame(
-            expected: 36,
-            actual: strlen(string: (string) $identity),
+        // then the Identity shouldn't be empty
+        $identityStringLength = strlen(string: (string) $identity);
+        $identityStringIsNotEmpty = ($identityStringLength > 0);
+        $this->assertTrue(
+            condition: $identityStringIsNotEmpty,
             message: 'Identity factory should create a new identity if no identity-string was provided'
         );
     }
@@ -41,17 +41,18 @@ final class IdentityFactoryTest extends TestCase
      */
     public function creates_identity_from_string(): void
     {
-        // given a factory
+        // given an identity-string
         $factory = $this->createRealIdentityFactory();
+        $identityString = '00000000-0000-0000-0000-000000000000';
 
-        // when asked to create a new Identity from an identity-string
-        $identity = $factory->withIdentity(identity: '00000000-0000-0000-0000-000000000000')->build();
+        // when creating a new Identity object from it
+        $identityObject = $factory->withIdentity(identity: $identityString)->build();
 
-        // then Identity object should have the given string-representation
-        $this->assertSame(
-            expected: '00000000-0000-0000-0000-000000000000',
-            actual: (string) $identity,
-            message: "Identity factory didn't create an Identity from the identity-string"
+        // then the created Identity object should match the given identity-string
+        $identitiesAreTheSame = ($identityString === (string) $identityObject);
+        $this->assertTrue(
+            condition: $identitiesAreTheSame,
+            message: "Identity factory didn't create an Identity from the identity-string '{$identityString}', got '{$identityObject}'"
         );
     }
 }
