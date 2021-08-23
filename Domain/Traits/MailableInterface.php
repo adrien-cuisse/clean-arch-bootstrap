@@ -2,9 +2,9 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\Traits;
 
-use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
 
 interface MailableInterface
 {
-    public function getEmail(): EmailInterface;
+    public function getMailAddress(): MailAddressInterface;
 }

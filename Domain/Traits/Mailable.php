@@ -2,17 +2,17 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\Traits;
 
-use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
 
 trait Mailable
 {
-    private EmailInterface $email;
+    private MailAddressInterface $mailAddress;
 
     /**
      * @see MailableInterface
      */
-    public function getEmail(): EmailInterface
+    public function getMailAddress(): MailAddressInterface
     {
-        return $this->email;
+        return $this->mailAddress;
     }
 }

@@ -17,11 +17,11 @@ trait CreatesPhoneNumber
 
     private function createFakeEmail(): PhoneNumberInterface
     {
-        $email = $this->getMock(PhoneNumberInterface::class);
-        $email->method('toNationalFormat')->willReturn('0000000000');
-        $email->method('toInternationalFormat')->willReturn('+33000000000');
-        $email->method('__toString')->willReturn('+33000000000');
+        $phoneNumber = $this->getMock(PhoneNumberInterface::class);
+        $phoneNumber->method('toNationalFormat')->willReturn('0000000000');
+        $phoneNumber->method('toInternationalFormat')->willReturn('+33000000000');
+        $phoneNumber->method('__toString')->willReturn('+33000000000');
 
-        return $email;
+        return $phoneNumber;
     }
 }

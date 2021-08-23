@@ -1,0 +1,45 @@
+<?php
+
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
+
+use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\MailAddressFactoryInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesMailAddressFactory;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Factories\Fields\MailAddressFactory
+ * @uses Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddress
+ */
+final class MailAddressFactoryTest extends TestCase
+{
+    use CreatesMailAddressFactory;
+
+    private MailAddressFactoryInterface $factory;
+
+    public function setUp(): void
+    {
+        $this->factory = $this->createRealMailAddressFactory();
+    }
+
+    /**
+     * @test
+     * @covers ::__construct
+     * @covers ::withMailAddress
+     * @covers ::build
+     */
+    public function created_mail_address_has_given_address(): void
+    {
+        // given a mail address
+        $mailAddressString = 'foo@bar.org';
+
+        // when creating an MailAddress object from it
+        $mailAddressObject = $this->factory->withMailAddress(address: $mailAddressString)->build();
+
+        // then the created MailAddress object should match the given mail address
+        $mailAddressIsCorrect = ((string) $mailAddressObject === $mailAddressString);
+        $this->assertTrue(
+            condition: $mailAddressIsCorrect,
+            message: "Created MailAddress should have the given address '{$mailAddressString}', got '{$mailAddressObject}'",
+        );
+    }
+}

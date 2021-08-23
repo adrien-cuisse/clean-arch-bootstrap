@@ -5,7 +5,7 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Traits\Mailable;
 use Alphonse\CleanArchBootstrap\Domain\Traits\MailableInterface;
-use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
+use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
 
 /**
  * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Mailable
@@ -13,47 +13,47 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Email\EmailInterface;
 final class MailableTest extends TestCase
 {
     /**
-     * @return MailableInterface - an object with an email
+     * @return MailableInterface - an object with a mail address
      */
-    private function createInstance(EmailInterface $email): MailableInterface
+    private function createInstance(MailAddressInterface $mailAddress): MailableInterface
     {
-        return new class($email) implements MailableInterface {
+        return new class($mailAddress) implements MailableInterface {
             use Mailable;
 
-            public function __construct(private EmailInterface $email)
+            public function __construct(private MailAddressInterface $mailAddress)
             {
             }
         };
     }
 
-    private function createEmail(): EmailInterface
+    private function createMailAddress(): MailAddressInterface
     {
-        return new class implements EmailInterface {
+        return new class implements MailAddressInterface {
             public function __toString()
             {
-                return 'email';
+                return 'mail address';
             }
         };
     }
 
     /**
      * @test
-     * @covers ::getEmail
+     * @covers ::getMailAddress
      */
-    public function returns_email(): void
+    public function returns_mail_address(): void
     {
-        // given a new Email and an object having it
-        $email = $this->createEmail();
-        $owner = $this->createInstance(email: $email);
+        // given a new MailAddress and an object having it
+        $mailAddress = $this->createMailAddress();
+        $owner = $this->createInstance(mailAddress: $mailAddress);
 
         // when requesting the object's identity
-        $storedEmail = $owner->getEmail();
+        $storedMailAddress = $owner->getMailAddress();
 
         // then it should be the one given at construction
         $this->assertSame(
-            expected: $email,
-            actual: $storedEmail,
-            message: "The object returned the wrong email",
+            expected: $mailAddress,
+            actual: $storedMailAddress,
+            message: "The object returned the wrong mail address, expected '{$mailAddress}', got '{$storedMailAddress}'",
         );
     }
 }
