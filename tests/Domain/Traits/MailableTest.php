@@ -6,12 +6,22 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Traits\Mailable;
 use Alphonse\CleanArchBootstrap\Domain\Traits\MailableInterface;
 use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesMailAddress;
 
 /**
  * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Mailable
  */
 final class MailableTest extends TestCase
 {
+    use CreatesMailAddress;
+
+    private MailAddressInterface $mailAddress;
+
+    public function setUp(): void
+    {
+        $this->mailAddress = $this->createRealMailAddress();
+    }
+
     /**
      * @return MailableInterface - an object with a mail address
      */
@@ -26,34 +36,23 @@ final class MailableTest extends TestCase
         };
     }
 
-    private function createMailAddress(): MailAddressInterface
-    {
-        return new class implements MailAddressInterface {
-            public function __toString()
-            {
-                return 'mail address';
-            }
-        };
-    }
-
     /**
      * @test
      * @covers ::getMailAddress
      */
     public function returns_mail_address(): void
     {
-        // given a new MailAddress and an object having it
-        $mailAddress = $this->createMailAddress();
-        $owner = $this->createInstance(mailAddress: $mailAddress);
+        // given an object with a mail address
+        $owner = $this->createInstance(mailAddress: $this->mailAddress);
 
         // when requesting the object's identity
         $storedMailAddress = $owner->getMailAddress();
 
         // then it should be the one given at construction
         $this->assertSame(
-            expected: $mailAddress,
+            expected: $this->mailAddress,
             actual: $storedMailAddress,
-            message: "The object returned the wrong mail address, expected '{$mailAddress}', got '{$storedMailAddress}'",
+            message: "The object returned the wrong mail address, expected '{$this->mailAddress}', got '{$storedMailAddress}'",
         );
     }
 }

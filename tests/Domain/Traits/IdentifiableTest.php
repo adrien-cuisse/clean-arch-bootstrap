@@ -6,12 +6,22 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable;
 use Alphonse\CleanArchBootstrap\Domain\Traits\IdentifiableInterface;
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesIdentity;
 
 /**
  * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable
  */
 final class IdentifiableTest extends TestCase
 {
+    use CreatesIdentity;
+
+    private IdentityInterface $identity;
+
+    public function setUp(): void
+    {
+        $this->identity = $this->createRealIdentity();
+    }
+
     /**
      * @return IdentifiableInterface - an object with an identity
      */
@@ -26,34 +36,23 @@ final class IdentifiableTest extends TestCase
         };
     }
 
-    private function createIdentity(): IdentityInterface
-    {
-        return new class implements IdentityInterface {
-            public function __toString()
-            {
-                return 'identity';
-            }
-        };
-    }
-
     /**
      * @test
      * @covers ::getIdentity
      */
     public function returns_identity(): void
     {
-        // given a new Uuid and an object having it
-        $identity = $this->createIdentity();
-        $owner = $this->createInstance(identity: $identity);
+        // given an object having an identity
+        $owner = $this->createInstance(identity: $this->identity);
 
         // when requesting the object's identity
         $storedIdentity = $owner->getIdentity();
 
         // then it should be the one given at construction
         $this->assertSame(
-            expected: $identity,
+            expected: $this->identity,
             actual: $storedIdentity,
-            message: "The object returned the wrong identity",
+            message: "The object returned the wrong identity, expected '{$this->identity}', got '{$storedIdentity}'",
         );
     }
 }
