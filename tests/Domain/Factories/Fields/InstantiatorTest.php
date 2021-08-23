@@ -12,26 +12,84 @@ final class InstantiatorTest extends TestCase
 {
     use CreatesInstantiator;
 
+    public function setUp(): void
+    {
+        $this->instantiator = $this->createRealInstantiator();
+    }
+
     /**
      * @test
      * @covers ::assignConstructorArgument
      */
     public function returns_new_instance_on_added_constructor_argument(): void
     {
-        // given a new instantiator
-        $instantiator = $this->createRealInstantiator();
+        // given a constructor argument
+        $argumentName = 'name';
+        $argumentValue = '';
 
-        // when adding a new argument to the constructor
-        $otherInstantiator = $instantiator->assignConstructorArgument(
-            name: 'name',
-            value: 'value'
+        // when adding it to the constructor of the target class
+        $otherInstantiator = $this->instantiator->assignConstructorArgument(
+            name: $argumentName,
+            value: $argumentValue,
         );
 
-        // then both instances should be different
-        $instancesAreDifferent = ($instantiator !== $otherInstantiator);
+        // then a different instantiator should be returned
+        $instantiatorsAreDifferent = ($this->instantiator !== $otherInstantiator);
         $this->assertTrue(
-            condition: $instancesAreDifferent,
-            message: "Instantiator should return a new instance when a new constructor argument is added"
+            condition: $instantiatorsAreDifferent,
+            message: "Instantiator should return a new instance when a new constructor argument is added",
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::assignConstructorArgument
+     */
+    public function assigns_constructor_named_argument(): void
+    {
+        // given a constructor argument
+        $argumentName = 'name';
+        $argumentValue = '';
+
+        // when adding it to the constructor of the target class
+        $this->instantiator = $this->instantiator->assignConstructorArgument(
+            name: $argumentName,
+            value: $argumentValue,
+        );
+
+        // then the argument should be assigned
+        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $assignedArgumentsName = array_keys(array: $assignedConstructorArguments);
+        $argumentWasAssigned = in_array($argumentName, haystack: $assignedArgumentsName);
+        $this->assertTrue(
+            condition: $argumentWasAssigned,
+            message: "Instantiator didn't assign the argument '{$argumentName}'",
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::assignConstructorArgument
+     */
+    public function assigns_proper_value_to_constructor_named_argument(): void
+    {
+        // given a constructor argument
+        $argumentName = 'name';
+        $argumentValue = 'value';
+
+        // when adding it to the constructor of the target class
+        $this->instantiator = $this->instantiator->assignConstructorArgument(
+            name: $argumentName,
+            value: $argumentValue,
+        );
+
+        // then the argument should be assigned with the correct value
+        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $assignedArgumentValue = $assignedConstructorArguments[$argumentName] ?? null;
+        $properValueWasAssigned = ($assignedArgumentValue === $argumentValue);
+        $this->assertTrue(
+            condition: $properValueWasAssigned,
+            message: "Instantiator didn't assign proper value to the argument '{$argumentName}', expected '{$argumentValue}', got '{$assignedArgumentValue}'",
         );
     }
 
@@ -41,22 +99,22 @@ final class InstantiatorTest extends TestCase
      */
     public function returns_assigned_arguments(): void
     {
-        // given a new instantiator
-        $instantiator = $this->createRealInstantiator();
+        // given a constructor argument
+        $argumentName = 'name';
+        $argumentValue = 'value';
 
-        // when adding a new argument to the constructor
-        $instantiator = $instantiator->assignConstructorArgument(
-            name: 'name',
-            value: 'value'
+        // when adding it to the constructor of the target class
+        $this->instantiator = $this->instantiator->assignConstructorArgument(
+            name: $argumentName,
+            value: $argumentValue,
         );
 
-        // then the argument should be assigned
-        $assignedConstructorArguments = $instantiator->getAssignedConstructorArguments();
-        $assignedConstructorArgumentsName = array_keys($assignedConstructorArguments);
-        $argumentWasAssigned = in_array(needle: 'name', haystack: $assignedConstructorArgumentsName);
-        $this->assertTrue(
-            condition: $argumentWasAssigned,
-            message: "Instantiator didn't assign the argument 'name'"
+        // then the assigned arguments list should contain the assigned argument
+        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $this->assertSame(
+            expected: [$argumentName => $argumentValue],
+            actual: $assignedConstructorArguments,
+            message: "Argument ['{$argumentName}' => '{$argumentValue}'] doesn't appear in constructor arguments list",
         );
     }
 
@@ -66,20 +124,21 @@ final class InstantiatorTest extends TestCase
      */
     public function detects_assigned_arguments(): void
     {
-        // given a new instantiator
-        $instantiator = $this->createRealInstantiator();
+        // given a constructor argument
+        $argumentName = 'name';
+        $argumentValue = '';
 
-        // when adding an argument to the constructor
-        $instantiator = $instantiator->assignConstructorArgument(
-            name: 'name',
-            value: 'value'
+        // when adding it to the constructor of the target class
+        $instantiator = $this->instantiator->assignConstructorArgument(
+            name: $argumentName,
+            value: $argumentValue,
         );
 
         // then the argument should be assigned
-        $argumentWasAssigned = $instantiator->hasAssignedConstructorArgument(name: 'name');
+        $argumentWasAssigned = $instantiator->hasAssignedConstructorArgument(name: $argumentName);
         $this->assertTrue(
             condition: $argumentWasAssigned,
-            message: "The argument 'name' was not assigned"
+            message: "Instantiator failed to detect that the named argument '{$argumentName}' was assigned",
         );
     }
 
@@ -87,21 +146,20 @@ final class InstantiatorTest extends TestCase
      * @test
      * @covers ::createInstance
      */
-    public function instantiate_target_class(): void
+    public function instantiates_target_class(): void
     {
-        // given a new instantiator and a target class
-        $instantiator = $this->createRealInstantiator();
+        // given  a target class
         $targetClass = self::class;
 
-        // when requesting an instance of the target class
-        $instance = $instantiator->createInstance(class: $targetClass);
+        // when creating an instance of it
+        $instance = $this->instantiator->createInstance(class: $targetClass);
 
         // then the created instance should have the appropriate class
         $instantiatedClass = $instance::class;
         $correctClassWasInstantiated = ($targetClass === $instantiatedClass);
         $this->assertTrue(
             condition: $correctClassWasInstantiated,
-            message: "Expected the instantiator to instantiante '{$targetClass}', got '{$instantiatedClass}'"
+            message: "Expected the instantiator to instantiante '{$targetClass}', got '{$instantiatedClass}'",
         );
     }
 }

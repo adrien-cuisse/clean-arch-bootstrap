@@ -2,6 +2,7 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
 
+use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactoryInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesIdentityFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -13,46 +14,53 @@ final class IdentityFactoryTest extends TestCase
 {
     use CreatesIdentityFactory;
 
+    private IdentityFactoryInterface $factory;
+
+    public function setUp(): void
+    {
+        $this->factory = $this->createRealIdentityFactory();
+    }
+
     /**
      * @test
+     * @covers ::__construct
      * @covers ::build
      */
     public function creates_new_identity_if_not_provided(): void
     {
         // given no identity-string
-        $factory = $this->createRealIdentityFactory();
 
         // when asked to build an Identity object
-        $identity = $factory->build();
+        $identity = $this->factory->build();
 
         // then the Identity shouldn't be empty
         $identityStringLength = strlen(string: (string) $identity);
         $identityStringIsNotEmpty = ($identityStringLength > 0);
         $this->assertTrue(
             condition: $identityStringIsNotEmpty,
-            message: 'Identity factory should create a new identity if no identity-string was provided'
+            message: 'Identity factory should create a new identity if no identity-string was provided',
         );
     }
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::withIdentity
      * @covers ::build
      */
     public function creates_identity_from_string(): void
     {
         // given an identity-string
-        $factory = $this->createRealIdentityFactory();
         $identityString = '00000000-0000-0000-0000-000000000000';
 
         // when creating a new Identity object from it
-        $identityObject = $factory->withIdentity(identity: $identityString)->build();
+        $identityObject = $this->factory->withIdentity(identity: $identityString)->build();
 
         // then the created Identity object should match the given identity-string
         $identitiesAreTheSame = ($identityString === (string) $identityObject);
         $this->assertTrue(
             condition: $identitiesAreTheSame,
-            message: "Identity factory didn't create an Identity from the identity-string '{$identityString}', got '{$identityObject}'"
+            message: "Identity factory didn't create an Identity from the identity-string '{$identityString}', got '{$identityObject}'",
         );
     }
 }

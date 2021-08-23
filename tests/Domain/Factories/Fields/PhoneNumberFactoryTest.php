@@ -2,6 +2,7 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Factories\Fields;
 
+use Alphonse\CleanArchBootstrap\Domain\Factories\Fields\PhoneNumberFactoryInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesPhoneNumberFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -12,19 +13,26 @@ final class PhoneNumberFactoryTest extends TestCase
 {
     use CreatesPhoneNumberFactory;
 
+    private PhoneNumberFactoryInterface $factory;
+
+    public function setUp(): void
+    {
+        $this->factory = $this->createRealPhoneNumberFactory();
+    }
+
     /**
      * @test
+     * @covers ::__construct
      * @covers ::withCountryIdentifier
      * @covers ::build
      */
     public function created_number_has_assigned_country_identifier(): void
     {
         // given a country identifier
-        $factory = $this->createRealPhoneNumberFactory();
         $countryIdentifier = 'country code';
 
         // when creating a PhoneNumber object from it
-        $phoneNumber = $factory
+        $phoneNumber = $this->factory
             ->withCountryIdentifier(countryIdentifier: $countryIdentifier)
             ->withLocalNumber(localNumber: '')
             ->build();
@@ -35,23 +43,23 @@ final class PhoneNumberFactoryTest extends TestCase
         $internationalFormatContainsCountryIdentifier = ($countryIdentifierPositionInInternationalFormat !== false);
         $this->assertTrue(
             condition: $internationalFormatContainsCountryIdentifier,
-            message: "Created phone number should have the given country identifier '{$countryIdentifier}'"
+            message: "Created phone number should have the given country identifier '{$countryIdentifier}'",
         );
     }
 
     /**
      * @test
+     * @covers ::__construct
      * @covers ::withLocalNumber
      * @covers ::build
      */
     public function created_number_has_assigned_local_number(): void
     {
         // given a local number
-        $factory = $this->createRealPhoneNumberFactory();
         $localNumber = 'local number';
 
         // when creating a PhoneNumber object from it
-        $phoneNumber = $factory
+        $phoneNumber = $this->factory
             ->withCountryIdentifier(countryIdentifier: '')
             ->withLocalNumber(localNumber: $localNumber)
             ->build();
@@ -62,7 +70,7 @@ final class PhoneNumberFactoryTest extends TestCase
         $internationalFormatContainsLocalNumber = ($localNumberPositionInInternationalFormat !== false);
         $this->assertTrue(
             condition: $internationalFormatContainsLocalNumber,
-            message: "Created phone number should have the given local number '{$localNumber}'"
+            message: "Created phone number should have the given local number '{$localNumber}'",
         );
     }
 }
