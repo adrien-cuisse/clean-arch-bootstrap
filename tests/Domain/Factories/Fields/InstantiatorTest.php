@@ -59,10 +59,9 @@ final class InstantiatorTest extends TestCase
 
         // then the argument should be assigned
         $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
-        $assignedArgumentsName = array_keys(array: $assignedConstructorArguments);
-        $argumentWasAssigned = in_array($argumentName, haystack: $assignedArgumentsName);
-        $this->assertTrue(
-            condition: $argumentWasAssigned,
+        $this->assertArrayHasKey(
+            key: $argumentName,
+            array: $assignedConstructorArguments,
             message: "Instantiator didn't assign the argument '{$argumentName}'",
         );
     }
@@ -86,9 +85,9 @@ final class InstantiatorTest extends TestCase
         // then the argument should be assigned with the correct value
         $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
         $assignedArgumentValue = $assignedConstructorArguments[$argumentName] ?? null;
-        $properValueWasAssigned = ($assignedArgumentValue === $argumentValue);
-        $this->assertTrue(
-            condition: $properValueWasAssigned,
+        $this->assertSame(
+            expected: $argumentValue,
+            actual: $assignedArgumentValue,
             message: "Instantiator didn't assign proper value to the argument '{$argumentName}', expected '{$argumentValue}', got '{$assignedArgumentValue}'",
         );
     }
@@ -156,9 +155,9 @@ final class InstantiatorTest extends TestCase
 
         // then the created instance should have the appropriate class
         $instantiatedClass = $instance::class;
-        $correctClassWasInstantiated = ($targetClass === $instantiatedClass);
-        $this->assertTrue(
-            condition: $correctClassWasInstantiated,
+        $this->assertInstanceOf(
+            expected: $targetClass,
+            actual: $instance,
             message: "Expected the instantiator to instantiante '{$targetClass}', got '{$instantiatedClass}'",
         );
     }

@@ -35,9 +35,9 @@ final class IdentityFactoryTest extends TestCase
 
         // then the Identity shouldn't be empty
         $identityStringLength = strlen(string: (string) $identity);
-        $identityStringIsNotEmpty = ($identityStringLength > 0);
-        $this->assertTrue(
-            condition: $identityStringIsNotEmpty,
+        $this->assertGreaterThan(
+            expected: 0,
+            actual: $identityStringLength,
             message: 'Identity factory should create a new identity if no identity-string was provided',
         );
     }
@@ -57,9 +57,9 @@ final class IdentityFactoryTest extends TestCase
         $identityObject = $this->factory->withIdentity(identity: $identityString)->build();
 
         // then the created Identity object should match the given identity-string
-        $identitiesAreTheSame = ($identityString === (string) $identityObject);
-        $this->assertTrue(
-            condition: $identitiesAreTheSame,
+        $this->assertSame(
+            expected: $identityString,
+            actual: (string) $identityObject,
             message: "Identity factory didn't create an Identity from the identity-string '{$identityString}', got '{$identityObject}'",
         );
     }

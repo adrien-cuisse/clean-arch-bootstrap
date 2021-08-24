@@ -23,10 +23,12 @@ final class InvalidUuidTimestampMidBytesCountExceptionTest extends TestCase
         // when checking its error message
         $errorMessage = $exception->getMessage();
 
+        // then it should contain the incorrect bytes list
+        $bytesListString = implode(separator: ', ', array: $bytes);
         $this->assertStringContainsString(
-            needle: implode(', ', $bytes),
+            needle: $bytesListString,
             haystack: $errorMessage,
-            message: "Exception should show incriminated bytes in error message"
+            message: "Exception should show incriminated bytes in error message",
         );
     }
 }

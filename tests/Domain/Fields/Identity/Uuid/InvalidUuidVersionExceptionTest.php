@@ -26,7 +26,7 @@ final class InvalidUuidVersionExceptionTest extends TestCase
         $this->assertStringContainsString(
             needle: $version,
             haystack: $errorMessage,
-            message: "Exception should show incriminated version in error message"
+            message: "Exception should show incriminated version '{$version}' in error message",
         );
     }
 }

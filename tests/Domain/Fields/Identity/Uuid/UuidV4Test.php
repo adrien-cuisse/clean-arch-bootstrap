@@ -34,10 +34,10 @@ final class UuidV4Test extends TestCase
         $version = $uuid->getVersion();
 
         // then it should be 4
-        $this->assertEquals(
+        $this->assertSame(
             expected: 4,
             actual: $version,
-            message: 'UuidV4 version should be 4'
+            message: 'UuidV4 version should be 4',
         );
     }
 
@@ -56,21 +56,21 @@ final class UuidV4Test extends TestCase
         }
 
         // when looking for duplicate uuids
-        $collisions = [];
+        $collidingUuids = [];
         foreach ($uuids as $index => $uuid) {
-            if (in_array($uuid, array_slice($uuids, $index + 1))) {
-                $collisions[] = $uuid;
+            $firstOccurencePosition = array_search(needle: $uuid, haystack: $uuids);
+            $uuidAlreadyMet = ($firstOccurencePosition !== $index);
+            if ($uuidAlreadyMet) {
+                $collidingUuids[] = $uuid;
             }
         }
 
         // then there should be none
+        $collisingUuidsString = implode(separator: ', ' . PHP_EOL, array: $collidingUuids);
         $this->assertCount(
             expectedCount: 0,
-            haystack: $collisions,
-            message: sprintf(
-                "Expected all Uuids to be unique, got collisions on %s",
-                implode(', ' . PHP_EOL, $collisions),
-            ),
+            haystack: $collidingUuids,
+            message: "Expected all Uuids to be unique, got collisions on '{$collisingUuidsString}'",
         );
     }
 

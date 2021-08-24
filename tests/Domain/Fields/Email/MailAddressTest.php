@@ -24,7 +24,7 @@ final class MailAddressTest extends TestCase
         // given an invalid mail address
         $invalidMailAddress = 'not a valid mail address';
 
-        // when
+        // when trying to create a MailAddress from it
         $this->createRealMailAddress(mailAddress: $invalidMailAddress);
 
         // then it should throw an exception
@@ -44,7 +44,8 @@ final class MailAddressTest extends TestCase
         // when checking the stored string
         $storedMailAddressString = (string) $mailAddressObject;
 
-        $this->assertEquals(
+        // then it should be the one given at creation
+        $this->assertSame(
             expected: $mailAddressString,
             actual: $storedMailAddressString,
             message: "MailAddress object returned the wrong email-string, expected {$mailAddressString}, got {$storedMailAddressString}"

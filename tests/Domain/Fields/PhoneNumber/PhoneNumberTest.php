@@ -3,8 +3,6 @@
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\PhoneNumber;
 
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumber;
-use Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumberInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesPhoneNumber;
 
 /**
@@ -29,11 +27,10 @@ final class PhoneNumberTest extends TestCase
         $phoneNumberString = (string) $phoneNumberObject;
 
         // then it should contain the country identifier used at creation
-        $countryIdentifierPositionInString = strpos(haystack: $phoneNumberString, needle: $countryIdentifier);
-        $phoneNumberContainsCountryIdentifier = ($countryIdentifierPositionInString !== false);
-        $this->assertTrue(
-            condition: $phoneNumberContainsCountryIdentifier,
-            message: "Phone number object '{$phoneNumberString}' doesn't contain the country identifier '{$countryIdentifier}'"
+        $this->assertStringContainsString(
+            needle: $countryIdentifier,
+            haystack: $phoneNumberString,
+            message: "Phone number object '{$phoneNumberString}' doesn't contain the country identifier '{$countryIdentifier}'",
         );
     }
 
@@ -52,11 +49,10 @@ final class PhoneNumberTest extends TestCase
         $phoneNumberString = (string) $phoneNumberObject;
 
         // then it should contain the local number used at creation
-        $localNumberPositionInString = strpos(haystack: $phoneNumberString, needle: $localNumber);
-        $phoneNumberContainsLocalNumber = ($localNumberPositionInString !== false);
-        $this->assertTrue(
-            condition: $phoneNumberContainsLocalNumber,
-            message: "Phone number object '{$phoneNumberString}' doesn't contain the local number '{$localNumber}'"
+        $this->assertStringContainsString(
+            needle: $localNumber,
+            haystack: $phoneNumberString,
+            message: "Phone number object '{$phoneNumberString}' doesn't contain the local number '{$localNumber}'",
         );
     }
 
@@ -74,11 +70,10 @@ final class PhoneNumberTest extends TestCase
         $nationalFormat = $phoneNumberObject->toNationalFormat();
 
         // then it should contain the local number used at creation
-        $localNumberPositionInNationalFormat = strpos(haystack: $nationalFormat, needle: $localNumber);
-        $nationalFormatContainsLocalNumber = ($localNumberPositionInNationalFormat !== false);
-        $this->assertTrue(
-            condition: $nationalFormatContainsLocalNumber,
-            message: "Phone number's national format '{$nationalFormat}' doesn't contain the local number '{$localNumber}'"
+        $this->assertStringContainsString(
+            needle: $localNumber,
+            haystack: $nationalFormat,
+            message: "Phone number's national format '{$nationalFormat}' doesn't contain the local number '{$localNumber}'",
         );
     }
 
@@ -96,10 +91,10 @@ final class PhoneNumberTest extends TestCase
 
         // then it should be the international format
         $internationalFormat = $phoneNumberObject->toInternationalFormat();
-        $internationalFormatIsUsedByDefault = ($phoneNumberString === $internationalFormat);
-        $this->assertTrue(
-            condition: $internationalFormatIsUsedByDefault,
-            message: "Phone number {$phoneNumberString} doesn't match the international format {$internationalFormat}"
+        $this->assertSame(
+            expected: $internationalFormat,
+            actual: $phoneNumberString,
+            message: "Phone number '{$phoneNumberString}' doesn't have the international format '{$internationalFormat}' by default",
         );
     }
 
@@ -116,11 +111,10 @@ final class PhoneNumberTest extends TestCase
         $internationalFormat = $phoneNumberObject->toInternationalFormat();
 
         // then it should contain a '+' sign
-        $plusSignPositionInInternationalFormat = strpos(haystack: $internationalFormat, needle: '+');
-        $internationalFormatStartsWithPlusSign = ($plusSignPositionInInternationalFormat === 0);
-        $this->assertTrue(
-            condition: $internationalFormatStartsWithPlusSign,
-            message: "The international format '{$internationalFormat}' doesn't start with a '+' sign"
+        $this->assertStringStartsWith(
+            prefix: '+',
+            string: $internationalFormat,
+            message: "The international format '{$internationalFormat}' doesn't start with a '+' sign",
         );
     }
 }

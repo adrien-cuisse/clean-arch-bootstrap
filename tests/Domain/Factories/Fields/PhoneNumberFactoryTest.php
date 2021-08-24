@@ -32,17 +32,16 @@ final class PhoneNumberFactoryTest extends TestCase
         $countryIdentifier = 'country code';
 
         // when creating a PhoneNumber object from it
-        $phoneNumber = $this->factory
+        $phoneNumberObject = $this->factory
             ->withCountryIdentifier(countryIdentifier: $countryIdentifier)
             ->withLocalNumber(localNumber: '')
             ->build();
 
         // then the created PhoneNumber object should have the given country identifier
-        $internationalFormat = $phoneNumber->toInternationalFormat();
-        $countryIdentifierPositionInInternationalFormat = strpos(haystack: $internationalFormat, needle: $countryIdentifier);
-        $internationalFormatContainsCountryIdentifier = ($countryIdentifierPositionInInternationalFormat !== false);
-        $this->assertTrue(
-            condition: $internationalFormatContainsCountryIdentifier,
+        $phoneNumberString = (string) $phoneNumberObject;
+        $this->assertStringContainsString(
+            needle: $countryIdentifier,
+            haystack: $phoneNumberString,
             message: "Created phone number should have the given country identifier '{$countryIdentifier}'",
         );
     }
@@ -59,17 +58,16 @@ final class PhoneNumberFactoryTest extends TestCase
         $localNumber = 'local number';
 
         // when creating a PhoneNumber object from it
-        $phoneNumber = $this->factory
+        $phoneNumberObject = $this->factory
             ->withCountryIdentifier(countryIdentifier: '')
             ->withLocalNumber(localNumber: $localNumber)
             ->build();
 
         // then the created PhoneNumber object should have the given local number
-        $internationalFormat = (string) $phoneNumber;
-        $localNumberPositionInInternationalFormat = strpos(haystack: $internationalFormat, needle: $localNumber);
-        $internationalFormatContainsLocalNumber = ($localNumberPositionInInternationalFormat !== false);
-        $this->assertTrue(
-            condition: $internationalFormatContainsLocalNumber,
+        $phoneNumberString = (string) $phoneNumberObject;
+        $this->assertStringContainsString(
+            needle: $localNumber,
+            haystack: $phoneNumberString,
             message: "Created phone number should have the given local number '{$localNumber}'",
         );
     }

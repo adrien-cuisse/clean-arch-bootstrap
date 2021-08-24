@@ -26,7 +26,7 @@ final class InvalidUuidStringExceptionTest extends TestCase
         $this->assertStringContainsString(
             needle: $uuidString,
             haystack: $errorMessage,
-            message: "Exception should show incriminated uuid-string in error message"
+            message: "Exception should show incriminated uuid-string '{$uuidString}' in error message",
         );
     }
 }

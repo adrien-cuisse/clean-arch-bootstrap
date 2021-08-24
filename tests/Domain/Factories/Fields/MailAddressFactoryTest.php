@@ -36,9 +36,9 @@ final class MailAddressFactoryTest extends TestCase
         $mailAddressObject = $this->factory->withMailAddress(address: $mailAddressString)->build();
 
         // then the created MailAddress object should match the given mail address
-        $mailAddressIsCorrect = ((string) $mailAddressObject === $mailAddressString);
-        $this->assertTrue(
-            condition: $mailAddressIsCorrect,
+        $this->assertSame(
+            expected: $mailAddressString,
+            actual: (string) $mailAddressObject,
             message: "Created MailAddress should have the given address '{$mailAddressString}', got '{$mailAddressObject}'",
         );
     }

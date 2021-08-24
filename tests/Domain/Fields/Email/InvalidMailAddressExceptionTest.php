@@ -20,17 +20,14 @@ final class InvalidMailAddressExceptionTest extends TestCase
         $invalidMailAddress = 'invalid@email.org';
         $exception = new InvalidMailAddressException(mailAddress: $invalidMailAddress);
 
-        // when checking the position of the address in the message
-        $emailPositionInMessage = strpos(
-            haystack: $exception->getMessage(),
-            needle: $invalidMailAddress
-        );
+        // when checking the error message
+        $errorMessage = $exception->getMessage();
 
-        // then it shouldn't be false
-        $errorMessageContainsMailAddress = ($emailPositionInMessage !== false);
-        $this->assertTrue(
-            condition: $errorMessageContainsMailAddress,
-            message: 'The exception should store the given mail address in the error message'
+        // then it should contain the invalid mail address
+        $this->assertStringContainsString(
+            needle: $invalidMailAddress,
+            haystack: $errorMessage,
+            message: "The error message should contain the invalid mail address '{$invalidMailAddress}'",
         );
     }
 }

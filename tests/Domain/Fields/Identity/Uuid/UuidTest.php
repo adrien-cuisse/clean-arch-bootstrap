@@ -146,7 +146,7 @@ final class UuidTest extends TestCase
         $this->assertSame(
             expected: 0b0101_1010,
             actual: $seventhByte,
-            message: "Uuid should interlop version in timestamp-high MSB"
+            message: "Uuid should interlop version in timestamp-high MSB",
         );
     }
 
@@ -170,7 +170,7 @@ final class UuidTest extends TestCase
         $this->assertSame(
             expected: 0b1011_1111,
             actual: $ninthByte,
-            message: "Uuid should interlop variant in clock-sequence-high"
+            message: "Uuid should interlop variant in clock-sequence-high",
         );
     }
 
@@ -193,8 +193,9 @@ final class UuidTest extends TestCase
         $representation = $uuid->toRfcUuidString();
 
         // then it should have RFC compliant format
+        $rfcUuidPattern = '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/';
         $this->assertMatchesRegularExpression(
-            pattern: '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/',
+            pattern: $rfcUuidPattern,
             string: $representation,
             message: "The UUID doesn't comply with RFC representation 01234567-89ab-cdef-0123-456789abcdef",
         );
@@ -333,7 +334,7 @@ final class UuidTest extends TestCase
         $this->assertSame(
             expected: $expectedByteValue,
             actual: $byte & $expectedByteValue,
-            message: "Expected {$byteName} ($expectedByteValue) to be at position {$positionInString} in string {$uuidString}, found {$byteHexaString} ({$byte})"
+            message: "Expected {$byteName} ($expectedByteValue) to be at position {$positionInString} in string {$uuidString}, found {$byteHexaString} ({$byte})",
         );
     }
 

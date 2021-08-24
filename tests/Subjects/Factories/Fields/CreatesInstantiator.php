@@ -19,7 +19,7 @@ trait CreatesInstantiator
             ->getMock();
 
         $instantiator->method('createInstance')->willReturn($instantiator);
-        $instantiator->method('assignConstructorArgument')->willReturn($this->createFakeInstantiator());
+        $instantiator->method('assignConstructorArgument')->willReturn($instantiator);
         $instantiator->method('getAssignedArguments')->willReturn([]);
         $instantiator->method('hasAssignedArgument')->willReturn(false);
 
