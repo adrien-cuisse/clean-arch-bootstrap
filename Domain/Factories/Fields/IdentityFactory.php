@@ -13,10 +13,7 @@ final class IdentityFactory implements IdentityFactoryInterface
 
     public function withIdentity(string $identity): self
     {
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: 'rfcUuidString',
-            value: $identity
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument('rfcUuidString', $identity);
 
         return $this;
     }

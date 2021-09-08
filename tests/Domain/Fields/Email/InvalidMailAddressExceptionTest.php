@@ -18,7 +18,7 @@ final class InvalidMailAddressExceptionTest extends TestCase
     {
         // given some mail address used to create the exception
         $invalidMailAddress = 'invalid@email.org';
-        $exception = new InvalidMailAddressException(mailAddress: $invalidMailAddress);
+        $exception = new InvalidMailAddressException($invalidMailAddress);
 
         // when checking the error message
         $errorMessage = $exception->getMessage();

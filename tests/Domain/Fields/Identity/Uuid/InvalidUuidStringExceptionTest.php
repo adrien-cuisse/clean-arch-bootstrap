@@ -18,7 +18,7 @@ final class InvalidUuidStringExceptionTest extends TestCase
     {
         // given an exception for some some uuid-string
         $uuidString = 'some unique identifier';
-        $exception = new InvalidUuidStringException(uuidString: $uuidString);
+        $exception = new InvalidUuidStringException($uuidString);
 
         // when checking its error message
         $errorMessage = $exception->getMessage();

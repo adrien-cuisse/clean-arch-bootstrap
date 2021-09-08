@@ -18,7 +18,7 @@ final class InvalidUuidNodeBytesCountExceptionTest extends TestCase
     {
         // given an exception for some bytes
         $bytes = [0xc0, 0xff, 0xee];
-        $exception = new InvalidUuidNodeBytesCountException(bytes: $bytes);
+        $exception = new InvalidUuidNodeBytesCountException($bytes);
 
         // when checking its error message
         $errorMessage = $exception->getMessage();

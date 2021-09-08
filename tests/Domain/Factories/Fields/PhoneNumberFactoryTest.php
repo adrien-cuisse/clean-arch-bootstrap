@@ -33,8 +33,8 @@ final class PhoneNumberFactoryTest extends TestCase
 
         // when creating a PhoneNumber object from it
         $phoneNumberObject = $this->factory
-            ->withCountryIdentifier(countryIdentifier: $countryIdentifier)
-            ->withLocalNumber(localNumber: '')
+            ->withCountryIdentifier($countryIdentifier)
+            ->withLocalNumber('')
             ->build();
 
         // then the created PhoneNumber object should have the given country identifier
@@ -59,8 +59,8 @@ final class PhoneNumberFactoryTest extends TestCase
 
         // when creating a PhoneNumber object from it
         $phoneNumberObject = $this->factory
-            ->withCountryIdentifier(countryIdentifier: '')
-            ->withLocalNumber(localNumber: $localNumber)
+            ->withCountryIdentifier('')
+            ->withLocalNumber($localNumber)
             ->build();
 
         // then the created PhoneNumber object should have the given local number

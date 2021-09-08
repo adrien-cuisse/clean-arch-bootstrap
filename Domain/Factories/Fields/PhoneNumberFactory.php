@@ -13,20 +13,14 @@ final class PhoneNumberFactory implements PhoneNumberFactoryInterface
 
     public function withCountryIdentifier(string $countryIdentifier): self
     {
-        $this->instantiator =  $this->instantiator->assignConstructorArgument(
-            name: 'countryIdentifier',
-            value: $countryIdentifier,
-        );
+        $this->instantiator =  $this->instantiator->assignConstructorArgument('countryIdentifier', $countryIdentifier);
 
         return $this;
     }
 
     public function withLocalNumber(string $localNumber): self
     {
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: 'localNumber',
-            value: $localNumber,
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument('localNumber', $localNumber);
 
         return $this;
     }

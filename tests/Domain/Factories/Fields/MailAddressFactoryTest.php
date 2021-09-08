@@ -33,7 +33,7 @@ final class MailAddressFactoryTest extends TestCase
         $mailAddressString = 'foo@bar.org';
 
         // when creating an MailAddress object from it
-        $mailAddressObject = $this->factory->withMailAddress(address: $mailAddressString)->build();
+        $mailAddressObject = $this->factory->withMailAddress($mailAddressString)->build();
 
         // then the created MailAddress object should match the given mail address
         $this->assertSame(

@@ -28,10 +28,7 @@ final class InstantiatorTest extends TestCase
         $argumentValue = '';
 
         // when adding it to the constructor of the target class
-        $otherInstantiator = $this->instantiator->assignConstructorArgument(
-            name: $argumentName,
-            value: $argumentValue,
-        );
+        $otherInstantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then a different instantiator should be returned
         $instantiatorsAreDifferent = ($this->instantiator !== $otherInstantiator);
@@ -52,10 +49,7 @@ final class InstantiatorTest extends TestCase
         $argumentValue = '';
 
         // when adding it to the constructor of the target class
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: $argumentName,
-            value: $argumentValue,
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the argument should be assigned
         $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
@@ -77,10 +71,7 @@ final class InstantiatorTest extends TestCase
         $argumentValue = 'value';
 
         // when adding it to the constructor of the target class
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: $argumentName,
-            value: $argumentValue,
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the argument should be assigned with the correct value
         $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
@@ -103,10 +94,7 @@ final class InstantiatorTest extends TestCase
         $argumentValue = 'value';
 
         // when adding it to the constructor of the target class
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: $argumentName,
-            value: $argumentValue,
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the assigned arguments list should contain the assigned argument
         $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
@@ -128,13 +116,10 @@ final class InstantiatorTest extends TestCase
         $argumentValue = '';
 
         // when adding it to the constructor of the target class
-        $instantiator = $this->instantiator->assignConstructorArgument(
-            name: $argumentName,
-            value: $argumentValue,
-        );
+        $instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the argument should be assigned
-        $argumentWasAssigned = $instantiator->hasAssignedConstructorArgument(name: $argumentName);
+        $argumentWasAssigned = $instantiator->hasAssignedConstructorArgument($argumentName);
         $this->assertTrue(
             condition: $argumentWasAssigned,
             message: "Instantiator failed to detect that the named argument '{$argumentName}' was assigned",

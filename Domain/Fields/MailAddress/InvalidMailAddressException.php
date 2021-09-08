@@ -9,7 +9,7 @@ final class InvalidMailAddressException extends UnexpectedValueException
     public function __construct(private string $mailAddress)
     {
         parent::__construct(
-            message: "The mail address '{$this->mailAddress}' is invalid"
+            "The mail address '{$this->mailAddress}' is invalid"
         );
     }
 }

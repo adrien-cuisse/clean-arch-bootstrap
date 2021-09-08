@@ -130,36 +130,36 @@ abstract class Uuid implements UuidInterface
         int $clockSequenceLowByte,
         array $nodeBytes,
     ) {
-        if (count(value: $timestampLowBytes) !== 4) {
-            throw new InvalidUuidTimestampLowBytesCountException(bytes: $timestampLowBytes);
+        if (count($timestampLowBytes) !== 4) {
+            throw new InvalidUuidTimestampLowBytesCountException($timestampLowBytes);
         }
-        $this->timestampLowBytes = $this->clampToBytes(integers: $timestampLowBytes);
+        $this->timestampLowBytes = $this->clampToBytes($timestampLowBytes);
 
-        if (count(value: $timestampMidBytes) !== 2) {
-            throw new InvalidUuidTimestampMidBytesCountException(bytes: $timestampMidBytes);
+        if (count($timestampMidBytes) !== 2) {
+            throw new InvalidUuidTimestampMidBytesCountException($timestampMidBytes);
         }
-        $this->timestampMidBytes = $this->clampToBytes(integers: $timestampMidBytes);
+        $this->timestampMidBytes = $this->clampToBytes($timestampMidBytes);
 
-        if (count(value: $timestampHighBytes) !== 2) {
-            throw new InvalidUuidTimestampHighBytesCountException(bytes: $timestampHighBytes);
+        if (count($timestampHighBytes) !== 2) {
+            throw new InvalidUuidTimestampHighBytesCountException($timestampHighBytes);
         }
-        $this->timestampHighBytes = $this->clampToBytes(integers: $timestampHighBytes);
+        $this->timestampHighBytes = $this->clampToBytes($timestampHighBytes);
         $this->timestampHighBytes[0] &= self::TIMESTAMP_HIGH_BITS_MASK;
 
         if ($version > 0b0000_1111) {
-            throw new InvalidUuidVersionException(version: $version);
+            throw new InvalidUuidVersionException($version);
         }
         $this->version = $version;
         $this->versionBits = $this->version << 4;
 
         $variantBits = ($this->variant << (8 - self::RFC_VARIANT_SIZE));
-        $this->clockSequenceHighAndVariantByte = $variantBits | $this->clampToByte(value: $clockSequenceHighByte);
-        $this->clockSequenceLowByte = $this->clampToByte(value: $clockSequenceLowByte);
+        $this->clockSequenceHighAndVariantByte = $variantBits | $this->clampToByte($clockSequenceHighByte);
+        $this->clockSequenceLowByte = $this->clampToByte($clockSequenceLowByte);
 
-        if (count(value: $nodeBytes) !== 6) {
-            throw new InvalidUuidNodeBytesCountException(bytes: $nodeBytes);
+        if (count($nodeBytes) !== 6) {
+            throw new InvalidUuidNodeBytesCountException($nodeBytes);
         }
-        $this->nodeBytes = $this->clampToBytes(integers: $nodeBytes);
+        $this->nodeBytes = $this->clampToBytes($nodeBytes);
     }
 
     /**
@@ -202,11 +202,11 @@ abstract class Uuid implements UuidInterface
 
         return sprintf(
             "%s-%s-%s-%s-%s",
-            $this->hexaStringFrom(bytes: $this->timestampLowBytes),
-            $this->hexaStringFrom(bytes: $this->timestampMidBytes),
-            $this->hexaStringFrom(bytes: $versionAndTimeHighBytes),
-            $this->hexaStringFrom(bytes: $clockSequenceAndVariantBytes),
-            $this->hexaStringFrom(bytes: $this->nodeBytes)
+            $this->hexaStringFrom($this->timestampLowBytes),
+            $this->hexaStringFrom($this->timestampMidBytes),
+            $this->hexaStringFrom($versionAndTimeHighBytes),
+            $this->hexaStringFrom($clockSequenceAndVariantBytes),
+            $this->hexaStringFrom($this->nodeBytes)
         );
     }
 
@@ -229,12 +229,12 @@ abstract class Uuid implements UuidInterface
     {
         $rfcValidationRegex = '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/';
         if (preg_match(pattern: $rfcValidationRegex, subject: $rfcUuidString) !== 1) {
-            throw new InvalidUuidStringException(uuidString: $rfcUuidString);
+            throw new InvalidUuidStringException($rfcUuidString);
         }
 
         $instance = (new ReflectionClass(static::class))->newInstanceWithoutConstructor();
 
-        [$timestampLow, $timestampMid, $timestampHighAndVersion, $clockSequenceAndVariant, $node] = explode(separator: '-', string: $rfcUuidString);
+        [$timestampLow, $timestampMid, $timestampHighAndVersion, $clockSequenceAndVariant, $node] = explode('-', $rfcUuidString);
 
         $instance->timestampLowBytes = sscanf(string: $timestampLow, format: '%2x%2x%2x%2x');
         $instance->timestampMidBytes = sscanf(string: $timestampMid, format: '%2x%2x');
@@ -284,7 +284,7 @@ abstract class Uuid implements UuidInterface
         $binaryString = openssl_random_pseudo_bytes(length: $numberOfBytes);
 
         return array_map(
-            callback: fn (string $ascii) => ord(character: $ascii),
+            callback: fn (string $ascii) => ord($ascii),
             array: str_split($binaryString),
         );
     }
@@ -325,7 +325,7 @@ abstract class Uuid implements UuidInterface
      */
     private function hexaStringFrom(array $bytes): string
     {
-        $bytesCount = count(value: $bytes);
+        $bytesCount = count($bytes);
 
         $binaryString = pack("C{$bytesCount}", ...$bytes);
 

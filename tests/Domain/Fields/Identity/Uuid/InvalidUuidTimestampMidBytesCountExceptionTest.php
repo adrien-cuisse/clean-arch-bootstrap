@@ -18,7 +18,7 @@ final class InvalidUuidTimestampMidBytesCountExceptionTest extends TestCase
     {
         // given an exception for some bytes
         $bytes = [0xc0, 0xff, 0xee];
-        $exception = new InvalidUuidTimestampMidBytesCountException(bytes: $bytes);
+        $exception = new InvalidUuidTimestampMidBytesCountException($bytes);
 
         // when checking its error message
         $errorMessage = $exception->getMessage();

@@ -50,19 +50,19 @@ final class UuidTest extends TestCase
                 array $nodeBytes,
             ) {
                 parent::__construct(
-                    version: $version,
-                    timestampLowBytes: $timestampLowBytes,
-                    timestampMidBytes: $timestampMidBytes,
-                    timestampHighBytes: $timestampHighBytes,
-                    clockSequenceHighByte: $clockSequenceHighByte,
-                    clockSequenceLowByte: $clockSequenceLowByte,
-                    nodeBytes: $nodeBytes,
+                    $version,
+                    $timestampLowBytes,
+                    $timestampMidBytes,
+                    $timestampHighBytes,
+                    $clockSequenceHighByte,
+                    $clockSequenceLowByte,
+                    $nodeBytes,
                 );
             }
 
             public static function fromString(string $uuidString): static
             {
-                return parent::fromString(rfcUuidString: $uuidString);
+                return parent::fromString($uuidString);
             }
         };
     }
@@ -103,7 +103,7 @@ final class UuidTest extends TestCase
      */
     public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass, string $bytesName): void
     {
-        $this->expectException(exception: $expectedExceptionClass);
+        $this->expectException($expectedExceptionClass);
 
         // given an Uuid with invalid bytes count
         $this->createInstance(...$invalidBytes);
@@ -121,7 +121,7 @@ final class UuidTest extends TestCase
         $this->expectException(InvalidUuidVersionException::class);
 
         // given some uuid with version taking more than 4 bits
-        $this->createInstance(version: 0b1111_1111);
+        $this->createInstance(0b1111_1111);
 
         // then instantation should be rejected
     }
@@ -139,7 +139,7 @@ final class UuidTest extends TestCase
         $uuid = $this->createInstance(version: 0b0000_0101, timestampHighBytes: [0b0000_1010, 0x0000_0110]);
 
         // when extracting its byte 6
-        $seventhByteHexaString = substr(string: (string) $uuid, offset: 14, length: 2);
+        $seventhByteHexaString = substr($uuid, offset: 14, length: 2);
         sscanf($seventhByteHexaString, '%2x', $seventhByte);
 
         // then version should be interloped with timestamp-high MSB
@@ -163,7 +163,7 @@ final class UuidTest extends TestCase
         $uuid = $this->createInstance(clockSequenceHighByte: 0b0011_1111);
 
         // when extracting its byte 8
-        $ninthByteHexaString = substr(string: (string) $uuid, offset: 19, length: 2);
+        $ninthByteHexaString = substr($uuid, offset: 19, length: 2);
         sscanf($ninthByteHexaString, '%2x', $ninthByte);
 
         // then variant should be interloped with clock-sequence-high
@@ -327,7 +327,7 @@ final class UuidTest extends TestCase
         $uuidString = (string) $uuid;
 
         // when accessing the byte at given position in the string
-        $byteHexaString = substr($uuidString, $positionInString, 2);
+        $byteHexaString = substr($uuidString, offset: $positionInString, length: 2);
         sscanf($byteHexaString, '%2x', $byte);
 
         // then the byte should have the given value

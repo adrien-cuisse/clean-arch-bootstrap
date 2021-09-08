@@ -10,13 +10,13 @@ final class UuidV4 extends Uuid implements UuidV4Interface
     public function __construct()
     {
         parent::__construct(
-            version: 4,
-            timestampLowBytes: $this->randomBytes(4),
-            timestampMidBytes: $this->randomBytes(2),
-            timestampHighBytes: $this->randomBytes(2),
-            clockSequenceHighByte: $this->randomByte(),
-            clockSequenceLowByte: $this->randomByte(),
-            nodeBytes: $this->randomBytes(6),
+            4,
+            $this->randomBytes(4),
+            $this->randomBytes(2),
+            $this->randomBytes(2),
+            $this->randomByte(),
+            $this->randomByte(),
+            $this->randomBytes(6),
         );
     }
 
@@ -25,6 +25,6 @@ final class UuidV4 extends Uuid implements UuidV4Interface
      */
     public static function fromString(string $rfcUuidString): static
     {
-        return parent::fromString(rfcUuidString: $rfcUuidString);
+        return parent::fromString($rfcUuidString);
     }
 }

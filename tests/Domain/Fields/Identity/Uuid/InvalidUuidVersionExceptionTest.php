@@ -18,7 +18,7 @@ final class InvalidUuidVersionExceptionTest extends TestCase
     {
         // given an exception for some uuid version
         $version = 42;
-        $exception = new InvalidUuidVersionException(version: $version);
+        $exception = new InvalidUuidVersionException($version);
 
         // when checking its error message
         $errorMessage = $exception->getMessage();

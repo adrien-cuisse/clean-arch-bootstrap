@@ -34,7 +34,7 @@ final class IdentityFactoryTest extends TestCase
         $identity = $this->factory->build();
 
         // then the Identity shouldn't be empty
-        $identityStringLength = strlen(string: (string) $identity);
+        $identityStringLength = strlen($identity);
         $this->assertGreaterThan(
             expected: 0,
             actual: $identityStringLength,
@@ -54,7 +54,7 @@ final class IdentityFactoryTest extends TestCase
         $identityString = '00000000-0000-0000-0000-000000000000';
 
         // when creating a new Identity object from it
-        $identityObject = $this->factory->withIdentity(identity: $identityString)->build();
+        $identityObject = $this->factory->withIdentity($identityString)->build();
 
         // then the created Identity object should match the given identity-string
         $this->assertSame(

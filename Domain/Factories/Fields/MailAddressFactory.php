@@ -13,10 +13,7 @@ final class MailAddressFactory implements MailAddressFactoryInterface
 
     public function withMailAddress(string $address): self
     {
-        $this->instantiator = $this->instantiator->assignConstructorArgument(
-            name: 'mailAddress',
-            value: $address
-        );
+        $this->instantiator = $this->instantiator->assignConstructorArgument('mailAddress', $address);
 
         return $this;
     }

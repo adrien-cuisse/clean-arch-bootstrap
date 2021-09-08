@@ -18,7 +18,7 @@ final class InvalidUuidTimestampHighBytesCountExceptionTest extends TestCase
     {
         // given an exception for some bytes
         $bytes = [0xc0, 0xff, 0xee];
-        $exception = new InvalidUuidTimestampHighBytesCountException(bytes: $bytes);
+        $exception = new InvalidUuidTimestampHighBytesCountException($bytes);
 
         // when checking its error message
         $errorMessage = $exception->getMessage();

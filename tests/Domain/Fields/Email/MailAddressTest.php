@@ -25,7 +25,7 @@ final class MailAddressTest extends TestCase
         $invalidMailAddress = 'not a valid mail address';
 
         // when trying to create a MailAddress from it
-        $this->createRealMailAddress(mailAddress: $invalidMailAddress);
+        $this->createRealMailAddress($invalidMailAddress);
 
         // then it should throw an exception
     }
@@ -39,7 +39,7 @@ final class MailAddressTest extends TestCase
     {
         // given a valid mail-string and an MailAddress object made from it
         $mailAddressString = 'some@email.org';
-        $mailAddressObject = $this->createRealMailAddress(mailAddress: $mailAddressString);
+        $mailAddressObject = $this->createRealMailAddress($mailAddressString);
 
         // when checking the stored string
         $storedMailAddressString = (string) $mailAddressObject;
