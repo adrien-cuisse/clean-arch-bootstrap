@@ -38,7 +38,7 @@ final class IdentifiableTest extends TestCase
 
     /**
      * @test
-     * @covers ::getIdentity
+     * @covers ::identity
      */
     public function returns_identity(): void
     {
@@ -46,7 +46,7 @@ final class IdentifiableTest extends TestCase
         $owner = $this->createInstance(identity: $this->identity);
 
         // when requesting the object's identity
-        $storedIdentity = $owner->getIdentity();
+        $storedIdentity = $owner->identity();
 
         // then it should be the one given at construction
         $this->assertSame(

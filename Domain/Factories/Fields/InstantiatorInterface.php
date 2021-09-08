@@ -4,12 +4,7 @@ namespace Alphonse\CleanArchBootstrap\Domain\Factories\Fields;
 
 interface InstantiatorInterface
 {
-    /**
-     * @param string $class - fully-qualified class name to create an instance from
-     *
-     * @return mixed - an instance of the specified class
-     */
-    public function createInstance(string $class): mixed;
+    public function instantiate(string $fullyQualifiedClassName): mixed;
 
     /**
      * @param string $name - the name of the argument to assign

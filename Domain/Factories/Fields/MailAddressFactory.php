@@ -23,6 +23,6 @@ final class MailAddressFactory implements MailAddressFactoryInterface
 
     public function build(): MailAddressInterface
     {
-        return $this->instantiator->createInstance(MailAddress::class);
+        return $this->instantiator->instantiate(MailAddress::class);
     }
 }

@@ -11,7 +11,7 @@ trait Mailable
     /**
      * @see MailableInterface
      */
-    public function getMailAddress(): MailAddressInterface
+    public function mailAddress(): MailAddressInterface
     {
         return $this->mailAddress;
     }

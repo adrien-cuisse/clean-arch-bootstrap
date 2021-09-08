@@ -33,6 +33,6 @@ final class PhoneNumberFactory implements PhoneNumberFactoryInterface
 
     public function build(): PhoneNumberInterface
     {
-        return $this->instantiator->createInstance(PhoneNumber::class);
+        return $this->instantiator->instantiate(PhoneNumber::class);
     }
 }

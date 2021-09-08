@@ -6,9 +6,9 @@ final class Instantiator implements InstantiatorInterface
 {
     private array $constructorArguments = [];
 
-    public function createInstance(string $class): mixed
+    public function instantiate(string $fullyQualifiedClassName): mixed
     {
-        return new $class(...$this->constructorArguments);
+        return new $fullyQualifiedClassName(...$this->constructorArguments);
     }
 
     public function assignConstructorArgument(string $name, mixed $value): static

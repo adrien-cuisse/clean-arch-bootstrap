@@ -38,7 +38,7 @@ final class MailableTest extends TestCase
 
     /**
      * @test
-     * @covers ::getMailAddress
+     * @covers ::mailAddress
      */
     public function returns_mail_address(): void
     {
@@ -46,7 +46,7 @@ final class MailableTest extends TestCase
         $owner = $this->createInstance(mailAddress: $this->mailAddress);
 
         // when requesting the object's identity
-        $storedMailAddress = $owner->getMailAddress();
+        $storedMailAddress = $owner->mailAddress();
 
         // then it should be the one given at construction
         $this->assertSame(

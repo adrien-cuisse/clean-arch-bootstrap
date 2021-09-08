@@ -11,7 +11,7 @@ trait Identifiable
     /**
      * @see IdentifiableInterface
      */
-    final public function getIdentity(): IdentityInterface
+    final public function identity(): IdentityInterface
     {
         return $this->identity;
     }

@@ -6,5 +6,5 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 
 interface IdentifiableInterface
 {
-    public function getIdentity(): IdentityInterface;
+    public function identity(): IdentityInterface;
 }

@@ -31,7 +31,7 @@ final class UuidV4Test extends TestCase
         $uuid = $this->createInstance();
 
         // when checking its version
-        $version = $uuid->getVersion();
+        $version = $uuid->version();
 
         // then it should be 4
         $this->assertSame(

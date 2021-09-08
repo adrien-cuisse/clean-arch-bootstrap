@@ -143,7 +143,7 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::createInstance
+     * @covers ::instantiate
      */
     public function instantiates_target_class(): void
     {
@@ -151,7 +151,7 @@ final class InstantiatorTest extends TestCase
         $targetClass = self::class;
 
         // when creating an instance of it
-        $instance = $this->instantiator->createInstance(class: $targetClass);
+        $instance = $this->instantiator->instantiate($targetClass);
 
         // then the created instance should have the appropriate class
         $instantiatedClass = $instance::class;

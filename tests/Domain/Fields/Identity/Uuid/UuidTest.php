@@ -390,7 +390,7 @@ final class UuidTest extends TestCase
      * @test
      * @testdox Creates versioned Uuid from string
      * @covers ::fromString
-     * @covers ::getVersion
+     * @covers ::version
      */
     public function creates_versioned_uuid_from_string(): void
     {
@@ -406,8 +406,8 @@ final class UuidTest extends TestCase
         // then version of the instance should be 7
         $this->assertSame(
             expected: 7,
-            actual: $uuid->getVersion(),
-            message: "Expected version 7 to be parsed from string, got {$uuid->getVersion()}",
+            actual: $uuid->version(),
+            message: "Expected version 7 to be parsed from string, got {$uuid->version()}",
         );
     }
 
@@ -436,7 +436,7 @@ final class UuidTest extends TestCase
      * @testdox Creates Uuid from string with variant $expectedVariant
      * @dataProvider variantProvider
      * @covers ::fromString
-     * @covers ::getVariant
+     * @covers ::variant
      */
     public function creates_variant_uuid_from_string(array $variantDigits, string $expectedVariant): void
     {
@@ -448,7 +448,7 @@ final class UuidTest extends TestCase
             );
 
             // when checking the variant it's made from
-            $variant = $uuid->getVariant();
+            $variant = $uuid->variant();
 
             // then it should match the expectation
             $this->assertSame(

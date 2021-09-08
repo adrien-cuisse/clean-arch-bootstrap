@@ -165,7 +165,7 @@ abstract class Uuid implements UuidInterface
     /**
      * @see UuidInterface
      */
-    final public function getVersion(): int
+    final public function version(): int
     {
         return $this->version;
     }
@@ -173,7 +173,7 @@ abstract class Uuid implements UuidInterface
     /**
      * @see UuidInterface
      */
-    final public function getVariant(): string
+    final public function variant(): string
     {
         return match ($this->variant) {
             self::APOLLO_NCS_VARIANT => 'Apollo NCS (backward compatibility)',
