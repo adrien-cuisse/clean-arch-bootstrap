@@ -17,7 +17,7 @@ interface InstantiatorInterface
     /**
      * @return array<string,mixed> - map of so far assigned arguments name to arguments value
      */
-    public function getAssignedConstructorArguments(): array;
+    public function assignedConstructorArguments(): array;
 
     /**
      * @param string $name - the name of the argument to check for assignment

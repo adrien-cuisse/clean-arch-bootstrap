@@ -52,7 +52,7 @@ final class InstantiatorTest extends TestCase
         $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the argument should be assigned
-        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $assignedConstructorArguments = $this->instantiator->assignedConstructorArguments();
         $this->assertArrayHasKey(
             key: $argumentName,
             array: $assignedConstructorArguments,
@@ -74,7 +74,7 @@ final class InstantiatorTest extends TestCase
         $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the argument should be assigned with the correct value
-        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $assignedConstructorArguments = $this->instantiator->assignedConstructorArguments();
         $assignedArgumentValue = $assignedConstructorArguments[$argumentName] ?? null;
         $this->assertSame(
             expected: $argumentValue,
@@ -85,7 +85,7 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::getAssignedConstructorArguments
+     * @covers ::assignedConstructorArguments
      */
     public function returns_assigned_arguments(): void
     {
@@ -97,7 +97,7 @@ final class InstantiatorTest extends TestCase
         $this->instantiator = $this->instantiator->assignConstructorArgument($argumentName, $argumentValue);
 
         // then the assigned arguments list should contain the assigned argument
-        $assignedConstructorArguments = $this->instantiator->getAssignedConstructorArguments();
+        $assignedConstructorArguments = $this->instantiator->assignedConstructorArguments();
         $this->assertSame(
             expected: [$argumentName => $argumentValue],
             actual: $assignedConstructorArguments,

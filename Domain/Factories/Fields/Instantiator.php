@@ -19,7 +19,7 @@ final class Instantiator implements InstantiatorInterface
         return $instantiator;
     }
 
-    public function getAssignedConstructorArguments(): array
+    public function assignedConstructorArguments(): array
     {
         return $this->constructorArguments;
     }

@@ -22,7 +22,7 @@ final class IdentityFactory implements IdentityFactoryInterface
     {
         if ($this->instantiator->hasAssignedConstructorArgument('rfcUuidString'))
         {
-            return UuidV4::fromString(...$this->instantiator->getAssignedConstructorArguments());
+            return UuidV4::fromString(...$this->instantiator->assignedConstructorArguments());
         }
 
         return new UuidV4;
