@@ -37,7 +37,7 @@ final class MailAddressTest extends TestCase
      */
     public function stores_email_used_at_creation(): void
     {
-        // given a valid mail-string and an MailAddress object made from it
+        // given a valid mail-string and a MailAddress object made from it
         $mailAddressString = 'some@email.org';
         $mailAddressObject = $this->createRealMailAddress($mailAddressString);
 
