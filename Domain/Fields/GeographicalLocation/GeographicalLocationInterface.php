@@ -6,6 +6,8 @@ use Stringable;
 
 /**
  * Some geographical location, made of a latitude and a longitude
+ *
+ * @link https://www.w3.org/2005/Incubator/geo/Wiki/LatitudeLongitudeAltitude
  */
 interface GeographicalLocationInterface extends Stringable
 {
