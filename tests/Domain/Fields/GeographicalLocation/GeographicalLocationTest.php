@@ -648,10 +648,12 @@ final class GeographicalLocationTest extends TestCase
 
     public function degreesMinutesSecondsFormatProvider(): Generator
     {
-        yield 'origin DMS coords' => [0, 0, '0° 0\' 0" N 0° 0\' 0" E'];
-        yield 'positive DMS coords' => [60.0, 45.0, '60° 0\' 0" N 45° 0\' 0" E'];
-        yield 'negative DMS coords' => [-60.0, -45.0, '60° 0\' 0" S 45° 0\' 0" W'];
-        yield '3 decimals rounding DMS coords' => [0.000034166666666666667, 0.0002191666666666667,  '0° 0\' 0.123" N 0° 0\' 0.789" E'];
+        yield 'origin DMS coords' => [0, 0, '00°00\'00"N000°00\'00"E'];
+        yield 'positive DMS coords' => [60.0, 45.0, '60°00\'00"N045°00\'00"E'];
+        yield 'negative DMS coords' => [-60.0, -45.0, '60°00\'00"S045°00\'00"W'];
+
+        $angleSecond = 1 / 3600;
+        yield '0 decimals rounding DMS coords' => [$angleSecond, $angleSecond / 2,  '00°00\'01"N000°00\'01"E'];
     }
 
     /**
