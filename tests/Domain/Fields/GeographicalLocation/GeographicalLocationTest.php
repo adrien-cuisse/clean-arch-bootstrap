@@ -22,7 +22,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider invalidLatitudeProvider
      */
     public function rejects_invalid_latitude(float $invalidLatitude): void
@@ -44,7 +44,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider invalidLongitudeProvider
      */
     public function rejects_invalid_longitude(float $invalidLongitude): void
@@ -67,7 +67,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider validCoordinatesProvider
      */
     public function stores_latitude_used_at_creation(float $latitude, float $_): void
@@ -87,7 +87,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider validCoordinatesProvider
      */
     public function stores_longitude_used_at_creation(float $_, float $longitude): void
@@ -107,7 +107,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider validCoordinatesProvider
      */
     public function degrees_format_contains_latitude(float $latitude, float $_): void
@@ -127,7 +127,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider validCoordinatesProvider
      */
     public function degrees_format_contains_longitude(float $_, float $longitude): void
@@ -147,7 +147,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider validCoordinatesProvider
      *
      * @depends degrees_format_contains_latitude
@@ -180,7 +180,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider degreesFormatProvider
      */
     public function has_correct_ISO_DD_format(float $latitude, float $longitude, string $expectedFormat): void
@@ -207,7 +207,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerDegreesProvider
      */
     public function degrees_minutes_format_contains_integer_degrees(float $latitude, float $longitude, int $expectedLatitudeDegrees, int $expectedLongitudeDegrees): void
@@ -232,7 +232,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerDegreesProvider
      *
      * @depends degrees_minutes_format_contains_integer_degrees
@@ -262,7 +262,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider decimalMinutesProvider
      */
     public function degrees_minutes_format_contains_decimal_minutes(float $latitude, float $longitude, float $expectedLatitudeMinutes, float $expectedLongitudeMinutes): void
@@ -287,7 +287,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider decimalMinutesProvider
      *
      * @depends degrees_minutes_format_contains_decimal_minutes
@@ -318,7 +318,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider oritentationProvider
      */
     public function degrees_minutes_format_has_correct_orientation(float $latitude, float $longitude, string $expectedVerticalCardinal, string $expectedHorizontalCardinal): void
@@ -343,7 +343,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider oritentationProvider
      *
      * @depends degrees_minutes_format_has_correct_orientation
@@ -374,7 +374,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider degreesMinutesFormatProvider
      */
     public function has_correct_ISO_DDM_format(float $latitude, float $longitude, string $expectedFormat): void
@@ -394,7 +394,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerDegreesProvider
      */
     public function degrees_minutes_seconds_format_contains_integer_degrees(float $latitude, float $longitude, int $expectedLatitudeDegrees, int $expectedLongitudeDegrees): void
@@ -419,7 +419,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerDegreesProvider
      *
      * @depends degrees_minutes_format_contains_integer_degrees
@@ -449,7 +449,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerMinutesProvider
      */
     public function degrees_minutes_seconds_format_contains_integer_minutes(float $latitude, float $longitude, int $expectedLatitudeMinutes, int $expectedLongitudeMinutes): void
@@ -474,7 +474,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider integerMinutesProvider
      *
      * @depends degrees_minutes_format_contains_decimal_minutes
@@ -504,7 +504,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider decimalSecondsProvider
      */
     public function degrees_minutes_seconds_format_contains_decimal_seconds(float $latitude, float $longitude, float $expectedLatitudeSeconds, float $expectedLongitudeSeconds): void
@@ -529,7 +529,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider decimalSecondsProvider
      *
      * @depends degrees_minutes_seconds_format_contains_decimal_seconds
@@ -554,7 +554,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider oritentationProvider
      */
     public function degrees_minutes_seconds_format_has_correct_orientation(float $latitude, float $longitude, string $expectedVerticalCardinal, string $expectedHorizontalCardinal): void
@@ -579,7 +579,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider oritentationProvider
      *
      * @depends degrees_minutes_format_has_correct_orientation
@@ -610,7 +610,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider degreesMinutesSecondsFormatProvider
      */
     public function has_correct_ISO_DMS_format(float $latitude, float $longitude, string $expectedFormat): void
@@ -630,7 +630,7 @@ final class GeographicalLocationTest extends TestCase
     }
 
     /**
-	 * @test
+     * @test
      * @dataProvider degreesMinutesSecondsFormatProvider
      */
     public function has_DMS_format_by_default(float $latitude, float $longitude, string $expectedFormat): void

@@ -20,8 +20,7 @@ final class IdentityFactory implements IdentityFactoryInterface
 
     public function build(): IdentityInterface
     {
-        if ($this->instantiator->hasAssignedConstructorArgument('rfcUuidString'))
-        {
+        if ($this->instantiator->hasAssignedConstructorArgument('rfcUuidString')) {
             return UuidV4::fromString(...$this->instantiator->assignedConstructorArguments());
         }
 
