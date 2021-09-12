@@ -74,7 +74,7 @@ final class GeographicalLocation implements GeographicalLocationInterface
      *
      * @param float $coordinate - the angle to format
      * @param int $minimumDigitsCount - minimum digits to display, padding with '0' will be done if needed
-     * @param int $decimalsCount - how many decimals to display
+     * @param int $decimalsCount - how many fixed decimals to display
      *
      * @return string - formated angle string (eg., '+01.2345', '+123.45')
      */
