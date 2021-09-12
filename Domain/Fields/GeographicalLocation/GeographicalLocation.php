@@ -114,11 +114,17 @@ final class GeographicalLocation implements GeographicalLocationInterface
     {
         [$degrees, $minutes] = $this->decomposeAngle($angle);
 
-        $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
-
         $minutesPaddedStringSize = 2 + 1 + $minutesDecimals;
+
+        $minutes = round($minutes, 2);
+        if ($minutes == 60) {
+            $minutes = 0;
+            $degrees++;
+        }
         $minutesString = number_format($minutes, decimals: $minutesDecimals);
         $minutesString = str_pad($minutesString, length: $minutesPaddedStringSize, pad_string: '0', pad_type: STR_PAD_LEFT);
+
+        $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
 
         return "{$degreesString}°{$minutesString}'{$cardinal}";
     }
@@ -137,12 +143,22 @@ final class GeographicalLocation implements GeographicalLocationInterface
         [$degrees, $decimalMinutes] = $this->decomposeAngle($angle);
         [$minutes, $seconds] = $this->decomposeAngle($decimalMinutes);
 
-        $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
+        $seconds = round($seconds);
+        if ($seconds == 60) {
+            $seconds = 0;
+            $minutes++;
+        }
+        $secondsString = str_pad($seconds, length: 2, pad_string: '0', pad_type: STR_PAD_LEFT);
 
+        if ($minutes === 60) {
+            $minutes = 0;
+            $degrees++;
+        }
         $minutesString = str_pad($minutes, length: 2, pad_string: '0', pad_type: STR_PAD_LEFT);
 
-        $secondsString = number_format($seconds);
-        $secondsString = str_pad($secondsString, length: 2, pad_string: '0', pad_type: STR_PAD_LEFT);
+        $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
+
+
 
         return "{$degreesString}°{$minutesString}'{$secondsString}\"{$cardinal}";
     }

@@ -96,7 +96,17 @@ final class GeographicalLocationTest extends TestCase
         yield 'origin DDM coords' => [0, 0, '00°00.00\'N000°00.00\'E'];
         yield 'positive DDM coords' => [60.0, 45.0, '60°00.00\'N045°00.00\'E'];
         yield 'negative DDM coords' => [-60.0, -45.0, '60°00.00\'S045°00.00\'W'];
-        yield '2 decimals rounding DDM coords' => [0.00205760102, 0.007613150102, '00°00.12\'N000°00.46\'E'];
+
+        // 0.994 seconds rounds to 0.99 minutes
+        yield 'seconds rounding no overflow to minutes' => [0.994 / 60, 0, '00°00.99\'N000°00.00\'E'];
+
+        // 0.995 seconds rounds to 1.00 minute
+        $secondsRoundingOverflowAngle = 0.995 / 60;
+        yield 'seconds rounding overflow to minutes' => [$secondsRoundingOverflowAngle, 0, '00°01.00\'N000°00.00\'E'];
+
+        // 59.995 minutes, overflow should propagate to degrees and round to 1 degree
+        $minutesOverflowAngle = 59 / 60 + $secondsRoundingOverflowAngle;
+        yield 'seconds rounding overflow to degrees' => [$minutesOverflowAngle, 0, '01°00.00\'N000°00.00\'E'];
     }
 
     /**
@@ -125,8 +135,16 @@ final class GeographicalLocationTest extends TestCase
         yield 'positive DMS coords' => [60.0, 45.0, '60°00\'00"N045°00\'00"E'];
         yield 'negative DMS coords' => [-60.0, -45.0, '60°00\'00"S045°00\'00"W'];
 
-        $angleSecond = 1 / 3600;
-        yield '0 decimals rounding DMS coords' => [$angleSecond, $angleSecond / 2,  '00°00\'01"N000°00\'01"E'];
+        // 59.49 seconds rounds to 59 seconds
+        yield 'seconds rounding no overflow to minutes' => [59.49 / 3600, 0, '00°00\'59"N000°00\'00"E'];
+
+        // 59.5 seconds rounds to 60 seconds, 1 minute
+        $secondsRoundingOverflowAngle = 59.50 / 3600;
+        yield 'seconds rounding overflow to minutes' => [$secondsRoundingOverflowAngle, 0, '00°01\'00"N000°00\'00"E'];
+
+        // 59 minutes and 59.5 seconds, overflow should propagate to degrees and round to 1 degree
+        $minutesOverflowAngle = 59 / 60 + $secondsRoundingOverflowAngle;
+        yield 'seconds rounding overflow to degrees' => [$minutesOverflowAngle, 0, '01°00\'00"N000°00\'00"E'];
     }
 
     /**
