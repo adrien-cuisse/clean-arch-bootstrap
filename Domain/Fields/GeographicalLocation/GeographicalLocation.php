@@ -26,21 +26,21 @@ final class GeographicalLocation implements GeographicalLocationInterface
 
     public function degreesFormat(): string
     {
-        $latitudeString = $this->formatAngle($this->latitude, minimumDigitsCount: 2, decimalsCount: 4);
-        $longitudeString = $this->formatAngle($this->longitude, minimumDigitsCount: 3, decimalsCount: 4);
+        $latitudeString = $this->degreesString($this->latitude, minimumDigitsCount: 2, decimalsCount: 4);
+        $longitudeString = $this->degreesString($this->longitude, minimumDigitsCount: 3, decimalsCount: 4);
 
         return "{$latitudeString}{$longitudeString}";
     }
 
     public function degreesMinutesFormat(): string
     {
-        $latitudeString = $this->formatAngleMinutes(
+        $latitudeString = $this->degreesMinutesString(
             $this->latitude,
             $this->latitudeCardinal(),
             minimumDegreesDigits: 2,
             minutesDecimals: 2
         );
-        $longitudeString = $this->formatAngleMinutes(
+        $longitudeString = $this->degreesMinutesString(
             $this->longitude,
             $this->longitudeCardinal(),
             minimumDegreesDigits: 3,
@@ -52,12 +52,12 @@ final class GeographicalLocation implements GeographicalLocationInterface
 
     public function degreesMinutesSecondsFormat(): string
     {
-        $latitudeString = $this->formatAngleMinutesSeconds(
+        $latitudeString = $this->degreesMinutesSecondsString(
             $this->latitude,
             $this->latitudeCardinal(),
             2
         );
-        $longitudeString = $this->formatAngleMinutesSeconds(
+        $longitudeString = $this->degreesMinutesSecondsString(
             $this->longitude,
             $this->longitudeCardinal(),
             3
@@ -83,7 +83,7 @@ final class GeographicalLocation implements GeographicalLocationInterface
      *
      * @return string - formated degrees string (eg., [+01.2345], [+123.45])
      */
-    private function formatAngle(float $coordinate, int $minimumDigitsCount, int $decimalsCount): string
+    private function degreesString(float $coordinate, int $minimumDigitsCount, int $decimalsCount): string
     {
         $leadingSign = '+';
         if ($coordinate < 0) {
@@ -110,9 +110,9 @@ final class GeographicalLocation implements GeographicalLocationInterface
      *
      * @return string - formatted degrees/minutes string (eg., [12°23.456'X], [12°123.45'X] where X and Y are cardinals)
      */
-    private function formatAngleMinutes(float $angle, string $cardinal, int $minimumDegreesDigits, int $minutesDecimals): string
+    private function degreesMinutesString(float $angle, string $cardinal, int $minimumDegreesDigits, int $minutesDecimals): string
     {
-        [$degrees, $minutes] = $this->degreesMinutes($angle);
+        [$degrees, $minutes] = $this->decomposeAngle($angle);
 
         $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
 
@@ -132,9 +132,10 @@ final class GeographicalLocation implements GeographicalLocationInterface
      *
      * @return string - formated degrees/minutes/seconds string (eg., [00°00'000"X], [12°34'56"Y] where X and Y are cardinals)
      */
-    private function formatAngleMinutesSeconds(float $angle, string $cardinal, int $minimumDegreesDigits): string
+    private function degreesMinutesSecondsString(float $angle, string $cardinal, int $minimumDegreesDigits): string
     {
-        [$degrees, $minutes, $seconds] = $this->degreesMinutesSeconds($angle);
+        [$degrees, $decimalMinutes] = $this->decomposeAngle($angle);
+        [$minutes, $seconds] = $this->decomposeAngle($decimalMinutes);
 
         $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
 
@@ -147,30 +148,17 @@ final class GeographicalLocation implements GeographicalLocationInterface
     }
 
     /**
-     * @param float $angle - the decimal angle to convert
+     * @param float $angle - the decimal angle to convert (ie., from degrees to minutes, from minutes to seconds)
      *
-     * @return array<integer,float> - integer degrees, decimal seconds
+     * @return array<integer,float> - integer units, decimal sub-units
      */
-    private function degreesMinutes(float $angle): array
+    private function decomposeAngle(float $angle): array
     {
         $angle = abs($angle);
-        $degrees = intval($angle);
-        $minutes = ($angle - $degrees) * 60;
+        $units = intval($angle);
+        $division = ($angle - $units) * 60;
 
-        return [$degrees, $minutes];
-    }
-
-    /**
-     * @param float $coordinate - the decimal angle to convert
-     *
-     * @return array<int,int,float> - integer degrees, integer minutes, decimal seconds
-     */
-    private function degreesMinutesSeconds(float $coordinate): array
-    {
-        [$degrees, $decimalMinutes] = $this->degreesMinutes($coordinate);
-        [$minutes, $seconds] = $this->degreesMinutes($decimalMinutes);
-
-        return [$degrees, $minutes, $seconds];
+        return [$units, $division];
     }
 
     private function latitudeCardinal(): string
