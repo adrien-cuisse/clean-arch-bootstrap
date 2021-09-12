@@ -37,13 +37,13 @@ final class GeographicalLocation implements GeographicalLocationInterface
         $latitudeString = $this->formatAngleMinutes(
             $this->latitude,
             $this->latitudeCardinal(),
-            degreesDigits: 2,
+            minimumDegreesDigits: 2,
             minutesDecimals: 2
         );
         $longitudeString = $this->formatAngleMinutes(
             $this->longitude,
             $this->longitudeCardinal(),
-            degreesDigits: 3,
+            minimumDegreesDigits: 3,
             minutesDecimals: 2
         );
 
@@ -105,11 +105,11 @@ final class GeographicalLocation implements GeographicalLocationInterface
      *
      * @return string - formatted angle/minute string (eg., "12°23.45'X123°45.67'Y" where X and Y are cardinals)
      */
-    private function formatAngleMinutes(float $angle, string $cardinal, int $degreesDigits, int $minutesDecimals): string
+    private function formatAngleMinutes(float $angle, string $cardinal, int $minimumDegreesDigits, int $minutesDecimals): string
     {
         [$degrees, $minutes] = $this->degreesMinutes($angle);
 
-        $degreesString = str_pad($degrees, length: $degreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
+        $degreesString = str_pad($degrees, length: $minimumDegreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
 
         $minutesPaddedStringSize = 2 + 1 + $minutesDecimals;
         $minutesString = number_format($minutes, decimals: $minutesDecimals);
