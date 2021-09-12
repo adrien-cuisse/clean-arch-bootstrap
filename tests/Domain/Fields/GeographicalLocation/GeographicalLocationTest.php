@@ -411,10 +411,10 @@ final class GeographicalLocationTest extends TestCase
 
     public function degreesMinutesFormatProvider(): Generator
     {
-        yield 'origin DDM coords' => [0, 0, '0° 0\' N 0° 0\' E'];
-        yield 'positive DDM coords' => [60.0, 45.0, '60° 0\' N 45° 0\' E'];
-        yield 'negative DDM coords' => [-60.0, -45.0, '60° 0\' S 45° 0\' W'];
-        yield '6 decimals rounding DDM coords' => [0.00205760102, 0.007613150102,  '0° 0.123456\' N 0° 0.456789\' E'];
+        yield 'origin DDM coords' => [0, 0, '00°00.00\'N000°00.00\'E'];
+        yield 'positive DDM coords' => [60.0, 45.0, '60°00.00\'N045°00.00\'E'];
+        yield 'negative DDM coords' => [-60.0, -45.0, '60°00.00\'S045°00.00\'W'];
+        yield '2 decimals rounding DDM coords' => [0.00205760102, 0.007613150102, '00°00.12\'N000°00.46\'E'];
     }
 
     /**

@@ -34,13 +34,20 @@ final class GeographicalLocation implements GeographicalLocationInterface
 
     public function degreesMinutesFormat(): string
     {
-        [$latitudeDegrees, $latitudeMinutes] = $this->degreesMinutes($this->latitude);
-        $latitudeCardinal = $this->latitudeCardinal();
+        $latitudeString = $this->formatAngleMinutes(
+            $this->latitude,
+            $this->latitudeCardinal(),
+            degreesDigits: 2,
+            minutesDecimals: 2
+        );
+        $longitudeString = $this->formatAngleMinutes(
+            $this->longitude,
+            $this->longitudeCardinal(),
+            degreesDigits: 3,
+            minutesDecimals: 2
+        );
 
-        [$longitudeDegrees, $longitudeMinutes] = $this->degreesMinutes($this->longitude);
-        $longitudeCardinal = $this->longitudeCardinal();
-
-        return "{$latitudeDegrees}° {$latitudeMinutes}' {$latitudeCardinal} {$longitudeDegrees}° {$longitudeMinutes}' {$longitudeCardinal}";
+        return "{$latitudeString}{$longitudeString}";
     }
 
     public function degreesMinutesSecondsFormat(): string
@@ -89,6 +96,29 @@ final class GeographicalLocation implements GeographicalLocationInterface
     }
 
     /**
+     * Formats an angle to a degree/minutes string with leading zeros and cardinal
+     *
+     * @param float $angle - the angle to format
+     * @param string $cardinal - the associated cardinal of the angle
+     * @param int $degreesDigits - minimum digits to display for the degrees, padding with '0' will be done if needed
+     * @param int $minutesDecimals - how many fixed decimals to display for the minutes
+     *
+     * @return string - formatted angle/minute string (eg., "12°23.45'X123°45.67'Y" where X and Y are cardinals)
+     */
+    private function formatAngleMinutes(float $angle, string $cardinal, int $degreesDigits, int $minutesDecimals): string
+    {
+        [$degrees, $minutes] = $this->degreesMinutes($angle);
+
+        $degreesString = str_pad($degrees, length: $degreesDigits, pad_string: '0', pad_type: STR_PAD_LEFT);
+
+        $minutesPaddedStringSize = 2 + 1 + $minutesDecimals;
+        $minutesString = number_format($minutes, decimals: $minutesDecimals);
+        $minutesString = str_pad($minutesString, length: $minutesPaddedStringSize, pad_string: '0', pad_type: STR_PAD_LEFT);
+
+        return "{$degreesString}°{$minutesString}'{$cardinal}";
+    }
+
+    /**
      * @param float $angle - the decimal angle to convert
      *
      * @return array<integer,float> - integer degrees, decimal seconds with 6 digits
@@ -98,8 +128,6 @@ final class GeographicalLocation implements GeographicalLocationInterface
         $angle = abs($angle);
         $degrees = intval($angle);
         $minutes = ($angle - $degrees) * 60;
-
-        $minutes = round($minutes, 6);
 
         return [$degrees, $minutes];
     }
