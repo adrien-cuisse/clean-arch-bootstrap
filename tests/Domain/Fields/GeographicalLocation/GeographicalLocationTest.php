@@ -15,49 +15,73 @@ final class GeographicalLocationTest extends TestCase
 {
     use CreatesGeographicalLocation;
 
-    public function invalidLatitudeProvider(): Generator
+    public function invalidCoordinatesProvider(): Generator
     {
-        yield 'greater than maximum' => [+90.1];
-        yield 'lesser than minimum' => [-90.1];
+        yield 'latitude below minimum' => [-90.1, 0, InvalidLatitudeException::class];
+        yield 'latitude above maximum' => [+90.1, 0, InvalidLatitudeException::class];
+        yield 'longitude below minimum' => [0, -180.1, InvalidLongitudeException::class];
+        yield 'longitude above maximum' => [0, +180.1, InvalidLongitudeException::class];
     }
 
     /**
-	 * @test
-     * @dataProvider invalidLatitudeProvider
+     * @test
+     * @dataProvider invalidCoordinatesProvider
      */
-    public function rejects_invalid_latitude(float $invalidLatitude): void
+    public function rejects_invalid_coordinates(float $latitude, float $longitude, string $expectedException): void
     {
-        $this->expectException(InvalidLatitudeException::class);
+        $this->expectException($expectedException);
 
-        // given an invalid latidude
+        // given an invalid coordinate
 
         // when trying to create a location from it
-        $this->createRealGeographicalLocation(latitude: $invalidLatitude);
+        $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude);
 
-        // then it should throw an exception
+        // then it should be rejected
     }
 
-    public function invalidLongitudeProvider(): Generator
-    {
-        yield 'greater than maximum' => [+180.1];
-        yield 'lesser than minimum' => [-180.1];
-    }
+//    public function invalidLatitudeProvider(): Generator
+//    {
+//        yield 'greater than maximum' => [+90.1];
+//        yield 'lesser than minimum' => [-90.1];
+//    }
 
-    /**
-	 * @test
-     * @dataProvider invalidLongitudeProvider
-     */
-    public function rejects_invalid_longitude(float $invalidLongitude): void
-    {
-        $this->expectException(InvalidLongitudeException::class);
+//    /*
+//	 * @test
+//     * @dataProvider invalidLatitudeProvider
+//     */
+//    public function rejects_invalid_latitude(float $invalidLatitude): void
+//    {
+//        $this->expectException(InvalidLatitudeException::class);
+//
+//        // given an invalid latidude
+//
+//        // when trying to create a location from it
+//        $this->createRealGeographicalLocation(latitude: $invalidLatitude);
+//
+//        // then it should throw an exception
+//    }
 
-        // given an invalid longitude
+//    public function invalidLongitudeProvider(): Generator
+//    {
+//        yield 'greater than maximum' => [+180.1];
+//        yield 'lesser than minimum' => [-180.1];
+//    }
 
-        // when trying to create a location from it
-        $this->createRealGeographicalLocation(longitude: $invalidLongitude);
-
-        // then it should throw an exception
-    }
+//    /*
+//	 * @test
+//     * @dataProvider invalidLongitudeProvider
+//     */
+//    public function rejects_invalid_longitude(float $invalidLongitude): void
+//    {
+//        $this->expectException(InvalidLongitudeException::class);
+//
+//        // given an invalid longitude
+//
+//        // when trying to create a location from it
+//        $this->createRealGeographicalLocation(longitude: $invalidLongitude);
+//
+//        // then it should throw an exception
+//    }
 
     public function validCoordinatesProvider(): Generator
     {
