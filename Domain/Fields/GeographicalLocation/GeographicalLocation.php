@@ -66,10 +66,9 @@ final class GeographicalLocation implements GeographicalLocationInterface
      */
     private function degreesMinutes(float $angle): array
     {
-        $totalMinutes = abs($angle) * 60;
-
-        $degrees = intval($totalMinutes / 60);
-        $minutes = $totalMinutes - ($degrees * 60);
+        $angle = abs($angle);
+        $degrees = intval($angle);
+        $minutes = ($angle - $degrees) * 60;
 
         $minutes = round($minutes, 6);
 
