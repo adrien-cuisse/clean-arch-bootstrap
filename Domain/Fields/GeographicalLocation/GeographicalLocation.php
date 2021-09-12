@@ -26,7 +26,10 @@ final class GeographicalLocation implements GeographicalLocationInterface
 
     public function degreesFormat(): string
     {
-        return "{$this->latitude}, {$this->longitude}";
+        $latitudeString = $this->formatAngle($this->latitude, minimumDigitsCount: 2, decimalsCount: 4);
+        $longitudeString = $this->formatAngle($this->longitude, minimumDigitsCount: 3, decimalsCount: 4);
+
+        return "{$latitudeString}{$longitudeString}";
     }
 
     public function degreesMinutesFormat(): string
@@ -57,6 +60,32 @@ final class GeographicalLocation implements GeographicalLocationInterface
     public function __toString()
     {
         return $this->degreesMinutesSecondsFormat();
+    }
+
+    /**
+     * Formats an angle to a string with leading sign and leading zeros
+     *
+     * @param float $coordinate - the angle to format
+     * @param int $minimumDigitsCount - minimum digits to display, padding with '0' will be done if needed
+     * @param int $decimalsCount - how many decimals to display
+     *
+     * @return string - formated angle string (eg., '+01.2345', '+123.45')
+     */
+    private function formatAngle(float $coordinate, int $minimumDigitsCount, int $decimalsCount): string
+    {
+        $leadingSign = '+';
+        if ($coordinate < 0) {
+            $leadingSign = '-';
+        }
+
+        $coordinate = abs($coordinate);
+
+        $numericStringSize = $minimumDigitsCount + 1 + $decimalsCount;
+
+        $coordinateString = number_format($coordinate, decimals: $decimalsCount);
+        $coordinateString = str_pad($coordinateString, length: $numericStringSize, pad_string: '0', pad_type: STR_PAD_LEFT);
+
+        return "{$leadingSign}{$coordinateString}";
     }
 
     /**

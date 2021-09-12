@@ -215,8 +215,11 @@ final class GeographicalLocationTest extends TestCase
 
     public function degreesFormatProvider(): Generator
     {
-        yield 'positive DD coords' => [3.141592, 2.718281, '3.141592, 2.718281'];
-        yield 'negative DD coords' => [-1.618033, -6.674184, '-1.618033, -6.674184'];
+        yield 'zeros padding and leading plus sign' => [0, 0, '+00.0000+000.0000'];
+        yield 'positive DD cords' => [+1, +1, '+01.0000+001.0000'];
+        yield 'negative DD coords' => [-1, -1, '-01.0000-001.0000'];
+        yield '4 decimals rounding' => [0.12345, 0.56789, '+00.1235+000.5679'];
+        yield '4 decimals rounding overflow' => [0.99999, 0.99999, '+01.0000+001.0000'];
     }
 
     /**
