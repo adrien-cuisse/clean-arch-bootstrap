@@ -2,15 +2,13 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity\Uuid;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4;
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4Interface;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid::<protected>
  */
 final class UuidV4Test extends TestCase
 {
@@ -21,9 +19,6 @@ final class UuidV4Test extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::randomByte
-     * @covers ::randomBytes
      */
     public function is_version_4(): void
     {
@@ -43,9 +38,6 @@ final class UuidV4Test extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::randomByte
-     * @covers ::randomBytes
      */
     public function each_instance_has_unique_representation(): void
     {
@@ -77,9 +69,6 @@ final class UuidV4Test extends TestCase
     /**
      * @test
      * @testdox Uuid made from string gives correct string back
-     * @covers ::fromString
-     * @covers ::__toString
-     * @covers ::toRfcUuidString
      */
     public function creates_uuid_matching_base_string(): void
     {

@@ -9,7 +9,7 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesIdentity;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable
+ * @covers Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable
  */
 final class IdentifiableTest extends TestCase
 {
@@ -38,7 +38,6 @@ final class IdentifiableTest extends TestCase
 
     /**
      * @test
-     * @covers ::identity
      */
     public function returns_identity(): void
     {

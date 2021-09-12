@@ -14,8 +14,7 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestamp
 use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\Uuid
  */
 final class UuidTest extends TestCase
 {
@@ -95,11 +94,6 @@ final class UuidTest extends TestCase
      * @test
      * @testdox Rejects invalid $bytesName count
      * @dataProvider invalidBytesCountProvider
-     * @covers ::__construct
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampHighBytesCountException
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
      */
     public function rejects_invalid_bytes_count(array $invalidBytes, string $expectedExceptionClass, string $bytesName): void
     {
@@ -113,8 +107,6 @@ final class UuidTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidVersionException
      */
     public function expects_4_bits_version(): void
     {
@@ -129,9 +121,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Interlops version in timestamp-high MSB
-     * @covers ::__toString
-     * @covers ::toRfcUuidString
-     * @covers ::hexaStringFrom
      */
     public function interlops_version_in_time_high_MSB(): void
     {
@@ -153,9 +142,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Interlops RFC variant in clock-sequence-high byte
-     * @covers ::__toString
-     * @covers ::toRfcUuidString
-     * @covers ::hexaStringFrom
      */
     public function interlops_RFC_variant_in_clock_seq_high(): void
     {
@@ -177,12 +163,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Has RFC-compliant string-representation
-     * @covers ::__construct
-     * @covers ::__toString
-     * @covers ::clampToByte
-     * @covers ::clampToBytes
-     * @covers ::toRfcUuidString
-     * @covers ::hexaStringFrom
      */
     public function has_rfc_compliant_representation(): void
     {
@@ -315,10 +295,6 @@ final class UuidTest extends TestCase
      * @test
      * @testdox Puts $byteName at correct position in string
      * @dataProvider byteProvider
-     * @covers ::__construct
-     * @covers ::__toString
-     * @covers ::toRfcUuidString
-     * @covers ::hexaStringFrom
      */
     public function puts_byte_at_correct_position_in_string(array $uuidBytes, string $byteName, int $expectedByteValue, int $positionInString): void
     {
@@ -341,8 +317,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Creating an instance requires RFC-compliant Uuid-string
-     * @covers ::fromString
-     * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringException
      */
     public function expects_rfc_compliant_uuid_string(): void
     {
@@ -363,9 +337,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Uuid made from string gives correct string back
-     * @covers ::fromString
-     * @covers ::__toString
-     * @covers ::toRfcUuidString
      */
     public function creates_uuid_matching_base_string(): void
     {
@@ -389,8 +360,6 @@ final class UuidTest extends TestCase
     /**
      * @test
      * @testdox Creates versioned Uuid from string
-     * @covers ::fromString
-     * @covers ::version
      */
     public function creates_versioned_uuid_from_string(): void
     {
@@ -435,8 +404,6 @@ final class UuidTest extends TestCase
      * @test
      * @testdox Creates Uuid from string with variant $expectedVariant
      * @dataProvider variantProvider
-     * @covers ::fromString
-     * @covers ::variant
      */
     public function creates_variant_uuid_from_string(array $variantDigits, string $expectedVariant): void
     {

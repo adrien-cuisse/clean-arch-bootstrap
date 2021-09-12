@@ -6,13 +6,12 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytes
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidNodeBytesCountException
  */
 final class InvalidUuidNodeBytesCountExceptionTest extends TestCase
 {
     /**
      * @test
-     * @covers ::__construct
      */
     public function shows_bytes_in_error_message(): void
     {

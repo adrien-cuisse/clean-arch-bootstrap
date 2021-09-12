@@ -6,13 +6,12 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestamp
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampLowBytesCountException
  */
 final class InvalidUuidTimestampLowBytesCountExceptionTest extends TestCase
 {
     /**
      * @test
-     * @covers ::__construct
      */
     public function shows_bytes_in_error_message(): void
     {

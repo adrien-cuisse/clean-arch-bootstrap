@@ -8,7 +8,6 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesGeographi
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\Factories\Fields\GeographicalLocationFactory
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\GeographicalLocation\GeographicalLocation
  */
 final class GeographicalLocationFactoryTest extends TestCase
 {

@@ -7,7 +7,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesMailAddress;
 use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\InvalidMailAddressException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddress
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddress
  */
 final class MailAddressTest extends TestCase
 {
@@ -15,7 +15,6 @@ final class MailAddressTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
      */
     public function rejects_invalid_mail_address(): void
     {
@@ -32,8 +31,6 @@ final class MailAddressTest extends TestCase
 
     /**
      * @test
-     * @covers ::__toString
-     * @covers ::__construct
      */
     public function stores_email_used_at_creation(): void
     {

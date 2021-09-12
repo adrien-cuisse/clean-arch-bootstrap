@@ -7,7 +7,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesPhoneNumb
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Factories\Fields\PhoneNumberFactory
+ * @covers Alphonse\CleanArchBootstrap\Domain\Factories\Fields\PhoneNumberFactory
  */
 final class PhoneNumberFactoryTest extends TestCase
 {
@@ -22,9 +22,6 @@ final class PhoneNumberFactoryTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::withCountryIdentifier
-     * @covers ::build
      */
     public function created_number_has_assigned_country_identifier(): void
     {
@@ -48,9 +45,6 @@ final class PhoneNumberFactoryTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::withLocalNumber
-     * @covers ::build
      */
     public function created_number_has_assigned_local_number(): void
     {

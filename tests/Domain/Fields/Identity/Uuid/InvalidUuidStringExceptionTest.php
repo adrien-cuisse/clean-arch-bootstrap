@@ -6,13 +6,12 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringExc
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringException
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidStringException
  */
 final class InvalidUuidStringExceptionTest extends TestCase
 {
     /**
      * @test
-     * @covers ::__construct
      */
     public function shows_bytes_in_error_message(): void
     {

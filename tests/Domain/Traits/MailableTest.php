@@ -9,7 +9,7 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesMailAddress;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Traits\Mailable
+ * @covers Alphonse\CleanArchBootstrap\Domain\Traits\Mailable
  */
 final class MailableTest extends TestCase
 {
@@ -38,7 +38,6 @@ final class MailableTest extends TestCase
 
     /**
      * @test
-     * @covers ::mailAddress
      */
     public function returns_mail_address(): void
     {

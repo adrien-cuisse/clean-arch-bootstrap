@@ -6,13 +6,12 @@ use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestamp
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\InvalidUuidTimestampMidBytesCountException
  */
 final class InvalidUuidTimestampMidBytesCountExceptionTest extends TestCase
 {
     /**
      * @test
-     * @covers ::__construct
      */
     public function shows_bytes_in_error_message(): void
     {

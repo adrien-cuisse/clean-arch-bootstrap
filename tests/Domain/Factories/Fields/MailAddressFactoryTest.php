@@ -7,8 +7,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesMailAddre
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Factories\Fields\MailAddressFactory
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddress
+ * @covers Alphonse\CleanArchBootstrap\Domain\Factories\Fields\MailAddressFactory
  */
 final class MailAddressFactoryTest extends TestCase
 {
@@ -23,9 +22,6 @@ final class MailAddressFactoryTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::withMailAddress
-     * @covers ::build
      */
     public function created_mail_address_has_given_address(): void
     {

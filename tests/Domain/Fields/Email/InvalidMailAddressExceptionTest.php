@@ -6,13 +6,12 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\InvalidMailAddressException;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\InvalidMailAddressException
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\InvalidMailAddressException
  */
 final class InvalidMailAddressExceptionTest extends TestCase
 {
     /**
      * @test
-     * @covers ::__construct
      */
     public function shows_mail_address_in_message(): void
     {

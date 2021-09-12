@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesInstantiator;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Factories\Fields\Instantiator
+ * @covers Alphonse\CleanArchBootstrap\Domain\Factories\Fields\Instantiator
  */
 final class InstantiatorTest extends TestCase
 {
@@ -19,7 +19,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::assignConstructorArgument
      */
     public function returns_new_instance_on_added_constructor_argument(): void
     {
@@ -40,7 +39,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::assignConstructorArgument
      */
     public function assigns_constructor_named_argument(): void
     {
@@ -62,7 +60,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::assignConstructorArgument
      */
     public function assigns_proper_value_to_constructor_named_argument(): void
     {
@@ -85,7 +82,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::assignedConstructorArguments
      */
     public function returns_assigned_arguments(): void
     {
@@ -107,7 +103,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::hasAssignedConstructorArgument
      */
     public function detects_assigned_arguments(): void
     {
@@ -128,7 +123,6 @@ final class InstantiatorTest extends TestCase
 
     /**
      * @test
-     * @covers ::instantiate
      */
     public function instantiates_target_class(): void
     {

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesPhoneNumber;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumber
+ * @covers Alphonse\CleanArchBootstrap\Domain\Fields\PhoneNumber\PhoneNumber
  */
 final class PhoneNumberTest extends TestCase
 {
@@ -14,8 +14,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @covers ::__toString
-     * @covers ::__construct
      */
     public function stores_country_identifier_used_at_creation(): void
     {
@@ -36,8 +34,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @covers ::__toString
-     * @covers ::__construct
      */
     public function stores_local_number_used_at_creation(): void
     {
@@ -58,7 +54,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @covers ::toNationalFormat
      */
     public function national_format_contains_local_number(): void
     {
@@ -79,7 +74,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @covers ::__toString
      */
     public function international_format_is_used_by_default(): void
     {
@@ -100,7 +94,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @covers ::toInternationalFormat
      */
     public function international_format_starts_with_a_plus_sign(): void
     {

@@ -7,8 +7,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\Factories\Fields\CreatesIdentityF
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactory
- * @uses Alphonse\CleanArchBootstrap\Domain\Fields\Identity\Uuid\UuidV4<extended>
+ * @covers Alphonse\CleanArchBootstrap\Domain\Factories\Fields\IdentityFactory
  */
 final class IdentityFactoryTest extends TestCase
 {
@@ -23,8 +22,6 @@ final class IdentityFactoryTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::build
      */
     public function creates_new_identity_if_not_provided(): void
     {
@@ -44,9 +41,6 @@ final class IdentityFactoryTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::withIdentity
-     * @covers ::build
      */
     public function creates_identity_from_string(): void
     {
