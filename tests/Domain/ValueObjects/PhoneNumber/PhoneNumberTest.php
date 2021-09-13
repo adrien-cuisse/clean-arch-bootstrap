@@ -2,15 +2,59 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\PhoneNumber;
 
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumberInterface;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPhoneNumber;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumber
  */
 final class PhoneNumberTest extends TestCase
 {
+    use CreatesDummyValueObject;
     use CreatesPhoneNumber;
+
+    public function valueObjectProvider(): Generator
+    {
+        $phoneNumber = $this->createRealPhoneNumber();
+
+        yield 'different type of object' => [
+            $phoneNumber,
+            $this->createDummyValueObject(),
+            false
+        ];
+        yield 'same type of object with different properties' => [
+            $phoneNumber,
+            $this->createRealPhoneNumber(countryIdentifier: '0000', localNumber: '0000'),
+            false
+        ];
+        yield 'same type of object with same properties' => [
+            $phoneNumber,
+            $this->createRealPhoneNumber(),
+            true
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider valueObjectProvider
+     */
+    public function matches_same_number(PhoneNumberInterface $number, ValueObjectInterface $other, bool $expectedEquality): void
+    {
+        // given a value object to compare with
+
+        // when comparing the 2 instances
+        $areSameValue = $number->equals($other);
+
+        // when it should match the expected equality
+        $this->assertSame(
+            expected: $expectedEquality,
+            actual: $areSameValue,
+        );
+    }
 
     /**
      * @test

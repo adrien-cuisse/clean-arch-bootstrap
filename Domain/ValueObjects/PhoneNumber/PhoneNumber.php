@@ -2,6 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber;
 
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+
 final class PhoneNumber implements PhoneNumberInterface
 {
     public function __construct(private string $countryIdentifier, private string $localNumber)
@@ -21,5 +23,14 @@ final class PhoneNumber implements PhoneNumberInterface
     public function __toString(): string
     {
         return $this->toInternationalFormat();
+    }
+
+    public function equals(ValueObjectInterface $other): bool
+    {
+        if ($other instanceof PhoneNumberInterface) {
+            return $this->toInternationalFormat() === $other->toInternationalFormat();
+        }
+
+        return false;
     }
 }
