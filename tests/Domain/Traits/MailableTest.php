@@ -1,12 +1,12 @@
 <?php
 
-namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Identity;
 
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Traits\Mailable;
 use Alphonse\CleanArchBootstrap\Domain\Traits\MailableInterface;
-use Alphonse\CleanArchBootstrap\Domain\Fields\MailAddress\MailAddressInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesMailAddress;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress\MailAddressInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesMailAddress;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\Traits\Mailable

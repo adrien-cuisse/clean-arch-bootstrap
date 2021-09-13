@@ -2,7 +2,7 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\Traits;
 
-use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\IdentityInterface;
 
 trait Identifiable
 {

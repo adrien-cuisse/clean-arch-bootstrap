@@ -1,12 +1,12 @@
 <?php
 
-namespace Alphonse\CleanArchBootstrap\Tests\Domain\Fields\Identity;
+namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Identity;
 
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable;
 use Alphonse\CleanArchBootstrap\Domain\Traits\IdentifiableInterface;
-use Alphonse\CleanArchBootstrap\Domain\Fields\Identity\IdentityInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\Fields\CreatesIdentity;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\IdentityInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesIdentity;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\Traits\Identifiable
