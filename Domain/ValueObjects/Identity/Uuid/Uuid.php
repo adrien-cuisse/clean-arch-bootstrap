@@ -3,6 +3,7 @@
 namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid;
 
 use ReflectionClass;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 
 /**
  * @see UuidInterface
@@ -211,11 +212,31 @@ abstract class Uuid implements UuidInterface
     }
 
     /**
+     * @see IdentityInterface
+     */
+    final public function nativeFormat(): string
+    {
+        return $this->toRfcUuidString();
+    }
+
+    /**
      * @see Stringable
      */
     final public function __toString(): string
     {
         return $this->toRfcUuidString();
+    }
+
+    /**
+     * @see ValueObjectInterface
+     */
+    final public function equals(ValueObjectInterface $other): bool
+    {
+        if ($other instanceof UuidInterface) {
+            return $this->toRfcUuidString() === $other->toRfcUuidString();
+        }
+
+        return false;
     }
 
     /**

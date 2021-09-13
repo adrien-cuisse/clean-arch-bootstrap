@@ -12,12 +12,16 @@ use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidStr
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampMidBytesCountException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\Uuid
  */
 final class UuidTest extends TestCase
 {
+    use CreatesDummyValueObject;
+
     /**
      * @return UuidInterface - an instance to test
      */
@@ -64,6 +68,89 @@ final class UuidTest extends TestCase
                 return parent::fromString($uuidString);
             }
         };
+    }
+
+    public function valueObjectProvider(): Generator
+    {
+        $constructorArguments = [
+            'version' => 0,
+            'timestampLowBytes' => [0, 0, 0, 0],
+            'timestampMidBytes' => [0, 0],
+            'timestampHighBytes' => [0, 0],
+            'clockSequenceHighByte' => 0,
+            'clockSequenceLowByte' => 0,
+            'nodeBytes' => [0, 0, 0, 0, 0, 0],
+        ];
+
+        $uuid = $this->createInstance(...$constructorArguments);
+
+        yield 'not an uuid' => [
+            $uuid,
+            $this->createDummyValueObject(),
+            false
+        ];
+
+        // should not match if version of any byte differs...
+        foreach ($constructorArguments as $argumentName => $argumentValue) {
+            $argumentsCopy = json_decode(json_encode($constructorArguments), true);
+            $argumentType = gettype($argumentsCopy[$argumentName]);
+
+            if ($argumentType === 'array') {
+                // if array of bytes, modify each of them
+                for ($bytePosition = 0; $bytePosition < count($argumentValue); $bytePosition++) {
+                    $argumentsCopy2 = json_decode(json_encode($argumentsCopy), true);
+                    $argumentsCopy2[$argumentName][$bytePosition]++;
+                    $differentUuid = $this->createInstance(...$argumentsCopy2);
+                    yield "different {$argumentName} #{$bytePosition}" => [
+                        $uuid,
+                        $differentUuid,
+                        false
+                    ];
+                }
+            } else if ($argumentType === 'int') {
+                // if argument is a byte, just change it
+                $argumentsCopy[$argumentName]++;
+                $differentUuid = $this->createInstance(...$argumentsCopy);
+                yield "different {$argumentName}" => [
+                    $uuid,
+                    $differentUuid,
+                    false
+                ];
+            }
+        }
+
+        // ...except for unused bits
+        $argumentsCopy = json_decode(json_encode($constructorArguments), true);
+        $argumentsCopy['timestampHighBytes'][0] |= 0b1111_0000;
+        yield 'same uuid with different (unused) 4 least significant bits of timestamp high' => [
+            $uuid,
+            $this->createInstance(...$argumentsCopy),
+            true
+        ];
+
+        yield 'same uuid' => [
+            $uuid,
+            $this->createInstance(...$constructorArguments),
+            true
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider valueObjectProvider
+     */
+    public function matches_same_rfc_uuid_string(UuidInterface $uuid, ValueObjectInterface $other, bool $expectedEquality): void
+    {
+        // given a value object to compare with
+
+        // when comparing the 2 instances
+        $areSameValue = $uuid->equals($other);
+
+        // when it should match the expected equality
+        $this->assertSame(
+            expected: $expectedEquality,
+            actual: $areSameValue,
+        );
     }
 
     public function invalidBytesCountProvider(): Generator
@@ -424,5 +511,24 @@ final class UuidTest extends TestCase
                 message: "Failed to detect that digit {$variantDigit} belongs to {$expectedVariant}",
             );
         }
+    }
+
+    /**
+     * @test
+     */
+    public function has_native_rfc_uuid_string_representation(): void
+    {
+        // given a Uuid
+        $uuid = $this->createInstance();
+
+        // when checking its native format
+        $format = $uuid->nativeFormat();
+
+        // then it should be of type string
+        $this->assertSame(
+            expected: $uuid->toRfcUuidString(),
+            actual: $format,
+            message: "Expected Uuid to have RFC Uuid-string as native representation, got {$format}",
+        );
     }
 }
