@@ -2,6 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation;
 
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+
 final class GeographicalLocation implements GeographicalLocationInterface
 {
     public function __construct(private float $latitude, private float $longitude)
@@ -72,6 +74,18 @@ final class GeographicalLocation implements GeographicalLocationInterface
     public function __toString()
     {
         return $this->degreesMinutesSecondsFormat();
+    }
+
+    /**
+     * @see ValueObjectInterface
+     */
+    public function equals(ValueObjectInterface $other): bool
+    {
+        if ($other instanceof GeographicalLocationInterface) {
+            return ($this->latitude() === $other->latitude()) && ($this->longitude() === $other->longitude());
+        }
+
+        return false;
     }
 
     /**

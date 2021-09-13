@@ -2,6 +2,7 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation;
 
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Stringable;
 
 /**
@@ -9,7 +10,7 @@ use Stringable;
  *
  * @link https://www.w3.org/2005/Incubator/geo/Wiki/LatitudeLongitudeAltitude
  */
-interface GeographicalLocationInterface extends Stringable
+interface GeographicalLocationInterface extends Stringable, ValueObjectInterface
 {
     public function latitude(): float;
 

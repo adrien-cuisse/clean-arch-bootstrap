@@ -4,16 +4,66 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\GeographicalLoca
 
 use Generator;
 use PHPUnit\Framework\TestCase;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesGeographicalLocation;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLatitudeException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLongitudeException;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\GeographicalLocationInterface;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\GeographicalLocation
  */
 final class GeographicalLocationTest extends TestCase
 {
+    use CreatesDummyValueObject;
     use CreatesGeographicalLocation;
+
+    public function valueObjectProvider(): Generator
+    {
+        $latitude = 3.14;
+        $longitude = 0.816;
+        $location = $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude);
+
+        yield 'not a location' => [
+            $location,
+            $this->createDummyValueObject(),
+            false
+        ];
+        yield 'location with different latitude' => [
+            $location,
+            $this->createRealGeographicalLocation(latitude: $latitude + 1, longitude: $longitude),
+            false
+        ];
+        yield 'location with different longitude' => [
+            $location,
+            $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude + 1),
+            false
+        ];
+        yield 'location with same coordinates' => [
+            $location,
+            $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude),
+            true
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider valueObjectProvider
+     */
+    public function matches_same_coordinates(GeographicalLocationInterface $location, ValueObjectInterface $other, bool $expectedEquality): void
+    {
+        // given a value object to compare with
+
+        // when comparing the 2 instances
+        $areSameValue = $location->equals($other);
+
+        // when it should match the expected equality
+        $this->assertSame(
+            expected: $expectedEquality,
+            actual: $areSameValue,
+        );
+    }
 
     public function invalidCoordinatesProvider(): Generator
     {
