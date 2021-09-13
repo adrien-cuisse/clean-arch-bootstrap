@@ -20,11 +20,17 @@ final class PhoneNumber implements PhoneNumberInterface
         return "+{$this->countryIdentifier}{$this->localNumber}";
     }
 
+    /**
+     * @see Stringable
+     */
     public function __toString(): string
     {
         return $this->toInternationalFormat();
     }
 
+    /**
+     * @see ValueObjectInterface
+     */
     public function equals(ValueObjectInterface $other): bool
     {
         if ($other instanceof PhoneNumberInterface) {

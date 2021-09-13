@@ -21,6 +21,9 @@ final class MailAddress implements MailAddressInterface
         return $this->mailAddress;
     }
 
+    /**
+     * @see ValueObjectInterface
+     */
     public function equals(ValueObjectInterface $other): bool
     {
         if ($other instanceof MailAddressInterface) {
