@@ -2,6 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress;
 
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+
 final class MailAddress implements MailAddressInterface
 {
     public function __construct(private string $mailAddress)
@@ -17,5 +19,14 @@ final class MailAddress implements MailAddressInterface
     public function __toString(): string
     {
         return $this->mailAddress;
+    }
+
+    public function equals(ValueObjectInterface $other): bool
+    {
+        if ($other instanceof MailAddressInterface) {
+            return (string) $this === (string) $other;
+        }
+
+        return false;
     }
 }
