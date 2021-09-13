@@ -20,21 +20,21 @@ final class MailAddressTest extends TestCase
 
     public function valueObjectProvider(): Generator
     {
-        $address = $this->createRealMailAddress();
+        $address = $this->createRealMailAddress(mailAddress: 'foo@bar.org');
 
-        yield 'different type of object' => [
+        yield 'not a mail address' => [
             $address,
             $this->createDummyValueObject(),
             false
         ];
-        yield 'same type of object with different properties' => [
+        yield 'different mail address' => [
             $address,
             $this->createRealMailAddress(mailAddress: 'different@email.org'),
             false
         ];
-        yield 'same type of object with same properties' => [
+        yield 'same mail address' => [
             $address,
-            $this->createRealMailAddress(),
+            $this->createRealMailAddress(mailAddress: 'foo@bar.org'),
             true
         ];
     }
@@ -43,12 +43,12 @@ final class MailAddressTest extends TestCase
      * @test
      * @dataProvider valueObjectProvider
      */
-    public function matches_same_address(MailAddressInterface $number, ValueObjectInterface $other, bool $expectedEquality): void
+    public function matches_same_address(MailAddressInterface $email, ValueObjectInterface $other, bool $expectedEquality): void
     {
         // given a value object to compare with
 
         // when comparing the 2 instances
-        $areSameValue = $number->equals($other);
+        $areSameValue = $email->equals($other);
 
         // when it should match the expected equality
         $this->assertSame(

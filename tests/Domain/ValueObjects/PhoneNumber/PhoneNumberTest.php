@@ -19,21 +19,29 @@ final class PhoneNumberTest extends TestCase
 
     public function valueObjectProvider(): Generator
     {
-        $phoneNumber = $this->createRealPhoneNumber();
+        $countryIdentifier = '42';
+        $localNumber = '666';
 
-        yield 'different type of object' => [
+        $phoneNumber = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber);
+
+        yield 'not a phone number' => [
             $phoneNumber,
             $this->createDummyValueObject(),
             false
         ];
-        yield 'same type of object with different properties' => [
+        yield 'phone number with different country identifier' => [
             $phoneNumber,
-            $this->createRealPhoneNumber(countryIdentifier: '0000', localNumber: '0000'),
+            $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier . '3', localNumber: $localNumber),
             false
         ];
-        yield 'same type of object with same properties' => [
+        yield 'phone number with different local number' => [
             $phoneNumber,
-            $this->createRealPhoneNumber(),
+            $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber . '3'),
+            false
+        ];
+        yield 'same number' => [
+            $phoneNumber,
+            $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber),
             true
         ];
     }
