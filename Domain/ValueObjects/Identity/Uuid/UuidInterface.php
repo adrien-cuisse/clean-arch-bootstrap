@@ -24,5 +24,5 @@ interface UuidInterface extends IdentityInterface
     /**
      * @return string - RFC 4122 compliant UUID representation (eg, 01234567-89ab-cdef-0123-456789abcdef)
      */
-    public function toRfcUuidString(): string;
+    public function rfcFormat(): string;
 }

@@ -189,7 +189,7 @@ abstract class Uuid implements UuidInterface
      *
      * @see UuidInterface
      */
-    final public function toRfcUuidString(): string
+    final public function rfcFormat(): string
     {
         $versionAndTimeHighBytes = [
             $this->versionBits | $this->timestampHighBytes[0],
@@ -216,7 +216,7 @@ abstract class Uuid implements UuidInterface
      */
     final public function nativeFormat(): string
     {
-        return $this->toRfcUuidString();
+        return $this->rfcFormat();
     }
 
     /**
@@ -224,7 +224,7 @@ abstract class Uuid implements UuidInterface
      */
     final public function __toString(): string
     {
-        return $this->toRfcUuidString();
+        return $this->rfcFormat();
     }
 
     /**
@@ -233,7 +233,7 @@ abstract class Uuid implements UuidInterface
     final public function equals(ValueObjectInterface $other): bool
     {
         if ($other instanceof UuidInterface) {
-            return $this->toRfcUuidString() === $other->toRfcUuidString();
+            return $this->rfcFormat() === $other->rfcFormat();
         }
 
         return false;

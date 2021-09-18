@@ -257,7 +257,7 @@ final class UuidTest extends TestCase
         $uuid = $this->createInstance();
 
         // when using its RFC representation
-        $representation = $uuid->toRfcUuidString();
+        $representation = $uuid->rfcFormat();
 
         // then it should have RFC compliant format
         $rfcUuidPattern = '/^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$/';
@@ -526,7 +526,7 @@ final class UuidTest extends TestCase
 
         // then it should be of type string
         $this->assertSame(
-            expected: $uuid->toRfcUuidString(),
+            expected: $uuid->rfcFormat(),
             actual: $format,
             message: "Expected Uuid to have RFC Uuid-string as native representation, got {$format}",
         );
