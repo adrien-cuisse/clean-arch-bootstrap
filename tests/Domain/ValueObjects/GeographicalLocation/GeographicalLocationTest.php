@@ -100,30 +100,6 @@ final class GeographicalLocationTest extends TestCase
      * @test
      * @dataProvider validCoordinatesProvider
      */
-    public function has_valid_ranged_coordinates(float $latitude, float $longitude): void
-    {
-        // given valid coordinates
-
-        // when creating a location from them
-        $location = $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude);
-
-        // then the coordinates stored by the location should be the ones given at creation
-        $this->assertSame(
-            expected: $latitude,
-            actual: $location->latitude(),
-            message: "Expected the location to have latitude '{$latitude}', got {$location->latitude()}"
-        );
-        $this->assertSame(
-            expected: $longitude,
-            actual: $location->longitude(),
-            message: "Expected the location to have longitude '{$longitude}', got {$location->longitude()}"
-        );
-    }
-
-    /**
-     * @test
-     * @dataProvider validCoordinatesProvider
-     */
     public function degrees_format_contains_latitude(float $latitude, float $_): void
     {
         // given a valid location
@@ -670,11 +646,12 @@ final class GeographicalLocationTest extends TestCase
 
     /**
      * @test
+     * @dataProvider validCoordinatesProvider
      */
-    public function has_ISO_DMS_format_by_default(): void
+    public function has_ISO_DMS_format_by_default(float $latitude, float $longitude): void
     {
         // given a valid location
-        $location = $this->createRealGeographicalLocation(latitude: 3.14, longitude: 0.618);
+        $location = $this->createRealGeographicalLocation(latitude: $latitude, longitude: $longitude);
 
         // when checking its default string-format
         $format = (string) $location;
