@@ -9,6 +9,9 @@ trait CreatesGeographicalLocation
 {
     private function createRealGeographicalLocation(float $latitude = 0, float $longitude = 0): GeographicalLocationInterface
     {
-        return new GeographicalLocation($latitude, $longitude);
+        return new GeographicalLocation(
+            latitude: $latitude,
+            longitude: $longitude
+        );
     }
 }
