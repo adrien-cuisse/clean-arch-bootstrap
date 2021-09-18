@@ -66,21 +66,18 @@ final class CurrencyTest extends TestCase
 
     public function currencyProvider(): Generator
     {
-        yield 'euro' => [
-            $this->createRealCurrency(name: 'euro', symbol: '€')
-        ];
-        yield 'dollar' => [
-            $this->createRealCurrency(name: 'dollar', symbol: '$')
-        ];
+        yield 'euro' => ['euro', '€'];
+        yield 'dollar' => ['dollar', '$'];
     }
 
     /**
      * @test
      * @dataProvider currencyProvider
      */
-    public function formats_as_string_to_symbol(CurrencyInterface $currency): void
+    public function formats_as_string_to_symbol(string $_, string $symbol): void
     {
         // given a currency
+        $currency = $this->createRealCurrency(symbol: $symbol);
 
         // when checking its string format
         $format = (string) $currency;
