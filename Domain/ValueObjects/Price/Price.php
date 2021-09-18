@@ -10,6 +10,9 @@ final class Price implements PriceInterface
 {
     public function __construct(private float $amount, private CurrencyInterface $currency)
     {
+        if ($amount < 0) {
+            throw new NegativePriceException($amount);
+        }
     }
 
     public function amount(): float

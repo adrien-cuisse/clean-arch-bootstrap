@@ -8,6 +8,7 @@ use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\PriceInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPrice;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\CurrencyInterface;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\NegativePriceException;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 
 /**
@@ -70,10 +71,31 @@ final class PhoneNumbePriceTest extends TestCase
         );
     }
 
+    public function invalidPriceProvider(): Generator
+    {
+        yield 'negative amount' => [-42, NegativePriceException::class];
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidPriceProvider
+     */
+    public function rejects_invalid_amount(float $invalidAmount, string $expectedException): void
+    {
+        $this->expectException($expectedException);
+
+        // given an invalid price
+
+        // when trying to create a Price from it
+        $this->createRealPrice(amount: $invalidAmount);
+
+        // then it should throw an exception
+    }
+
     public function priceFormatProvider(): Generator
     {
         $euro = $this->createRealCurrency(name: 'euro', symbol: '€');
-        yield 'no decimals amount' => [42, $euro, '42.00€'];
+        yield 'no decimals amount' => [0, $euro, '0.00€'];
 
         $dollar = $this->createRealCurrency(name: 'dollar', symbol: '$');
         yield '2 decimals rounded amount' => [42.857, $dollar, '$42.86'];
