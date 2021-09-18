@@ -12,7 +12,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObj
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\Currency
  */
-final class MailAddressTest extends TestCase
+final class CurrencyTest extends TestCase
 {
     use CreatesDummyValueObject;
     use CreatesCurrency;
@@ -61,6 +61,35 @@ final class MailAddressTest extends TestCase
         $this->assertSame(
             expected: $expectedEquality,
             actual: $areSameValue,
+        );
+    }
+
+    public function currencyProvider(): Generator
+    {
+        yield 'euro' => [
+            $this->createRealCurrency(name: 'euro', symbol: '€')
+        ];
+        yield 'dollar' => [
+            $this->createRealCurrency(name: 'dollar', symbol: '$')
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider currencyProvider
+     */
+    public function formats_as_string_to_symbol(CurrencyInterface $currency): void
+    {
+        // given a currency
+
+        // when checking its string format
+        $format = (string) $currency;
+
+        // then it should be its symbol
+        $this->assertSame(
+            expected: $currency->symbol(),
+            actual: $format,
+            message: "Currency should show as symbol '{$currency->symbol()}', got '{$format}'"
         );
     }
 }

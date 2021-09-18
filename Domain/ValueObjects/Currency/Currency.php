@@ -20,6 +20,17 @@ final class Currency implements CurrencyInterface
         return $this->name;
     }
 
+    /**
+     * @see Stringable
+     */
+    public function __toString(): string
+    {
+        return $this->symbol;
+    }
+
+    /**
+     * @see ValueObjectInterface
+     */
     public function equals(ValueObjectInterface $other): bool
     {
         if ($other instanceof CurrencyInterface) {
