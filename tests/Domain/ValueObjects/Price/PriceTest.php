@@ -14,7 +14,7 @@ use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObj
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\Price
  */
-final class PhoneNumbePriceTest extends TestCase
+final class PriceTest extends TestCase
 {
     use CreatesDummyValueObject;
     use CreatesPrice;
