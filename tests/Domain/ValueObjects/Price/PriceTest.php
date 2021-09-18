@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\PriceInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPrice;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\CurrencyInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 
 /**
@@ -72,25 +73,20 @@ final class PhoneNumbePriceTest extends TestCase
     public function priceFormatProvider(): Generator
     {
         $euro = $this->createRealCurrency(name: 'euro', symbol: '€');
-        $dollar = $this->createRealCurrency(name: 'dollar', symbol: '$');
+        yield 'no decimals amount' => [42, $euro, '42.00€'];
 
-        yield 'no decimals amount' => [
-            $this->createRealPrice(amount: 42, currency: $euro),
-            '42.00€'
-        ];
-        yield '2 decimals rounded amount' => [
-            $this->createRealPrice(amount: 42.857, currency: $dollar),
-            '42.86$'
-        ];
+        $dollar = $this->createRealCurrency(name: 'dollar', symbol: '$');
+        yield '2 decimals rounded amount' => [42.857, $dollar, '$42.86'];
     }
 
     /**
      * @test
      * @dataProvider priceFormatProvider
      */
-    public function shows_amount_with_2_decimals(PriceInterface $price, string $_): void
+    public function shows_amount_with_2_decimals(float $amount, CurrencyInterface $currency, string $_): void
     {
         // given a price
+        $price = $this->createRealPrice(amount: $amount, currency: $currency);
 
         // when checking its price format
         $format = (string) $price;
@@ -106,9 +102,10 @@ final class PhoneNumbePriceTest extends TestCase
      * @test
      * @dataProvider priceFormatProvider
      */
-    public function shows_currency_symbol_in_string_format(PriceInterface $price, string $_): void
+    public function shows_currency_symbol_in_string_format(float $amount, CurrencyInterface $currency, string $_): void
     {
         // given a price
+        $price = $this->createRealPrice(amount: $amount, currency: $currency);
 
         // when checking its string format
         $format = (string) $price;
