@@ -64,59 +64,24 @@ final class PhoneNumberTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function stores_country_identifier_used_at_creation(): void
+    public function phoneNumberProvider(): Generator
     {
-        // given a valid country identifier and a PhoneNumber object made from it
-        $countryIdentifier = '33';
-        $phoneNumberObject = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier);
-
-        // when checking the default string-representation
-        $phoneNumberString = (string) $phoneNumberObject;
-
-        // then it should contain the country identifier used at creation
-        $this->assertStringContainsString(
-            needle: $countryIdentifier,
-            haystack: $phoneNumberString,
-            message: "Phone number object '{$phoneNumberString}' doesn't contain the country identifier '{$countryIdentifier}'",
-        );
+        yield 'french mobile number' => ['33', '601020304'];
     }
 
     /**
      * @test
+     * @dataProvider phoneNumberProvider
      */
-    public function stores_local_number_used_at_creation(): void
+    public function national_format_contains_local_number(string $_, string $localNumber): void
     {
-        // given a valid local number and a PhoneNumber object made from it
-        $localNumber = '123456';
-        $phoneNumberObject = $this->createRealPhoneNumber(localNumber: $localNumber);
+        // given a local number and a PhoneNumber object made from it
+        $phoneNumber = $this->createRealPhoneNumber(localNumber: $localNumber);
 
-        // when checking the default string-representation
-        $phoneNumberString = (string) $phoneNumberObject;
+        // when checking its national format
+        $nationalFormat = $phoneNumber->toNationalFormat();
 
-        // then it should contain the local number used at creation
-        $this->assertStringContainsString(
-            needle: $localNumber,
-            haystack: $phoneNumberString,
-            message: "Phone number object '{$phoneNumberString}' doesn't contain the local number '{$localNumber}'",
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function national_format_contains_local_number(): void
-    {
-        // given a valid local number and a PhoneNumber object made from it
-        $localNumber = '123456';
-        $phoneNumberObject = $this->createRealPhoneNumber(localNumber: $localNumber);
-
-        // when checking the national format
-        $nationalFormat = $phoneNumberObject->toNationalFormat();
-
-        // then it should contain the local number used at creation
+        // then it should contain the local number
         $this->assertStringContainsString(
             needle: $localNumber,
             haystack: $nationalFormat,
@@ -126,11 +91,74 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
+     * @dataProvider phoneNumberProvider
      */
-    public function international_format_is_used_by_default(): void
+    public function international_format_starts_with_a_plus_sign(string $countryIdentifier, string $localNumber): void
+    {
+        // given a valid phone number
+        $phoneNumber = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber);
+
+        // when checking the internation representation
+        $internationalFormat = $phoneNumber->toInternationalFormat();
+
+        // then it should start with a '+' sign
+        $this->assertStringStartsWith(
+            prefix: '+',
+            string: $internationalFormat,
+            message: "The international format '{$internationalFormat}' doesn't start with a '+' sign",
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider phoneNumberProvider
+     */
+    public function international_format_contains_country_identifier(string $countryIdentifier, string $_): void
+    {
+        // given a country identifier and a PhoneNumber made from it
+        $phoneNumber = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier);
+
+        // when checking its internation format
+        $internationalFormat = $phoneNumber->toInternationalFormat();
+
+        // then it should contain the country identifier
+        $this->assertStringContainsString(
+            needle: $countryIdentifier,
+            haystack: $internationalFormat,
+            message: "Phone number's international format '{$internationalFormat}' doesn't contain the country identifier '{$countryIdentifier}'"
+        );
+    }
+
+
+
+    /**
+     * @test
+     * @dataProvider phoneNumberProvider
+     */
+    public function international_format_contains_local_number(string $_, string $localNumber): void
+    {
+        // given a local number and a PhoneNumber made from it
+        $phoneNumber = $this->createRealPhoneNumber(localNumber: $localNumber);
+
+        // when checking its internation format
+        $internationalFormat = $phoneNumber->toInternationalFormat();
+
+        // then it should contain the local number
+        $this->assertStringContainsString(
+            needle: $localNumber,
+            haystack: $internationalFormat,
+            message: "Phone number's international format '{$internationalFormat}' doesn't contain the local number '{$localNumber}'"
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider phoneNumberProvider
+     */
+    public function international_format_is_used_by_default(string $countryIdentifier, string $localNumber): void
     {
         // given a valid phone number object
-        $phoneNumberObject = $this->createRealPhoneNumber();
+        $phoneNumberObject = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber);
 
         // when checking the default string-representation
         $phoneNumberString = (string) $phoneNumberObject;
@@ -141,25 +169,6 @@ final class PhoneNumberTest extends TestCase
             expected: $internationalFormat,
             actual: $phoneNumberString,
             message: "Phone number '{$phoneNumberString}' doesn't have the international format '{$internationalFormat}' by default",
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function international_format_starts_with_a_plus_sign(): void
-    {
-        // given a valid phone number object
-        $phoneNumberObject = $this->createRealPhoneNumber();
-
-        // when checking the internation representation
-        $internationalFormat = $phoneNumberObject->toInternationalFormat();
-
-        // then it should contain a '+' sign
-        $this->assertStringStartsWith(
-            prefix: '+',
-            string: $internationalFormat,
-            message: "The international format '{$internationalFormat}' doesn't start with a '+' sign",
         );
     }
 }
