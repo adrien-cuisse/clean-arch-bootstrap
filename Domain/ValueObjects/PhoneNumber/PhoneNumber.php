@@ -10,12 +10,12 @@ final class PhoneNumber implements PhoneNumberInterface
     {
     }
 
-    public function toNationalFormat(): string
+    public function nationalFormat(): string
     {
         return "{$this->localNumber}";
     }
 
-    public function toInternationalFormat(): string
+    public function internationalFormat(): string
     {
         return "+{$this->countryIdentifier}{$this->localNumber}";
     }
@@ -25,7 +25,7 @@ final class PhoneNumber implements PhoneNumberInterface
      */
     public function __toString(): string
     {
-        return $this->toInternationalFormat();
+        return $this->internationalFormat();
     }
 
     /**
@@ -34,7 +34,7 @@ final class PhoneNumber implements PhoneNumberInterface
     public function equals(ValueObjectInterface $other): bool
     {
         if ($other instanceof PhoneNumberInterface) {
-            return $this->toInternationalFormat() === $other->toInternationalFormat();
+            return $this->internationalFormat() === $other->internationalFormat();
         }
 
         return false;

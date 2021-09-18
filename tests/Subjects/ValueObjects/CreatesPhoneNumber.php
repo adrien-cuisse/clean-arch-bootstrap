@@ -18,8 +18,8 @@ trait CreatesPhoneNumber
     private function createFakeEmail(): PhoneNumberInterface
     {
         $phoneNumber = $this->getMock(PhoneNumberInterface::class);
-        $phoneNumber->method('toNationalFormat')->willReturn('0000000000');
-        $phoneNumber->method('toInternationalFormat')->willReturn('+33000000000');
+        $phoneNumber->method('nationalFormat')->willReturn('0000000000');
+        $phoneNumber->method('internationalFormat')->willReturn('+33000000000');
         $phoneNumber->method('__toString')->willReturn('+33000000000');
 
         return $phoneNumber;

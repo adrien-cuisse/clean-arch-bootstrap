@@ -79,7 +79,7 @@ final class PhoneNumberTest extends TestCase
         $phoneNumber = $this->createRealPhoneNumber(localNumber: $localNumber);
 
         // when checking its national format
-        $nationalFormat = $phoneNumber->toNationalFormat();
+        $nationalFormat = $phoneNumber->nationalFormat();
 
         // then it should contain the local number
         $this->assertStringContainsString(
@@ -99,7 +99,7 @@ final class PhoneNumberTest extends TestCase
         $phoneNumber = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier, localNumber: $localNumber);
 
         // when checking the internation representation
-        $internationalFormat = $phoneNumber->toInternationalFormat();
+        $internationalFormat = $phoneNumber->internationalFormat();
 
         // then it should start with a '+' sign
         $this->assertStringStartsWith(
@@ -119,7 +119,7 @@ final class PhoneNumberTest extends TestCase
         $phoneNumber = $this->createRealPhoneNumber(countryIdentifier: $countryIdentifier);
 
         // when checking its internation format
-        $internationalFormat = $phoneNumber->toInternationalFormat();
+        $internationalFormat = $phoneNumber->internationalFormat();
 
         // then it should contain the country identifier
         $this->assertStringContainsString(
@@ -141,7 +141,7 @@ final class PhoneNumberTest extends TestCase
         $phoneNumber = $this->createRealPhoneNumber(localNumber: $localNumber);
 
         // when checking its internation format
-        $internationalFormat = $phoneNumber->toInternationalFormat();
+        $internationalFormat = $phoneNumber->internationalFormat();
 
         // then it should contain the local number
         $this->assertStringContainsString(
@@ -164,7 +164,7 @@ final class PhoneNumberTest extends TestCase
         $phoneNumberString = (string) $phoneNumberObject;
 
         // then it should be the international format
-        $internationalFormat = $phoneNumberObject->toInternationalFormat();
+        $internationalFormat = $phoneNumberObject->internationalFormat();
         $this->assertSame(
             expected: $internationalFormat,
             actual: $phoneNumberString,
