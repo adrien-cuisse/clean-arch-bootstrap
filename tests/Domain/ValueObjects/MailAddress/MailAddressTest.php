@@ -20,7 +20,7 @@ final class MailAddressTest extends TestCase
 
     public function valueObjectProvider(): Generator
     {
-        $address = $this->createRealMailAddress(mailAddress: 'foo@bar.org');
+        $address = 'foo@bar.org';
 
         yield 'not a mail address' => [
             $address,
@@ -34,7 +34,7 @@ final class MailAddressTest extends TestCase
         ];
         yield 'same mail address' => [
             $address,
-            $this->createRealMailAddress(mailAddress: 'foo@bar.org'),
+            $this->createRealMailAddress(mailAddress: $address),
             true
         ];
     }
@@ -43,9 +43,10 @@ final class MailAddressTest extends TestCase
      * @test
      * @dataProvider valueObjectProvider
      */
-    public function matches_same_address(MailAddressInterface $email, ValueObjectInterface $other, bool $expectedEquality): void
+    public function matches_same_address(string $addressString, ValueObjectInterface $other, bool $expectedEquality): void
     {
-        // given a value object to compare with
+        // given a mail address and a value object to compare with
+        $email = $this->createRealMailAddress(mailAddress: $addressString);
 
         // when comparing the 2 instances
         $areSameValue = $email->equals($other);
@@ -71,25 +72,5 @@ final class MailAddressTest extends TestCase
         $this->createRealMailAddress($invalidMailAddress);
 
         // then it should throw an exception
-    }
-
-    /**
-     * @test
-     */
-    public function stores_email_used_at_creation(): void
-    {
-        // given a valid mail-string and a MailAddress object made from it
-        $mailAddressString = 'some@email.org';
-        $mailAddressObject = $this->createRealMailAddress($mailAddressString);
-
-        // when checking the stored string
-        $storedMailAddressString = (string) $mailAddressObject;
-
-        // then it should be the one given at creation
-        $this->assertSame(
-            expected: $mailAddressString,
-            actual: $storedMailAddressString,
-            message: "MailAddress object returned the wrong email-string, expected {$mailAddressString}, got {$storedMailAddressString}"
-        );
     }
 }
