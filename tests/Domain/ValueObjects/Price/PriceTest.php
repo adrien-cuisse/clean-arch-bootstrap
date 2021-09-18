@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\PriceInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPrice;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPhoneNumber;
 use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumberInterface;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\Price
