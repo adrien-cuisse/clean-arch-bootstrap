@@ -2,9 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Price;
 
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\NegativePriceException;
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPrice;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\NegativePriceException;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\NegativePriceException

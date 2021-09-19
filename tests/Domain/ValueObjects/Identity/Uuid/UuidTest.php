@@ -5,15 +5,15 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Identity\Uuid;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\Uuid;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\UuidInterface;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidStringException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidVersionException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidNodeBytesCountException;
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidStringException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampMidBytesCountException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampHighBytesCountException;
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\Uuid

@@ -2,8 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Identity\Uuid;
 
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
 use PHPUnit\Framework\TestCase;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampLowBytesCountException;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidTimestampLowBytesCountException

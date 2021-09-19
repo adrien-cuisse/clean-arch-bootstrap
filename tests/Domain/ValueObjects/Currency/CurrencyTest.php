@@ -5,9 +5,8 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Currency;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesCurrency;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\CurrencyInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\Currency

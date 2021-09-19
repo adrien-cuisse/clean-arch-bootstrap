@@ -2,8 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\Identity\Uuid;
 
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidNodeBytesCountException;
 use PHPUnit\Framework\TestCase;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidNodeBytesCountException;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Identity\Uuid\InvalidUuidNodeBytesCountException

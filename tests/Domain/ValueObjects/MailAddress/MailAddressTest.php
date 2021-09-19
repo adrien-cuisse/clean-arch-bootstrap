@@ -5,9 +5,7 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\MailAddress;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesMailAddress;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress\MailAddressInterface;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress\InvalidMailAddressException;
 
 /**

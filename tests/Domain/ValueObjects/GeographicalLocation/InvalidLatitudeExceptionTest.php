@@ -2,9 +2,8 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\GeographicalLocation;
 
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLatitudeException;
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesGeographicalLocation;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLatitudeException;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLatitudeException

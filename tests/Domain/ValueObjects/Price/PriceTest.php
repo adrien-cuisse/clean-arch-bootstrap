@@ -6,10 +6,9 @@ use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\PriceInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPrice;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Currency\CurrencyInterface;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\NegativePriceException;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\Price\Price

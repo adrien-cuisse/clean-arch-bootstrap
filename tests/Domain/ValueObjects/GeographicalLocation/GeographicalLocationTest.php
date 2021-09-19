@@ -5,8 +5,7 @@ namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\GeographicalLoca
 use Generator;
 use PHPUnit\Framework\TestCase;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesGeographicalLocation;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLatitudeException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\InvalidLongitudeException;
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\GeographicalLocation\GeographicalLocationInterface;

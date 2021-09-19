@@ -2,12 +2,11 @@
 
 namespace Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\PhoneNumber;
 
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumberInterface;
-use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
 use Generator;
 use PHPUnit\Framework\TestCase;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesPhoneNumber;
-use Alphonse\CleanArchBootstrap\Tests\Subjects\ValueObjects\CreatesDummyValueObject;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\ValueObjectInterface;
+use Alphonse\CleanArchBootstrap\Tests\Domain\ValueObjects\CreatesDummyValueObject;
+use Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumberInterface;
 
 /**
  * @covers Alphonse\CleanArchBootstrap\Domain\ValueObjects\PhoneNumber\PhoneNumber
