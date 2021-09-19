@@ -16,7 +16,9 @@ final class CurrencyFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->factory = $this->createRealCurrencyFactory();
+        $this->factory = $this->createRealCurrencyFactory()
+            ->withName('')
+            ->withSymbol('');
     }
 
     /**
@@ -28,7 +30,7 @@ final class CurrencyFactoryTest extends TestCase
         $name = 'yuán';
 
         // when creating a currency from it
-        $currency = $this->factory->withName($name)->withSymbol('')->build();
+        $currency = $this->factory->withName($name)->build();
 
         // then the created currency's name should match the given name
         $this->assertSame(
@@ -47,7 +49,7 @@ final class CurrencyFactoryTest extends TestCase
         $symbol = '¥';
 
         // when creating a currency from it
-        $currency = $this->factory->withName('')->withSymbol($symbol)->build();
+        $currency = $this->factory->withSymbol($symbol)->build();
 
         // then the created currency's name should match the given name
         $this->assertSame(
