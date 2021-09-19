@@ -16,7 +16,9 @@ final class PhoneNumberFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->factory = $this->createRealPhoneNumberFactory();
+        $this->factory = $this->createRealPhoneNumberFactory()
+            ->withCountryIdentifier('')
+            ->withLocalNumber('');
     }
 
     /**
@@ -28,10 +30,7 @@ final class PhoneNumberFactoryTest extends TestCase
         $countryIdentifier = 'country code';
 
         // when creating a PhoneNumber object from it
-        $phoneNumberObject = $this->factory
-            ->withCountryIdentifier($countryIdentifier)
-            ->withLocalNumber('')
-            ->build();
+        $phoneNumberObject = $this->factory->withCountryIdentifier($countryIdentifier)->build();
 
         // then the created PhoneNumber object should have the given country identifier
         $phoneNumberString = (string) $phoneNumberObject;
@@ -51,10 +50,7 @@ final class PhoneNumberFactoryTest extends TestCase
         $localNumber = 'local number';
 
         // when creating a PhoneNumber object from it
-        $phoneNumberObject = $this->factory
-            ->withCountryIdentifier('')
-            ->withLocalNumber($localNumber)
-            ->build();
+        $phoneNumberObject = $this->factory->withLocalNumber($localNumber)->build();
 
         // then the created PhoneNumber object should have the given local number
         $phoneNumberString = (string) $phoneNumberObject;
