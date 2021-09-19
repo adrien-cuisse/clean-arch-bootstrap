@@ -1,6 +1,6 @@
 <?php
 
-namespace Alphonse\CleanArchBootstrap\Domain\Traits;
+namespace Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress;
 
 use Alphonse\CleanArchBootstrap\Domain\ValueObjects\MailAddress\MailAddressInterface;
 
